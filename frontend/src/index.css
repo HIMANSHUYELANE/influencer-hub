@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+
+  --font-sans: "Inter", "system-ui", "sans-serif";
+
+  --color-accent-yellow: #FFD21E;
+  --color-accent-purple: #7C5CFF;
+  --color-accent-teal: #0AD38E;
+  --color-accent-pink: #FF69B4;
+  --color-accent-orange: #FF9F1C;
+  --color-accent-blue: #3A86FF;
+}
+
+.font-black { font-weight: 900; }
+.tracking-tighter { letter-spacing: -0.05em; }
+
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans;
+  }
+}
+
+.glass {
+  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+}
+
+.card {
+  @apply bg-white rounded-3xl p-6 shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+}
+
+.btn-primary {
+  @apply bg-primary-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-500/20 active:scale-95;
+}
+
+.btn-secondary {
+  @apply bg-white text-slate-900 border border-slate-200 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:bg-slate-50 active:scale-95;
+}
+
+/* Custom Animations */
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+        /* transform: scale(0.95); */
+
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+        /* transform: scale(1); */
+
+  }
+}
+
+@keyframes revealScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes revealIllu {
+  from {
+    opacity: 0;
+    /* transform: scale(0.50); */
+  }
+  to {
+    opacity: 1;
+    /* transform: scale(1); */
+  }
+}
+
+.animate-fade-in {
+  animation: revealIllu 0.4s ease-in forwards;
+}
+.animate-reveal-up {
+  animation: revealUp 0.6s ease-in forwards;
+}
+
+.animate-reveal-scale {
+  animation: revealScale 0.6s ease-in forwards;
+}
+
+.stagger-1 { animation-delay: 0.4s; }
+.stagger-2 { animation-delay: 0.6s; }
+.stagger-3 { animation-delay: 0.7s; }
+.stagger-4 { animation-delay: 0.8s; }
+
+/* Dashboard Professional Sidebar Styles */
+.dashboard-container {
+  @apply flex min-h-[calc(100vh-80px)] bg-slate-50/50;
+}
+
+.sidebar {
+  @apply w-72 bg-white border-r border-slate-200 p-6 flex flex-col gap-2 sticky top-20 h-[calc(100vh-80px)] overflow-y-auto z-40 transition-all duration-300;
+}
+
+.sidebar-item {
+  @apply flex items-center gap-3 px-4 py-3.5 rounded-2xl text-slate-600 font-semibold transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 cursor-pointer;
+}
+
+.sidebar-item-active {
+  @apply bg-primary-600 text-white shadow-lg shadow-primary-500/30 hover:bg-primary-700 hover:text-white;
+}
+
+.dashboard-content {
+  @apply flex-1 p-8 md:p-12 overflow-x-hidden;
+}
+
+.metric-card {
+  @apply bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-1;
+}
+
+.metric-icon {
+  @apply w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-lg;
+}
+
+.status-badge {
+  @apply px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border;
+}
+
+.stat-value {
+  @apply text-2xl font-black text-slate-900 leading-none;
+}
+
+.stat-label {
+  @apply text-[10px] font-black uppercase tracking-widest text-slate-400 mt-1;
+}
