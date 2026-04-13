@@ -163,7 +163,7 @@ const BrandDashboard = () => {
             <div className="card bg-primary-600 text-white border-none overflow-hidden relative">
                <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
                <h3 className="text-xl font-bold mb-4 relative z-10">Quick Action</h3>
-               <p className="text-primary-100 mb-8 max-w-[240px] relative z-10">Ready to find your next top-tier content creator?</p>
+               <p className="text-primary-100 mb-8 max-w-60 relative z-10">Ready to find your next top-tier content creator?</p>
                <button 
                  onClick={() => setActiveTab('create')}
                  className="bg-white text-primary-600 px-6 py-3 rounded-2xl font-bold hover:bg-primary-50 transition-colors relative z-10"

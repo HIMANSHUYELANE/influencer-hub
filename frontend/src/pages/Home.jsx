@@ -206,7 +206,7 @@ const Home = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ amount: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative"
+          className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-6 relative"
         >
           {/* connector line */}
           <div className="hidden lg:block absolute top-10 left-[12.5%] right-[12.5%] h-px bg-slate-100 z-0"></div>
@@ -215,9 +215,9 @@ const Home = () => {
               key={i}
               custom={i}
               variants={cardVariants}
-              className={`card flex flex-col items-center text-center gap-4 z-10 relative `}
+              className={` bg-linear-to-tr from-slate-200 via-white to-primary-100  transition-all duration-300 delay-150 border-2 border-gray-300 hover:bg-linear-to-tl hover:scale-105 p-4 rounded-2xl flex flex-col items-center text-center gap-4 z-10 relative `}
             >
-              <div className="w-16 h-16 bg-primary-50 border-2 border-primary-100 rounded-2xl flex items-center justify-center text-primary-600">
+              <div className="w-16 h-16 bg-primary-100 border-2 border-primary-400 rounded-2xl flex items-center justify-center text-primary-600">
                 {step.icon}
               </div>
               <span className="text-xs font-extrabold text-primary-400 uppercase tracking-widest">
@@ -233,7 +233,7 @@ const Home = () => {
       </section>
 
       {/* Featured Campaigns */}
-      <section className="px-8 max-w-7xl mx-auto w-full">
+      <section className="px-8 max-w-7xl bg-slate-200 rounded-2xl py-7 mx-auto w-full">
         <div className="flex justify-between items-end mb-10">
           <div>
             <h2 className="text-3xl font-bold mb-2 tracking-tight">
@@ -315,7 +315,7 @@ const Home = () => {
       </section>
 
       {/* Featured Creators */}
-      <section className="px-8 max-w-7xl mx-auto w-full">
+      <section className="px-8 max-w-7xl mx-auto bg-linear-to-t from-primary-100 via-white to-primary-100 py-7 rounded-2xl w-full">
         <div className="flex justify-between items-end mb-10">
           <div>
             <h2 className="text-3xl font-bold mb-2 tracking-tight">

@@ -19,7 +19,7 @@ const CreatorCard = ({ creator }) => {
         {creator.niche}
       </span>
       
-      <p className="text-slate-500 text-sm mb-8 line-clamp-2 min-h-[2.5rem]">
+      <p className="text-slate-500 text-sm mb-8 line-clamp-2 min-h-10">
         {creator.bio}
       </p>
 

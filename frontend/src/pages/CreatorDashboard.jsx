@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 import { 
   User, Briefcase, Search, Save, 
   CheckCircle, Clock, LayoutDashboard, 
-   TrendingUp, Compass, Plus,
+  TrendingUp, Compass, Plus,
 } from 'lucide-react';
+import { Instagram, Youtube } from '../components/SocialIcons';
 import DashboardLayout from '../components/DashboardLayout';
 
 const CreatorDashboard = () => {
@@ -113,13 +114,12 @@ const CreatorDashboard = () => {
         <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">
           {activeTab === 'overview' && "Hello,"} {profile.name || user.email.split('@')[0]}
         </h1>
-        <p className="text-slate-500 font-medium font-bold">Dashboard / {sidebarItems.find(i => i.id === activeTab)?.label}</p>
+        <p className="text-slate-500 font-medium">Dashboard / {sidebarItems.find(i => i.id === activeTab)?.label}</p>
       </div>
 
       {message.text && (
-        <div className={`mb-8 p-4 rounded-2xl flex items-center gap-3 font-bold shadow-lg animate-reveal-up ${
-          message.type === 'success' ? 'bg-indigo-600 text-white' : 'bg-red-500 text-white'
-        }`}>
+        <div className={`mb-8 p-4 rounded-2xl flex items-center gap-3 font-bold shadow-lg animate-reveal-up ${message.type === 'success' ? 'bg-indigo-600 text-white' : 'bg-red-500 text-white'
+          }`}>
           <CheckCircle size={20} /> {message.text}
         </div>
       )}
@@ -144,8 +144,8 @@ const CreatorDashboard = () => {
               <div>
                 <p className="stat-label">Followers</p>
                 <p className="stat-value">
-                  {profile.followerCount >= 1000 
-                    ? (profile.followerCount / 1000).toFixed(1) + 'K' 
+                  {profile.followerCount >= 1000
+                    ? (profile.followerCount / 1000).toFixed(1) + 'K'
                     : profile.followerCount}
                 </p>
               </div>
@@ -163,33 +163,33 @@ const CreatorDashboard = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             <div className="card">
-               <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                 <User className="text-indigo-600" size={24} /> Public Bio
-               </h3>
-               <p className="text-slate-600 leading-relaxed italic">
-                 "{profile.bio || 'Add a bio to attract brands!'}"
-               </p>
-               <div className="mt-8 pt-6 border-t border-slate-100">
-                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Niche</p>
-                 <span className="bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full font-bold text-sm">
-                   {profile.niche}
-                 </span>
-               </div>
+              <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+                <User className="text-indigo-600" size={24} /> Public Bio
+              </h3>
+              <p className="text-slate-600 leading-relaxed italic">
+                "{profile.bio || 'Add a bio to attract brands!'}"
+              </p>
+              <div className="mt-8 pt-6 border-t border-slate-100">
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Niche</p>
+                <span className="bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full font-bold text-sm">
+                  {profile.niche}
+                </span>
+              </div>
             </div>
 
             <div className="card bg-indigo-600 text-white border-none relative overflow-hidden">
-               <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
-               <h3 className="text-xl font-bold mb-4">Profile Strength</h3>
-               <div className="w-full bg-indigo-900/30 h-3 rounded-full mb-6">
-                 <div className="bg-white h-full rounded-full" style={{ width: profile.bio ? '85%' : '40%' }}></div>
-               </div>
-               <p className="text-indigo-100 text-sm mb-6 font-medium">Your profile is looking great! Complete your bio to reach 100%.</p>
-               <button 
-                 onClick={() => setActiveTab('edit')}
-                 className="bg-white text-indigo-600 px-6 py-3 rounded-2xl font-bold hover:bg-slate-50 transition-colors"
-               >
-                 Complete Profile
-               </button>
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+              <h3 className="text-xl font-bold mb-4">Profile Strength</h3>
+              <div className="w-full bg-indigo-900/30 h-3 rounded-full mb-6">
+                <div className="bg-violet-800 h-full rounded-full" style={{ width: profile.bio ? '75%' : '25%' }}></div>
+              </div>
+              <p className="text-black text-sm mb-6 font-medium">Your profile is looking great! Complete your bio to reach 100%.</p>
+              <button
+                onClick={() => setActiveTab('edit')}
+                className="bg-white text-indigo-600 px-6 py-3 rounded-2xl font-bold hover:bg-slate-50 transition-colors"
+              >
+                Complete Profile
+              </button>
             </div>
           </div>
         </div>
@@ -206,20 +206,19 @@ const CreatorDashboard = () => {
                 <div>
                   <h4 className="font-bold text-xl text-slate-900">{app.campaignId?.title}</h4>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className={`status-badge ${
-                      app.status === 'accepted' ? 'bg-green-50 text-green-600 border-green-100' : 
-                      app.status === 'pending' ? 'bg-yellow-50 text-yellow-600 border-yellow-100' : 
-                      'bg-slate-50 text-slate-500 border-slate-100'
-                    }`}>
+                    <span className={`status-badge ${app.status === 'accepted' ? 'bg-green-50 text-green-600 border-green-100' :
+                        app.status === 'pending' ? 'bg-yellow-50 text-yellow-600 border-yellow-100' :
+                          'bg-slate-50 text-slate-500 border-slate-100'
+                      }`}>
                       {app.status}
                     </span>
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3">
                 {app.status === 'accepted' && (
-                  <button 
+                  <button
                     onClick={() => confirmApplication(app._id)}
                     className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 active:scale-95 transition-all flex items-center gap-2"
                   >
@@ -246,11 +245,11 @@ const CreatorDashboard = () => {
       {activeTab === 'browse' && (
         <div className="flex flex-col gap-8">
           <div className="flex justify-between items-center bg-white p-6 rounded-3xl border border-slate-100">
-             <div className="flex items-center gap-4 grow">
-               <Search className="text-slate-400" size={20} />
-               <input type="text" placeholder="Search for opportunities..." className="w-full font-medium outline-none" />
-             </div>
-             <Link to="/campaigns" className="text-indigo-600 font-bold text-sm">Full Marketplace</Link>
+            <div className="flex items-center gap-4 grow">
+              <Search className="text-slate-400" size={20} />
+              <input type="text" placeholder="Search for opportunities..." className="w-full font-medium outline-none" />
+            </div>
+            <Link to="/campaigns" className="text-indigo-600 font-bold text-sm">Full Marketplace</Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {availableCampaigns.map(campaign => (
@@ -276,19 +275,19 @@ const CreatorDashboard = () => {
             <form onSubmit={handleProfileUpdate} className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Display Name</label>
-                <input 
-                  type="text" value={profile.name} 
-                  onChange={(e) => setProfile({...profile, name: e.target.value})}
-                  className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-[24px] outline-none focus:ring-2 focus:ring-indigo-500 font-bold"
+                <input
+                  type="text" value={profile.name}
+                  onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                  className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl outline-none focus:ring-2 focus:ring-indigo-500 font-bold"
                   placeholder="e.g. Content King"
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Primary Niche</label>
-                <select 
+                <select
                   value={profile.niche}
-                  onChange={(e) => setProfile({...profile, niche: e.target.value})}
-                  className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-[24px] outline-none focus:ring-2 focus:ring-indigo-500 font-bold appearance-none cursor-pointer"
+                  onChange={(e) => setProfile({ ...profile, niche: e.target.value })}
+                  className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl outline-none focus:ring-2 focus:ring-indigo-500 font-bold appearance-none cursor-pointer"
                 >
                   <option value="Tech">Tech</option>
                   <option value="Lifestyle">Lifestyle</option>
@@ -299,52 +298,52 @@ const CreatorDashboard = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Total Followers</label>
-                <input 
-                  type="number" value={profile.followerCount} 
-                  onChange={(e) => setProfile({...profile, followerCount: parseInt(e.target.value) || 0})}
-                  className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-[24px] outline-none focus:ring-2 focus:ring-indigo-500 font-bold"
+                <input
+                  type="number" value={profile.followerCount}
+                  onChange={(e) => setProfile({ ...profile, followerCount: parseInt(e.target.value) || 0 })}
+                  className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl outline-none focus:ring-2 focus:ring-indigo-500 font-bold"
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Response Time</label>
-                <input 
-                  type="text" value={profile.responseTime} 
-                  onChange={(e) => setProfile({...profile, responseTime: e.target.value})}
-                  className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-[24px] outline-none focus:ring-2 focus:ring-indigo-500 font-bold"
+                <input
+                  type="text" value={profile.responseTime}
+                  onChange={(e) => setProfile({ ...profile, responseTime: e.target.value })}
+                  className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl outline-none focus:ring-2 focus:ring-indigo-500 font-bold"
                   placeholder="e.g. < 2h"
                 />
               </div>
               <div className="flex flex-col gap-2 md:col-span-2">
                 <label className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Creator Bio</label>
-                <textarea 
-                  value={profile.bio} 
-                  onChange={(e) => setProfile({...profile, bio: e.target.value})}
-                  className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-[24px] outline-none h-32 font-medium"
+                <textarea
+                  value={profile.bio}
+                  onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
+                  className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl outline-none h-32 font-medium"
                   placeholder="Tell brands why they should work with you..."
                 />
               </div>
-              
+
               <div className="md:col-span-2 flex flex-col gap-6 pt-6 border-t border-slate-100">
                 <h4 className="font-black text-slate-900 uppercase text-xs tracking-[0.2em]">Social Media Presence</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-slate-200 group focus-within:border-indigo-500 transition-colors">
                     <Instagram size={20} className="text-pink-600" />
-                    <input 
-                      type="text" 
-                      placeholder="Instagram Handle" 
+                    <input
+                      type="text"
+                      placeholder="Instagram Handle"
                       value={getSocialHandle('Instagram')}
                       onChange={(e) => updateSocialLink('Instagram', e.target.value)}
-                      className="bg-transparent outline-none font-bold text-sm w-full" 
+                      className="bg-transparent outline-none font-bold text-sm w-full"
                     />
                   </div>
                   <div className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-slate-200 group focus-within:border-indigo-500 transition-colors">
                     <Youtube size={20} className="text-red-600" />
-                    <input 
-                      type="text" 
-                      placeholder="Youtube Channel" 
+                    <input
+                      type="text"
+                      placeholder="Youtube Channel"
                       value={getSocialHandle('Youtube')}
                       onChange={(e) => updateSocialLink('Youtube', e.target.value)}
-                      className="bg-transparent outline-none font-bold text-sm w-full" 
+                      className="bg-transparent outline-none font-bold text-sm w-full"
                     />
                   </div>
                 </div>
