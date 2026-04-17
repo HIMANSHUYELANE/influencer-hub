@@ -10,6 +10,10 @@ const creatorProfileSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  profilePicture: {
+    type: String,
+    default: ''
+  },
   bio: {
     type: String,
     required: true

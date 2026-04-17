@@ -130,28 +130,31 @@ const Home = () => {
   return (
     <div className="flex flex-col gap-20">
       {/* Hero Section */}
-      <section className="relative bg-linear-to-tl from-pink-300 via-purple-200 to-indigo-300 py-24 mb-5 px-8 flex flex-col items-center text-center overflow-hidden">
-         <div className="absolute animate-fade-in  bg-violet-400 rounded-bl-full rounded-tr-full  z-0 flex left-10 top-5 opacity-100">
+      <section className="relative h-135 bg-radial-[at_30%_70%] from-white via-indigo-300 to-indigo-900 to-90% py-24 mb-5 px-8 flex flex-col items-center text-center overflow-hidden">
+         <div className="absolute animate-fade-in  bg-violet-400 rounded-bl-full border-3 shadow-xl border-blue-600 rounded-tr-full  z-0 flex left-20 top-15 opacity-100">
         <Lottie 
           animationData={animationData} 
           loop={true}
-          className=" h-80"
+          className=" h-30"
         />
         </div>
-         <div className="absolute animate-fade-in z-0 flex bg-fuchsia-500 rounded-tl-full rounded-br-full right-10 bottom-5 opacity-100">
+         <div className="absolute animate-fade-in z-0 flex bg-blue-700 border-fuchsia-700 rounded-tl-full rounded-br-full border-3 right-32 bottom-40 opacity-100">
         <Lottie 
           animationData={animationCreator} 
           loop={true}
-          className=" h-70"
+          className=" h-30"
         />
       </div>
+         <div className="absolute animate-fade-in z-0 flex bg-fuchsia-300 border-fuchsia-600 shadow-sm shadow-fuchsia-800 border-b-3 border-l-2 border-r-2 rounded-lg left-62 bottom-20 opacity-50">
+         <div className="py-5 px-7">
+          <p className="font-bold text-sm font-pink-500 text-fuchsia-800">Fastest</p>
+          <p className="font-bold font-pink-500 text-2xl text-fuchsia-800">Payout</p>
+         </div>
+      </div>
         <div className=" z-10"></div>
-        <span className="inline-flex items-center gap-2 px-5 py-2 bg-primary-50 border border-primary-200 text-primary-700 rounded-full text-sm font-bold mb-8 animate-pulse">
-          <ShieldCheck size={16} /> India's #1 Verified Influencer Marketplace
-        </span>
         <h1 className="text-6xl animate-reveal-up md:text-5xl font-extrabold tracking-tight z-10 text-slate-900 mb-6 max-w-4xl leading-tight ">
-          Connect with the <span className="text-primary-600">Top 1%</span> <br /> of
-          Content Creators
+          <span className="text-primary-600">Connect</span> with the Skilled <br />
+          Content Creators <span className="text-fuchsia-500">At Any Time</span>
         </h1>
         <p className="text-xl animate-reveal-up z-10 text-slate-500 mb-10 max-w-2xl leading-relaxed  ">
           The ultimate platform for high-performance influencer marketing. Post
@@ -215,7 +218,7 @@ const Home = () => {
               key={i}
               custom={i}
               variants={cardVariants}
-              className={` bg-linear-to-tr from-slate-200 via-white to-primary-100  transition-all duration-300 delay-150 border-2 border-gray-300 hover:bg-linear-to-tl hover:scale-105 p-4 rounded-2xl flex flex-col items-center text-center gap-4 z-10 relative `}
+              className={` bg-linear-to-tr from-fuchsia-100 via-white to-primary-100  transition-all duration-300 delay-150 border-2 border-gray-300 hover:bg-linear-to-tl hover:scale-105 p-4 rounded-2xl flex flex-col items-center text-center gap-4 z-10 relative `}
             >
               <div className="w-16 h-16 bg-primary-100 border-2 border-primary-400 rounded-2xl flex items-center justify-center text-primary-600">
                 {step.icon}

@@ -38,8 +38,12 @@ const CreatorProfile = () => {
            <div className="absolute top-0 right-0 w-64 h-64 bg-primary-50 rounded-full blur-3xl -z-10 translate-x-32 -translate-y-32"></div>
            
            <div className="relative">
-              <div className="w-40 h-40 bg-primary-100 rounded-[40px] flex items-center justify-center text-6xl shadow-xl border-4 border-white">
-                👤
+              <div className="w-40 h-40 bg-primary-100 rounded-[40px] flex items-center justify-center overflow-hidden text-6xl shadow-xl border-4 border-white">
+                {creator.profilePicture ? (
+                  <img src={creator.profilePicture} alt={creator.name} className="w-full h-full object-cover" />
+                ) : (
+                  "👤"
+                )}
               </div>
               <div className="absolute -bottom-2 -right-2 bg-white p-2 rounded-full shadow-lg">
                 <CheckCircle size={32} className="text-green-500 fill-green-50" />

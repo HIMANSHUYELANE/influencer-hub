@@ -35,7 +35,7 @@ const Navbar = () => {
     <nav className="sticky bg-transparent top-0 z-50 glass h-20 px-8 flex items-center justify-between">
       <div className="flex items-center gap-8">
         <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent transform transition hover:scale-105 active:scale-95">
-          XYZ
+            Brandfluence
         </Link>
         <div className="hidden md:flex items-center gap-6">
           <Link to="/campaigns" className="text-slate-600 hover:text-primary-600 font-medium transition-colors">Campaigns</Link>
@@ -85,8 +85,8 @@ const Navbar = () => {
           </>
         ) : (
           <div className="flex items-center gap-4">
-            <Link to="/login" className="px-5 py-2 text-primary-600 font-semibold hover:bg-primary-50 rounded-xl transition-all">Login</Link>
-            <Link to="/register" className="btn-primary py-2 px-6">Join Now</Link>
+            <Link to="/login" className="px-5 py-2 text-primary-600 font-semibold hover:bg-primary-100 rounded-xl duration-300 transition-all">Login</Link>
+            <Link to="/register" className="font-semibold border-2 border-primary-500 hover:shadow-md rounded-lg shadow-primary-300 transition-all duration-300  py-1 px-5">Join Now</Link>
           </div>
         )}
       </div>

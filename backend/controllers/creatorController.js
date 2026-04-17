@@ -51,12 +51,36 @@ const getCreatorById = async (req, res) => {
 
 const getCreatorProfileMe = async (req, res) => {
   try {
-    const creator = await CreatorProfile.findOne({ userId: req.user.id }).populate('userId', 'email');
-    if (!creator) return res.status(404).json({ message: 'Creator profile not found' });
+    let creator = await CreatorProfile.findOne({ userId: req.user.id }).populate('userId', 'email');
+    if (!creator) {
+      creator = new CreatorProfile({
+        userId: req.user.id,
+        name: `Creator-${req.user.id.substring(req.user.id.length - 4)}`
+      });
+      await creator.save();
+      creator = await CreatorProfile.findOne({ userId: req.user.id }).populate('userId', 'email');
+    }
     res.json(creator);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { updateProfile, getAllCreators, getCreatorById, getCreatorProfileMe };
+const uploadAvatar = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file provided' });
+    }
+    const profile = await CreatorProfile.findOne({ userId: req.user.id });
+    if (!profile) return res.status(404).json({ message: 'Creator profile not found' });
+    
+    profile.profilePicture = req.file.path;
+    await profile.save();
+    
+    res.json({ profilePicture: profile.profilePicture });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { updateProfile, getAllCreators, getCreatorById, getCreatorProfileMe, uploadAvatar };

@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom';
 import { 
   User, Briefcase, Search, Save, 
   CheckCircle, Clock, LayoutDashboard, 
-  TrendingUp, Compass, Plus,
+  TrendingUp, Compass, Plus, CircleDollarSign
 } from 'lucide-react';
 import { Instagram, Youtube } from '../components/SocialIcons';
 import DashboardLayout from '../components/DashboardLayout';
+import DealManager from '../components/DealManager';
 
 const CreatorDashboard = () => {
   const { user } = useAuth();
@@ -22,31 +23,33 @@ const CreatorDashboard = () => {
     responseTime: '< 24h'
   });
   const [applications, setApplications] = useState([]);
+  const [deals, setDeals] = useState([]);
   const [availableCampaigns, setAvailableCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [profileRes, appsRes, campaignsRes] = await Promise.all([
-          axios.get('/creators/me'),
-          axios.get('/applications/creator'),
-          axios.get('/campaigns')
-        ]);
-        if (profileRes.data) {
-          // Normalize social links for the form
-          const profileData = profileRes.data;
-          setProfile(profileData);
-        }
-        setApplications(appsRes.data);
-        setAvailableCampaigns(campaignsRes.data.slice(0, 6));
-      } catch (err) {
-        console.error('Error fetching dashboard data', err);
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    try {
+      const [profileRes, appsRes, campaignsRes, dealsRes] = await Promise.all([
+        axios.get('/creators/me'),
+        axios.get('/applications/creator'),
+        axios.get('/campaigns'),
+        axios.get('/deals/user')
+      ]);
+      if (profileRes.data) {
+        setProfile(profileRes.data);
       }
-    };
+      setApplications(appsRes.data);
+      setAvailableCampaigns(campaignsRes.data.slice(0, 6));
+      setDeals(dealsRes.data);
+    } catch (err) {
+      console.error('Error fetching dashboard data', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -78,13 +81,15 @@ const CreatorDashboard = () => {
     return link ? link.handle : '';
   };
 
-  const confirmApplication = async (appId) => {
+  const confirmApplication = async (appId, currentStatus) => {
     try {
-      await axios.put(`/applications/${appId}/status`, { status: 'confirmed_by_creator' });
+      if (currentStatus !== 'confirmed_by_creator') {
+        await axios.put(`/applications/${appId}/status`, { status: 'confirmed_by_creator' });
+      }
       await axios.post('/deals', { applicationId: appId });
-      const res = await axios.get('/applications/creator');
-      setApplications(res.data);
+      await fetchData();
       setMessage({ type: 'success', text: 'Application confirmed! Deal started.' });
+      setActiveTab('deals');
       setTimeout(() => setMessage({ type: '', text: '' }), 3000);
     } catch (err) {
       setMessage({ type: 'error', text: 'Error confirming application.' });
@@ -94,6 +99,7 @@ const CreatorDashboard = () => {
   const sidebarItems = [
     { id: 'overview', label: 'My Profile', icon: <LayoutDashboard size={20} /> },
     { id: 'applied', label: 'Applied Campaigns', icon: <Briefcase size={20} /> },
+    { id: 'deals', label: 'Active Deals', icon: <CircleDollarSign size={20} /> },
     { id: 'browse', label: 'Browse New Campaigns', icon: <Compass size={20} /> },
     { id: 'edit', label: 'Edit Profile', icon: <Save size={20} /> },
   ];
@@ -217,12 +223,12 @@ const CreatorDashboard = () => {
               </div>
 
               <div className="flex items-center gap-3">
-                {app.status === 'accepted' && (
+                {(app.status === 'accepted' || app.status === 'confirmed_by_creator') && !deals.some(d => d.applicationId?._id === app._id || d.applicationId === app._id) && (
                   <button
-                    onClick={() => confirmApplication(app._id)}
+                    onClick={() => confirmApplication(app._id, app.status)}
                     className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 active:scale-95 transition-all flex items-center gap-2"
                   >
-                    Confirm <CheckCircle size={18} />
+                    {app.status === 'confirmed_by_creator' ? 'Retry Starting Deal' : 'Confirm & Start Deal'} <CheckCircle size={18} />
                   </button>
                 )}
                 <Link to={`/campaigns/${app.campaignId?._id}`} className="btn-secondary py-3 text-sm">
@@ -237,6 +243,19 @@ const CreatorDashboard = () => {
               <button onClick={() => setActiveTab('browse')} className="text-indigo-600 font-black hover:underline uppercase text-xs tracking-widest">
                 Explore Campaigns
               </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTab === 'deals' && (
+        <div className="flex flex-col gap-6">
+          {deals.length > 0 ? deals.map(deal => (
+            <DealManager key={deal._id} deal={deal} onUpdate={fetchData} />
+          )) : (
+            <div className="card border-dashed border-2 border-slate-200 shadow-none text-center py-20 flex flex-col items-center gap-4 bg-transparent">
+              <CircleDollarSign size={48} className="text-slate-200" />
+              <p className="text-slate-400 font-bold">No active deals yet.</p>
             </div>
           )}
         </div>
@@ -272,6 +291,48 @@ const CreatorDashboard = () => {
         <div className="max-w-3xl">
           <div className="card p-10">
             <h3 className="text-2xl font-black mb-8 tracking-tighter">Creative Portfolio Settings</h3>
+            
+            {/* Avatar Upload Section */}
+            <div className="flex items-center gap-6 mb-8 pb-8 border-b border-slate-100">
+              <div className="relative group">
+                <div className="w-24 h-24 rounded-full overflow-hidden bg-indigo-50 border-4 border-white shadow-xl flex items-center justify-center">
+                  {profile.profilePicture ? (
+                    <img src={profile.profilePicture} alt="Avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    <User size={40} className="text-indigo-300" />
+                  )}
+                </div>
+                <label className="absolute inset-0 flex items-center justify-center bg-black/50 text-white rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity font-bold text-xs">
+                  Upload
+                  <input 
+                    type="file" 
+                    className="hidden" 
+                    accept="image/*"
+                    onChange={async (e) => {
+                      if (!e.target.files[0]) return;
+                      const formData = new FormData();
+                      formData.append('profilePicture', e.target.files[0]);
+                      try {
+                        const res = await axios.post('/creators/avatar', formData, {
+                          headers: { 'Content-Type': 'multipart/form-data' }
+                        });
+                        setProfile(prev => ({ ...prev, profilePicture: res.data.profilePicture }));
+                        setMessage({ type: 'success', text: 'Avatar updated!' });
+                        setTimeout(() => setMessage({ type: '', text: '' }), 3000);
+                      } catch (err) {
+                        setMessage({ type: 'error', text: 'Avatar upload failed.' });
+                        console.error(err);
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+              <div>
+                <h4 className="font-bold text-lg">Profile Avatar</h4>
+                <p className="text-slate-500 text-sm">Upload a professional headshot or logo.</p>
+              </div>
+            </div>
+
             <form onSubmit={handleProfileUpdate} className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Display Name</label>

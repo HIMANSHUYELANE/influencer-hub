@@ -5,38 +5,43 @@ import { Link } from 'react-router-dom';
 import { 
   Building, Plus, Users, Briefcase, 
   Search, Save, DollarSign, LayoutDashboard,
-  Target, TrendingUp, CheckCircle, ExternalLink
+  Target, TrendingUp, CheckCircle, ExternalLink, CircleDollarSign
 } from 'lucide-react';
 import DashboardLayout from '../components/DashboardLayout';
 import CampaignCard from '../components/CampaignCard';
+import DealManager from '../components/DealManager';
 
 const BrandDashboard = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [profile, setProfile] = useState({ businessName: '', website: '', description: '' });
   const [campaigns, setCampaigns] = useState([]);
+  const [deals, setDeals] = useState([]);
   const [allCreators, setAllCreators] = useState([]);
   const [newCampaign, setNewCampaign] = useState({ title: '', description: '', budget: '', requirements: '', niche: 'Tech' });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
 
+  const fetchData = async () => {
+    try {
+      const [profileRes, campaignsRes, creatorsRes, dealsRes] = await Promise.all([
+        axios.get('/brands/me'),
+        axios.get('/campaigns/mine'),
+        axios.get('/creators'),
+        axios.get('/deals/user')
+      ]);
+      setProfile(profileRes.data || { businessName: '', website: '', description: '' });
+      setCampaigns(campaignsRes.data);
+      setAllCreators(creatorsRes.data);
+      setDeals(dealsRes.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [profileRes, campaignsRes, creatorsRes] = await Promise.all([
-          axios.get('/brands/me'),
-          axios.get('/campaigns/mine'),
-          axios.get('/creators')
-        ]);
-        setProfile(profileRes.data || { businessName: '', website: '', description: '' });
-        setCampaigns(campaignsRes.data);
-        setAllCreators(creatorsRes.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchData();
   }, []);
 
@@ -75,6 +80,7 @@ const BrandDashboard = () => {
     { id: 'overview', label: 'Profile Overview', icon: <LayoutDashboard size={20} /> },
     { id: 'browse', label: 'Browse Creators', icon: <Search size={20} /> },
     { id: 'campaigns', label: 'Our Campaigns', icon: <Briefcase size={20} /> },
+    { id: 'deals', label: 'Active Deals', icon: <CircleDollarSign size={20} /> },
     { id: 'create', label: 'Create New Campaign', icon: <Plus size={20} /> },
     { id: 'edit', label: 'Edit Profile', icon: <Save size={20} /> },
   ];
@@ -243,6 +249,19 @@ const BrandDashboard = () => {
         </div>
       )}
 
+      {activeTab === 'deals' && (
+        <div className="flex flex-col gap-6">
+          {deals.length > 0 ? deals.map(deal => (
+            <DealManager key={deal._id} deal={deal} onUpdate={fetchData} />
+          )) : (
+            <div className="card border-dashed border-2 border-slate-200 shadow-none text-center py-20 flex flex-col items-center gap-4 bg-transparent">
+              <CircleDollarSign size={48} className="text-slate-200" />
+              <p className="text-slate-400 font-bold">No active deals yet.</p>
+            </div>
+          )}
+        </div>
+      )}
+
       {activeTab === 'create' && (
         <div className="max-w-3xl">
           <div className="card border-2 border-primary-100 bg-primary-50/10 p-10">
@@ -311,6 +330,48 @@ const BrandDashboard = () => {
         <div className="max-w-2xl">
           <div className="card p-10">
             <h3 className="text-2xl font-black mb-8">Brand Settings</h3>
+            
+            {/* Logo Upload Section */}
+            <div className="flex items-center gap-6 mb-8 pb-8 border-b border-slate-100">
+              <div className="relative group">
+                <div className="w-24 h-24 rounded-2xl overflow-hidden bg-primary-50 border-4 border-white shadow-xl flex items-center justify-center">
+                  {profile.logo ? (
+                    <img src={profile.logo} alt="Brand Logo" className="w-full h-full object-cover" />
+                  ) : (
+                    <Building size={40} className="text-primary-300" />
+                  )}
+                </div>
+                <label className="absolute inset-0 flex items-center justify-center bg-black/50 text-white rounded-2xl opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity font-bold text-xs">
+                  Upload
+                  <input 
+                    type="file" 
+                    className="hidden" 
+                    accept="image/*"
+                    onChange={async (e) => {
+                      if (!e.target.files[0]) return;
+                      const formData = new FormData();
+                      formData.append('logo', e.target.files[0]);
+                      try {
+                        const res = await axios.post('/brands/logo', formData, {
+                          headers: { 'Content-Type': 'multipart/form-data' }
+                        });
+                        setProfile(prev => ({ ...prev, logo: res.data.logo }));
+                        setMessage({ type: 'success', text: 'Logo updated!' });
+                        setTimeout(() => setMessage({ type: '', text: '' }), 3000);
+                      } catch (err) {
+                        setMessage({ type: 'error', text: 'Logo upload failed.' });
+                        console.error(err);
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+              <div>
+                <h4 className="font-bold text-lg">Company Logo</h4>
+                <p className="text-slate-500 text-sm">Upload your official brand logo.</p>
+              </div>
+            </div>
+
             <form onSubmit={handleProfileUpdate} className="flex flex-col gap-8">
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Company Name</label>
@@ -337,7 +398,7 @@ const BrandDashboard = () => {
                 />
               </div>
               <button type="submit" className="btn-primary py-4 flex items-center justify-center gap-2">
-                <Save size={20} /> Update Brand Identity
+                 <Save size={20} /> Update Brand Identity
               </button>
             </form>
           </div>
