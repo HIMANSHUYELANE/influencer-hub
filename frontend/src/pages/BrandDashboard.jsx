@@ -98,11 +98,20 @@ const BrandDashboard = () => {
       setActiveTab={setActiveTab}
     >
       {/* Header Info */}
-      <div className="mb-10">
-        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">
-          {activeTab === 'overview' && "Welcome Back,"} {profile.businessName || user.email.split('@')[0]}
-        </h1>
-        <p className="text-slate-500 font-medium">Dashboard / {sidebarItems.find(i => i.id === activeTab)?.label}</p>
+      <div className="mb-10 flex items-center gap-6">
+        {profile.logo ? (
+          <img src={profile.logo} alt="Brand Logo" className="w-20 h-20 rounded-2xl object-cover border-4 border-white shadow-lg animate-reveal-scale" />
+        ) : (
+          <div className="w-20 h-20 rounded-2xl bg-primary-100 flex items-center justify-center text-primary-400 border-4 border-white shadow-lg animate-reveal-scale">
+            <Building size={32} />
+          </div>
+        )}
+        <div>
+          <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">
+            {activeTab === 'overview' && "Welcome Back,"} {profile.businessName || user.email.split('@')[0]}
+          </h1>
+          <p className="text-slate-500 font-medium">Dashboard / {sidebarItems.find(i => i.id === activeTab)?.label}</p>
+        </div>
       </div>
 
       {message.text && (
@@ -195,8 +204,12 @@ const BrandDashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {allCreators.slice(0, 6).map(creator => (
               <div key={creator._id} className="card flex flex-col items-center text-center group transition-all hover:bg-primary-50/30">
-                <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
-                  👤
+                <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center overflow-hidden text-3xl mb-4 border-2 border-white shadow-sm group-hover:scale-110 transition-transform">
+                  {creator.profilePicture ? (
+                     <img src={creator.profilePicture} alt={creator.name} className="w-full h-full object-cover" />
+                  ) : (
+                     "👤"
+                  )}
                 </div>
                 <h4 className="font-bold text-lg">{creator.name}</h4>
                 <p className="text-primary-600 text-xs font-black uppercase tracking-widest bg-primary-50 px-3 py-1 rounded-full mt-2">

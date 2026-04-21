@@ -116,11 +116,20 @@ const CreatorDashboard = () => {
       activeTab={activeTab}
       setActiveTab={setActiveTab}
     >
-      <div className="mb-10">
-        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">
-          {activeTab === 'overview' && "Hello,"} {profile.name || user.email.split('@')[0]}
-        </h1>
-        <p className="text-slate-500 font-medium">Dashboard / {sidebarItems.find(i => i.id === activeTab)?.label}</p>
+      <div className="mb-10 flex items-center gap-6">
+        {profile.profilePicture ? (
+          <img src={profile.profilePicture} alt="Profile" className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg animate-reveal-scale" />
+        ) : (
+          <div className="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-400 border-4 border-white shadow-lg animate-reveal-scale">
+            <User size={32} />
+          </div>
+        )}
+        <div>
+          <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">
+            {activeTab === 'overview' && "Hello,"} {profile.name || user.email.split('@')[0]}
+          </h1>
+          <p className="text-slate-500 font-medium">Dashboard / {sidebarItems.find(i => i.id === activeTab)?.label}</p>
+        </div>
       </div>
 
       {message.text && (

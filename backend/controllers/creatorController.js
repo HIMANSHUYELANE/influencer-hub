@@ -1,4 +1,5 @@
 const CreatorProfile = require('../models/CreatorProfile');
+const { imagekit } = require('../middleware/uploadMiddleware');
 
 const updateProfile = async (req, res) => {
   const { name, bio, niche, socialLinks, followerCount, responseTime } = req.body;
@@ -74,7 +75,13 @@ const uploadAvatar = async (req, res) => {
     const profile = await CreatorProfile.findOne({ userId: req.user.id });
     if (!profile) return res.status(404).json({ message: 'Creator profile not found' });
     
-    profile.profilePicture = req.file.path;
+    const result = await imagekit.upload({
+      file: req.file.buffer, // Buffer from multer.memoryStorage
+      fileName: `avatar_${req.user.id}_${Date.now()}`,
+      folder: '/influencers_hub_profiles'
+    });
+    
+    profile.profilePicture = result.url;
     await profile.save();
     
     res.json({ profilePicture: profile.profilePicture });

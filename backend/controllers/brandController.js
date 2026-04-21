@@ -1,4 +1,5 @@
 const BrandProfile = require('../models/BrandProfile');
+const { imagekit } = require('../middleware/uploadMiddleware');
 
 const updateProfile = async (req, res) => {
   const { businessName, website, description, logo } = req.body;
@@ -62,7 +63,13 @@ const uploadLogo = async (req, res) => {
     const profile = await BrandProfile.findOne({ userId: req.user.id });
     if (!profile) return res.status(404).json({ message: 'Brand profile not found' });
     
-    profile.logo = req.file.path;
+    const result = await imagekit.upload({
+      file: req.file.buffer, // Buffer from multer.memoryStorage
+      fileName: `logo_${req.user.id}_${Date.now()}`,
+      folder: '/influencers_hub_profiles'
+    });
+    
+    profile.logo = result.url;
     await profile.save();
     
     res.json({ logo: profile.logo });

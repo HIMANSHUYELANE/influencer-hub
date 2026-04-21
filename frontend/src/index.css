@@ -14,6 +14,60 @@
 
   --font-sans: "Inter", "system-ui", "sans-serif";
 
+  --color-on-tertiary-fixed: #40000d;
+  --color-tertiary-container: #c81a42;
+  --color-inverse-primary: #732ee4;
+  --color-error: #ffb4ab;
+  --color-tertiary-fixed-dim: #ffb2b7;
+  --color-on-primary-fixed: #25005a;
+  --color-tertiary-fixed: #ffdadb;
+  --color-tertiary: #ffb2b7;
+  --color-primary-fixed-dim: #d2bbff;
+  --color-on-error-container: #ffdad6;
+  --color-on-tertiary-container: #ffdedf;
+  --color-error-container: #93000a;
+  --color-secondary-fixed: #acedff;
+  --color-on-tertiary: #67001b;
+  --color-on-secondary-fixed: #001f26;
+  --color-secondary-fixed-dim: #4cd7f6;
+  --color-on-tertiary-fixed-variant: #92002a;
+  --color-on-secondary-fixed-variant: #004e5c;
+  --color-on-error: #690005;
+  --color-on-primary-fixed-variant: #5a00c6;
+  --color-primary-fixed: #eaddff;
+  --color-surface-variant: #273647;
+  --color-surface-tint: #d2bbff;
+
+  /* Dynamically Swapped Theme Variables */
+  --color-background: var(--theme-background);
+  --color-surface: var(--theme-surface);
+  --color-surface-dim: var(--theme-surface-dim);
+  --color-surface-bright: var(--theme-surface-bright);
+  --color-surface-container-lowest: var(--theme-surface-container-lowest);
+  --color-surface-container-low: var(--theme-surface-container-low);
+  --color-surface-container: var(--theme-surface-container);
+  --color-surface-container-high: var(--theme-surface-container-high);
+  --color-surface-container-highest: var(--theme-surface-container-highest);
+  --color-on-surface: var(--theme-on-surface);
+  --color-on-surface-variant: var(--theme-on-surface-variant);
+  --color-on-background: var(--theme-on-background);
+  --color-outline: var(--theme-outline);
+  --color-outline-variant: var(--theme-outline-variant);
+  --color-primary: var(--theme-primary);
+  --color-on-primary: var(--theme-on-primary);
+  --color-primary-container: var(--theme-primary-container);
+  --color-on-primary-container: var(--theme-on-primary-container);
+  --color-secondary: var(--theme-secondary);
+  --color-on-secondary: var(--theme-on-secondary);
+  --color-secondary-container: var(--theme-secondary-container);
+  --color-on-secondary-container: var(--theme-on-secondary-container);
+  --color-inverse-surface: var(--theme-inverse-surface);
+  --color-inverse-on-surface: var(--theme-inverse-on-surface);
+
+  /* Font Families */
+  --font-headline: "Plus Jakarta Sans", sans-serif;
+  --font-manrope: "Manrope", sans-serif;
+
   --color-accent-yellow: #FFD21E;
   --color-accent-purple: #7C5CFF;
   --color-accent-teal: #0AD38E;
@@ -27,6 +81,60 @@
 
 
 @layer base {
+  :root {
+    --theme-background: #f8fafc;
+    --theme-surface: #ffffff;
+    --theme-surface-dim: #f1f5f9;
+    --theme-surface-bright: #ffffff;
+    --theme-surface-container-lowest: #ffffff;
+    --theme-surface-container-low: #f8fafc;
+    --theme-surface-container: #f1f5f9;
+    --theme-surface-container-high: #e2e8f0;
+    --theme-surface-container-highest: #cbd5e1;
+    --theme-on-surface: #0f172a;
+    --theme-on-surface-variant: #475569;
+    --theme-on-background: #0f172a;
+    --theme-outline: #cbd5e1;
+    --theme-outline-variant: #94a3b8;
+    --theme-primary: #7c3aed; 
+    --theme-on-primary: #ffffff;
+    --theme-primary-container: #ede0ff;
+    --theme-on-primary-container: #2e1065;
+    --theme-secondary: #0ea5e9; 
+    --theme-on-secondary: #ffffff;
+    --theme-secondary-container: #e0f2fe;
+    --theme-on-secondary-container: #082f49;
+    --theme-inverse-surface: #0f172a;
+    --theme-inverse-on-surface: #f8fafc;
+  }
+
+  .dark {
+    --theme-background: #051424;
+    --theme-surface: #051424;
+    --theme-surface-dim: #051424;
+    --theme-surface-bright: #2c3a4c;
+    --theme-surface-container-lowest: #010f1f;
+    --theme-surface-container-low: #0d1c2d;
+    --theme-surface-container: #122131;
+    --theme-surface-container-high: #1c2b3c;
+    --theme-surface-container-highest: #273647;
+    --theme-on-surface: #d4e4fa;
+    --theme-on-surface-variant: #ccc3d8;
+    --theme-on-background: #d4e4fa;
+    --theme-outline: #958da1;
+    --theme-outline-variant: #4a4455;
+    --theme-primary: #d2bbff;
+    --theme-on-primary: #3f008e;
+    --theme-primary-container: #7c3aed;
+    --theme-on-primary-container: #ede0ff;
+    --theme-secondary: #4cd7f6;
+    --theme-on-secondary: #003640;
+    --theme-secondary-container: #03b5d3;
+    --theme-on-secondary-container: #00424e;
+    --theme-inverse-surface: #d4e4fa;
+    --theme-inverse-on-surface: #233143;
+  }
+
   body {
     @apply bg-slate-50 text-slate-900 font-sans;
   }

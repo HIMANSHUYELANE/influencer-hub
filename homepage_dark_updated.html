@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Editorial Architect | Premium Influencer Discovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;family=Manrope:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#40000d",
+                        "tertiary-container": "#c81a42",
+                        "surface-container-lowest": "#010f1f",
+                        "inverse-primary": "#732ee4",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#ccc3d8",
+                        "tertiary-fixed-dim": "#ffb2b7",
+                        "on-primary-fixed": "#25005a",
+                        "surface-container": "#122131",
+                        "secondary": "#4cd7f6",
+                        "tertiary-fixed": "#ffdadb",
+                        "surface-dim": "#051424",
+                        "tertiary": "#ffb2b7",
+                        "surface-bright": "#2c3a4c",
+                        "on-background": "#d4e4fa",
+                        "on-primary-container": "#ede0ff",
+                        "primary-fixed-dim": "#d2bbff",
+                        "background": "#051424",
+                        "outline-variant": "#4a4455",
+                        "on-secondary-container": "#00424e",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#7c3aed",
+                        "on-tertiary-container": "#ffdedf",
+                        "error-container": "#93000a",
+                        "secondary-fixed": "#acedff",
+                        "surface-container-high": "#1c2b3c",
+                        "on-tertiary": "#67001b",
+                        "on-surface": "#d4e4fa",
+                        "on-secondary-fixed": "#001f26",
+                        "surface-container-highest": "#273647",
+                        "secondary-fixed-dim": "#4cd7f6",
+                        "on-tertiary-fixed-variant": "#92002a",
+                        "secondary-container": "#03b5d3",
+                        "on-secondary": "#003640",
+                        "on-secondary-fixed-variant": "#004e5c",
+                        "surface-container-low": "#0d1c2d",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#5a00c6",
+                        "inverse-surface": "#d4e4fa",
+                        "surface": "#051424",
+                        "primary-fixed": "#eaddff",
+                        "surface-variant": "#273647",
+                        "primary": "#d2bbff",
+                        "outline": "#958da1",
+                        "on-primary": "#3f008e",
+                        "inverse-on-surface": "#233143",
+                        "surface-tint": "#d2bbff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"],
+                        "manrope": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #051424; color: #d4e4fa; }
+        .font-plus-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+        .glass-nav { background: rgba(11, 28, 48, 0.8); backdrop-filter: saturate(180%) blur(15px); }
+        .gradient-primary { background: linear-gradient(135deg, #d2bbff 0%, #7c3aed 100%); }
+        .text-gradient { background: linear-gradient(135deg, #d2bbff 0%, #4cd7f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 glass-nav shadow-[0_8px_40px_rgba(11,28,48,0.04)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-full mx-auto">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-bold text-[#f8f9ff] font-plus-jakarta">The Editorial Architect</span>
+<div class="hidden md:flex gap-8">
+<a class="font-plus-jakarta text-sm font-semibold tracking-tight text-[#5243ef] border-b-2 border-[#381fd8] pb-1" href="#">Discover</a>
+<a class="font-plus-jakarta text-sm font-semibold tracking-tight text-[#f8f9ff] opacity-70 hover:opacity-100 hover:text-[#381fd8] transition-all duration-200" href="#">Campaigns</a>
+<a class="font-plus-jakarta text-sm font-semibold tracking-tight text-[#f8f9ff] opacity-70 hover:opacity-100 hover:text-[#381fd8] transition-all duration-200" href="#">Analytics</a>
+<a class="font-plus-jakarta text-sm font-semibold tracking-tight text-[#f8f9ff] opacity-70 hover:opacity-100 hover:text-[#381fd8] transition-all duration-200" href="#">Pricing</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-5 py-2 text-sm font-semibold text-[#f8f9ff] opacity-70 hover:opacity-100 hover:text-[#381fd8] transition-all duration-200 active:scale-90">Log In</button>
+<button class="gradient-primary px-6 py-2.5 rounded-lg text-sm font-bold text-on-primary shadow-lg shadow-primary/20 hover:scale-95 active:scale-90 transition-transform duration-200">Get Started</button>
+</div>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="relative px-8 py-20 lg:py-32 overflow-hidden">
+<div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
+<div class="lg:w-1/2 text-center lg:text-left">
+<span class="inline-block px-4 py-1.5 rounded-full bg-surface-container-high text-secondary text-xs font-bold tracking-widest uppercase mb-6">Premium Creator Network</span>
+<h1 class="text-5xl lg:text-7xl font-extrabold font-plus-jakarta tracking-tight leading-tight text-on-surface mb-8">
+                    Connect with the <span class="text-gradient">Skilled Content Creators</span> At Any Time
+                </h1>
+<p class="text-on-surface-variant text-lg lg:text-xl leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
+                    The Digital Atelier for small businesses and D2C brands. We curate high-end influencer partnerships that drive authentic engagement.
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+<button class="gradient-primary w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-on-primary text-lg shadow-xl shadow-primary-container/30 hover:scale-95 transition-all">Launch Your Campaign</button>
+<button class="bg-surface-container-high w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-on-surface text-lg hover:bg-surface-container-highest transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">play_circle</span> Watch Demo
+                    </button>
+</div>
+</div>
+<div class="lg:w-1/2 relative">
+<div class="relative rounded-2xl overflow-hidden shadow-2xl bg-surface-container-low border border-outline-variant/10">
+<img alt="Dashboard Preview" class="w-full h-full object-cover aspect-square md:aspect-video lg:aspect-square opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO5XVFKnGsXxDQu93WKXznzPnFeOgnr1oi5MEjNM4vV8IIEhQxVqqrFXunuFgLx9oMVHtGUhJe0U-g-R5rGAYQ_2dAK1HI-18GnZxJHGAcsUL9rtWHC7DDyEpoGqEb-51Ei7CpYbZb55j0Ni3Yi_oVxR5yk7mIE3CLVcOtvkMOze7uO1d2OfdD20oMGbbm5KB3r9LrpisJV2W3r_x4AQaZE9M3RFp87NDhtFZhsHJOIxVo9Pea2VeWhjaOMNkZAQ92sIiFs7ghNBA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</div>
+<!-- Floating Badge -->
+<div class="absolute -bottom-6 -left-6 bg-surface-container-highest p-6 rounded-2xl shadow-2xl border border-outline-variant/20 hidden md:block">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Vetted Network</p>
+<p class="text-xs text-on-surface-variant">Top 2% of Global Creators</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Background Glow -->
+<div class="absolute top-0 right-0 -z-10 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
+</section>
+<!-- Stats Banner -->
+<section class="bg-surface-container-low border-y border-outline-variant/5">
+<div class="max-w-7xl mx-auto px-8 py-12">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 text-center lg:text-left">
+<div class="flex flex-col gap-1">
+<span class="text-3xl font-extrabold font-plus-jakarta text-secondary">2,400+</span>
+<span class="text-sm font-medium text-on-surface-variant uppercase tracking-wider">Creators</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-3xl font-extrabold font-plus-jakarta text-secondary">850+</span>
+<span class="text-sm font-medium text-on-surface-variant uppercase tracking-wider">Campaigns</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-3xl font-extrabold font-plus-jakarta text-secondary">₹12Cr+</span>
+<span class="text-sm font-medium text-on-surface-variant uppercase tracking-wider">Deals</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-3xl font-extrabold font-plus-jakarta text-secondary">98%</span>
+<span class="text-sm font-medium text-on-surface-variant uppercase tracking-wider">Satisfaction</span>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works (Bento Grid Style) -->
+<section class="py-24 px-8 bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="mb-16 text-center max-w-2xl mx-auto">
+<h2 class="text-4xl font-bold font-plus-jakarta text-on-surface mb-4">Streamlined Collaboration</h2>
+<p class="text-on-surface-variant text-lg">Four steps to launch your most impactful brand campaign yet.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-surface-container p-8 rounded-2xl hover:bg-surface-container-high transition-all group">
+<div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">post_add</span>
+</div>
+<h3 class="text-xl font-bold font-plus-jakarta text-on-surface mb-3">Brands Post</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Define your niche, budget, and creative requirements in minutes.</p>
+</div>
+<div class="bg-surface-container-high p-8 rounded-2xl hover:bg-surface-container-highest transition-all group lg:mt-8">
+<div class="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">group_add</span>
+</div>
+<h3 class="text-xl font-bold font-plus-jakarta text-on-surface mb-3">Creators Apply</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Our hand-picked creator network applies with personalized pitches.</p>
+</div>
+<div class="bg-surface-container p-8 rounded-2xl hover:bg-surface-container-high transition-all group">
+<div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">fact_check</span>
+</div>
+<h3 class="text-xl font-bold font-plus-jakarta text-on-surface mb-3">2-Step Approval</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Review profiles and analytics before finalizing your dream team.</p>
+</div>
+<div class="bg-surface-container-high p-8 rounded-2xl hover:bg-surface-container-highest transition-all group lg:mt-8">
+<div class="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">trending_up</span>
+</div>
+<h3 class="text-xl font-bold font-plus-jakarta text-on-surface mb-3">Collaborate &amp; Grow</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Scale your brand through authentic content and tracked performance.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Campaigns -->
+<section class="py-24 px-8 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+<div>
+<h2 class="text-4xl font-bold font-plus-jakarta text-on-surface mb-4">Trending Campaigns</h2>
+<p class="text-on-surface-variant text-lg max-w-xl">Explore active opportunities across multiple creative niches.</p>
+</div>
+<button class="text-secondary font-bold flex items-center gap-2 hover:opacity-80 transition-all">
+                    View All Opportunities <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Campaign Card 1 -->
+<div class="bg-surface-container-highest rounded-2xl overflow-hidden border border-outline-variant/10">
+<div class="h-48 relative">
+<img alt="Campaign Thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnq5d7gL7ZvFRQ9Vh-lcSKKeFGL_EJHIflyQOfjGW3gC0C_gqFBavgkeWuooL7YJ-Kdx7vb10KXNsv-Mao89rxI3PizUF1bRTrKJMDUvhAfTMOUWfTaTBrxz0IRCpQVxPsOc9iCsrqf4-ISu-e3clKPYzlO2M2e5ZDna2v4RWHhCcmlcjSARjC-P8Bx5FhvNaOTTkK1AXJu-3KMAesN_CLruSLuAwh3uSLqNi-3uO_7xUrd7Nm5RdlWMq7nHbdo9Pv1T2ilmNNHZE"/>
+<div class="absolute top-4 right-4 bg-primary text-on-primary text-[10px] font-bold px-3 py-1 rounded-full uppercase">High Priority</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-bold text-secondary uppercase tracking-tighter bg-secondary/10 px-2 py-0.5 rounded">Skincare &amp; Wellness</span>
+<span class="text-xs font-mono text-on-surface-variant">Active</span>
+</div>
+<h3 class="text-xl font-bold font-plus-jakarta text-on-surface mb-4">Luminary Glow Series</h3>
+<div class="flex items-center justify-between py-4 border-t border-outline-variant/10">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Budget Range</p>
+<p class="font-bold text-on-surface">₹45k - ₹75k</p>
+</div>
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Campaign Card 2 -->
+<div class="bg-surface-container-highest rounded-2xl overflow-hidden border border-outline-variant/10">
+<div class="h-48 relative">
+<img alt="Campaign Thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL6gERomzo_BWMWAJ_90MZsquWPNu3ygudAIfmX0Fw0Y_8fqAWHLZr0gXcMDuSWk1-DzjGjngqWETQXX8Sap3ktthlCUqjL0YhkfiOplmjN549NUk6q2e2nAQJhKvtKlyjhAaK42C0QJDO_ok_PbNLEk0jtXXkzruTr-Ed_KYEQwpx3FnOTMjf0Q3J6eA6dX9A8IudNT6fHOR2z4NROWTMMRranD8DYXDwMhIxzNwdKBHslhVsCeZEpPR-wyUJMngSN6g6j1vy9iE"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-bold text-secondary uppercase tracking-tighter bg-secondary/10 px-2 py-0.5 rounded">Sustainable Fashion</span>
+<span class="text-xs font-mono text-on-surface-variant">Open</span>
+</div>
+<h3 class="text-xl font-bold font-plus-jakarta text-on-surface mb-4">Eco-Stride Launch</h3>
+<div class="flex items-center justify-between py-4 border-t border-outline-variant/10">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Budget Range</p>
+<p class="font-bold text-on-surface">₹1.2L - ₹2.5L</p>
+</div>
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Campaign Card 3 -->
+<div class="bg-surface-container-highest rounded-2xl overflow-hidden border border-outline-variant/10">
+<div class="h-48 relative">
+<img alt="Campaign Thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEDDtfj0i4uAYNFQOKSPf9Z32d04CQiLfUXd8bVhj96wSgBPIxf1H9eHI9OGEXxdIfiu7ouw8sYe6RXJbZDEUC9YQccXCh_GDD26y8wCVen5UDPPWAAqMjHY9pZzbtvPLnYE2c-ydOIJzoceimea9yNMXDn6KR4hWDoceWhMdqYKvVpv8DemXtQrLjHgockOdG-DQITA57SBGSft9PdM41iPWyRqT6yhrZfHfb6kat3QLxA1qKGSmpPoa0FR0--aUmO6eT9J3ByjI"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-bold text-secondary uppercase tracking-tighter bg-secondary/10 px-2 py-0.5 rounded">Home Lifestyle</span>
+<span class="text-xs font-mono text-on-surface-variant">Reviewing</span>
+</div>
+<h3 class="text-xl font-bold font-plus-jakarta text-on-surface mb-4">Urban Nest Collective</h3>
+<div class="flex items-center justify-between py-4 border-t border-outline-variant/10">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Budget Range</p>
+<p class="font-bold text-on-surface">₹80k - ₹1.5L</p>
+</div>
+<button class="p-2 rounded-lg bg-surface-container-low text-on-surface hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Top Performers -->
+<section class="py-24 px-8 bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold font-plus-jakarta text-on-surface mb-4">Top Performers</h2>
+<p class="text-on-surface-variant text-lg">Meet the creators setting new standards for brand storytelling.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Creator 1 -->
+<div class="bg-surface-container p-6 rounded-3xl text-center group hover:bg-surface-container-high transition-all">
+<div class="relative w-32 h-32 mx-auto mb-6">
+<img alt="Creator Avatar" class="w-full h-full object-cover rounded-full p-1 ring-2 ring-secondary/30 group-hover:ring-secondary transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC55VTcW5V6hbCPxvWf5CLKTofbHRwYwEEK8gudQ_HM0zrcGIhDw2oI0XEFcfnaamOAxrOmSGOtqf1YGihX7zMY9315U4MTpeXFe89jH0JZA40dRAFQbc-BLjgLFE__-YvHTU0VZWMJfEYZZ0M2Xqe57g_lPHXZVzvZ3xML_rD1xWIOrk9llp_G3VF99sg6wmdXj_5jJxbnsf7_7McNUoiX4eCIcS-Z3RfPKEkrxel7pRNeHBUyrXDVcKZEv2WmZrsAL9DmX16aNRs"/>
+</div>
+<h4 class="text-lg font-bold text-on-surface font-plus-jakarta">Ananya Verma</h4>
+<p class="text-xs text-secondary font-bold uppercase tracking-widest mb-6">Lifestyle &amp; Travel</p>
+<div class="grid grid-cols-2 gap-2 mb-6">
+<div class="bg-surface-container-low py-2 rounded-xl">
+<p class="text-[10px] text-on-surface-variant uppercase">Engagement</p>
+<p class="text-sm font-mono font-bold text-on-surface">8.4%</p>
+</div>
+<div class="bg-surface-container-low py-2 rounded-xl">
+<p class="text-[10px] text-on-surface-variant uppercase">Followers</p>
+<p class="text-sm font-mono font-bold text-on-surface">240K</p>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl bg-surface-container-highest text-on-surface font-bold text-sm hover:bg-primary hover:text-on-primary transition-all">View Profile</button>
+</div>
+<!-- Creator 2 -->
+<div class="bg-surface-container p-6 rounded-3xl text-center group hover:bg-surface-container-high transition-all">
+<div class="relative w-32 h-32 mx-auto mb-6">
+<img alt="Creator Avatar" class="w-full h-full object-cover rounded-full p-1 ring-2 ring-secondary/30 group-hover:ring-secondary transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM2e7Tuii-1fkfzKQuHcSMvWia150rBzQ71twXQnUgBbVg8TUH7KZz0GGuPdfURcIvjXrDJXdW7XwQQxXKMx9e0cCIPfDIa7-PEZ6H6UubjYDO9ORKKOg88uRDfnURb47Ka-iHiPTA3JsALwqKbN0yt9ZGTwUeukqaqRinFL8A_MUGK-0qbW8n4j1gUqxM5zTZtd8MskZbHfzRaC_yBbQuLzt4OKSnMGWM8XdsN2UBEia8SyHvzwwF9FAi0iu4n2m5xfF_LN0ZI2k"/>
+</div>
+<h4 class="text-lg font-bold text-on-surface font-plus-jakarta">Rohan Das</h4>
+<p class="text-xs text-secondary font-bold uppercase tracking-widest mb-6">Tech &amp; Gadgets</p>
+<div class="grid grid-cols-2 gap-2 mb-6">
+<div class="bg-surface-container-low py-2 rounded-xl">
+<p class="text-[10px] text-on-surface-variant uppercase">Engagement</p>
+<p class="text-sm font-mono font-bold text-on-surface">6.2%</p>
+</div>
+<div class="bg-surface-container-low py-2 rounded-xl">
+<p class="text-[10px] text-on-surface-variant uppercase">Followers</p>
+<p class="text-sm font-mono font-bold text-on-surface">1.2M</p>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl bg-surface-container-highest text-on-surface font-bold text-sm hover:bg-primary hover:text-on-primary transition-all">View Profile</button>
+</div>
+<!-- Creator 3 -->
+<div class="bg-surface-container p-6 rounded-3xl text-center group hover:bg-surface-container-high transition-all">
+<div class="relative w-32 h-32 mx-auto mb-6">
+<img alt="Creator Avatar" class="w-full h-full object-cover rounded-full p-1 ring-2 ring-secondary/30 group-hover:ring-secondary transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANvHKglHhqsKmKpIL1FqD695_yfUyhc-n3WMklh9NSDg84-nGEmaVCVqwGBzzBnuHSkSGf9o1sdMdr25BM9tH60GTeNrPp5mZfzPbEYaUMoDdtGE-i_G277kQsy-mJr4jB28G__bcKU8dGkLY7_esBW8JWXzWwMN0Akjvoxgw9X9cOhZ1q9YNbb2YmKP9UaAhkaedvleC-uKQbqkDQyNITb0SMCjZLU4FfTrYkZ9u6DCLNzGFmwGdObRIQbzj138Lfk-kch4Hn8Nk"/>
+</div>
+<h4 class="text-lg font-bold text-on-surface font-plus-jakarta">Priya Iyer</h4>
+<p class="text-xs text-secondary font-bold uppercase tracking-widest mb-6">Fashion &amp; Art</p>
+<div class="grid grid-cols-2 gap-2 mb-6">
+<div class="bg-surface-container-low py-2 rounded-xl">
+<p class="text-[10px] text-on-surface-variant uppercase">Engagement</p>
+<p class="text-sm font-mono font-bold text-on-surface">11.1%</p>
+</div>
+<div class="bg-surface-container-low py-2 rounded-xl">
+<p class="text-[10px] text-on-surface-variant uppercase">Followers</p>
+<p class="text-sm font-mono font-bold text-on-surface">85K</p>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl bg-surface-container-highest text-on-surface font-bold text-sm hover:bg-primary hover:text-on-primary transition-all">View Profile</button>
+</div>
+<!-- Creator 4 -->
+<div class="bg-surface-container p-6 rounded-3xl text-center group hover:bg-surface-container-high transition-all">
+<div class="relative w-32 h-32 mx-auto mb-6">
+<img alt="Creator Avatar" class="w-full h-full object-cover rounded-full p-1 ring-2 ring-secondary/30 group-hover:ring-secondary transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALhEx00DAVwqhzJwfb0rv3S8-Dttu4KcPpEkhTN4s2F0iBwouAnzhd5nu3gku0xdBa1F5t1Jln7vkAQAOZFINFNkMMMK2x9l1AA6Du3V9UEECowQzEdt_jwZO9stQN5QI5egWacdsk5VhzUhTXkiimjoKuVC6HWRBK8oFcFskq92taiuH-gRqWUbzQm472I-EMvqlgqrY_P_HTaflLZegjPD4897-vRXt9SKIXJisvDUe07c5OfrfY2XWyp70PNWaw1JJIkvgiafw"/>
+</div>
+<h4 class="text-lg font-bold text-on-surface font-plus-jakarta">Kabir Singh</h4>
+<p class="text-xs text-secondary font-bold uppercase tracking-widest mb-6">Fitness &amp; Health</p>
+<div class="grid grid-cols-2 gap-2 mb-6">
+<div class="bg-surface-container-low py-2 rounded-xl">
+<p class="text-[10px] text-on-surface-variant uppercase">Engagement</p>
+<p class="text-sm font-mono font-bold text-on-surface">5.8%</p>
+</div>
+<div class="bg-surface-container-low py-2 rounded-xl">
+<p class="text-[10px] text-on-surface-variant uppercase">Followers</p>
+<p class="text-sm font-mono font-bold text-on-surface">430K</p>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl bg-surface-container-highest text-on-surface font-bold text-sm hover:bg-primary hover:text-on-primary transition-all">View Profile</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Two sides. One platform. Section -->
+<section class="py-24 px-8 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col lg:flex-row justify-between items-start gap-12 mb-16">
+<div class="lg:w-1/2">
+<span class="text-secondary text-xs font-bold tracking-widest uppercase mb-4 block">How It Works</span>
+<h2 class="text-5xl lg:text-7xl font-extrabold font-plus-jakarta text-on-surface leading-tight">
+                        Two sides.<br/>One platform.
+                    </h2>
+</div>
+<div class="lg:w-5/12 pt-8 lg:pt-12">
+<p class="text-on-surface-variant text-xl leading-relaxed">
+                        Whether you're a creator looking for paid work or a business searching for the right voice — we make the match simple, transparent, and safe.
+                    </p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+<!-- For Creators (Large Card) -->
+<div class="lg:col-span-6 bg-[#0b1c30] rounded-[2rem] p-8 lg:p-12 border border-outline-variant/10 flex flex-col">
+<div class="flex items-center gap-4 mb-10">
+<div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person_outline</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold font-plus-jakarta text-on-surface">For Creators</h3>
+<p class="text-sm text-on-surface-variant">Micro to rising stars</p>
+</div>
+</div>
+<div class="space-y-8 flex-grow">
+<div class="flex gap-6 group">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-xs font-bold text-primary border border-outline-variant/20">1</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Build your profile</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Showcase your niche, follower stats, past work, and rate card. Connect Instagram, YouTube, or any platform.</p>
+</div>
+</div>
+<div class="flex gap-6 group">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-xs font-bold text-primary border border-outline-variant/20">2</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Browse brand campaigns</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Filter by category, budget, and region. Apply to campaigns that match your audience and vibe.</p>
+</div>
+</div>
+<div class="flex gap-6 group">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-xs font-bold text-primary border border-outline-variant/20">3</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Collaborate &amp; get paid</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Negotiate directly, deliver content, and receive secure escrow payments through the platform.</p>
+</div>
+</div>
+<div class="flex gap-6 group">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-xs font-bold text-primary border border-outline-variant/20">4</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Build your reputation</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Earn verified badges and ratings as you complete collabs — unlock better opportunities.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- For Businesses (Slightly smaller, offset feel) -->
+<div class="lg:col-span-6 bg-surface-container rounded-[2rem] p-8 lg:p-12 border border-outline-variant/10 lg:mt-12">
+<div class="flex items-center gap-4 mb-10">
+<div class="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">business</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold font-plus-jakarta text-on-surface">For Businesses</h3>
+<p class="text-sm text-on-surface-variant">Startups to mid-size brands</p>
+</div>
+</div>
+<div class="space-y-8">
+<div class="flex gap-6 group">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-dim flex items-center justify-center text-xs font-bold text-secondary border border-outline-variant/20">1</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1 group-hover:text-secondary transition-colors">Create your brand profile</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Share your business story, budget range, and the type of creator you're looking for.</p>
+</div>
+</div>
+<div class="flex gap-6 group">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-dim flex items-center justify-center text-xs font-bold text-secondary border border-outline-variant/20">2</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1 group-hover:text-secondary transition-colors">Post a campaign or browse</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">List your collab brief or proactively search creators by niche, city, follower range, and price.</p>
+</div>
+</div>
+<div class="flex gap-6 group">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-dim flex items-center justify-center text-xs font-bold text-secondary border border-outline-variant/20">3</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1 group-hover:text-secondary transition-colors">Shortlist &amp; connect</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">View full creator profiles, compare options, and initiate conversations — all on platform.</p>
+</div>
+</div>
+<div class="flex gap-6 group">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-dim flex items-center justify-center text-xs font-bold text-secondary border border-outline-variant/20">4</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1 group-hover:text-secondary transition-colors">Track &amp; scale campaigns</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Monitor deliverables, review content, and re-hire your best performers with one click.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="py-24 px-8">
+<div class="max-w-5xl mx-auto">
+<div class="relative overflow-hidden rounded-[2.5rem] gradient-primary p-12 lg:p-20 text-center shadow-2xl">
+<div class="relative z-10">
+<h2 class="text-4xl lg:text-6xl font-extrabold font-plus-jakarta text-on-primary mb-8 leading-tight">Ready to Scale Your Brand?</h2>
+<p class="text-on-primary/80 text-lg lg:text-xl max-w-2xl mx-auto mb-12 font-medium">Join 850+ brands that have transformed their market presence through the power of curated editorial connections.</p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="bg-white text-primary px-10 py-4 rounded-2xl font-extrabold text-lg shadow-xl hover:scale-105 transition-all">Create Brand Account</button>
+<button class="bg-primary-container text-on-primary px-10 py-4 rounded-2xl font-extrabold text-lg border border-white/20 hover:bg-on-primary/10 transition-all">Join as Creator</button>
+</div>
+</div>
+<!-- Decorative pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0 100 C 20 0 50 0 100 100 Z" fill="currentColor"></path>
+</svg>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#eff4ff] dark:bg-[#0b1c30] w-full py-12 px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<!-- Brand Info -->
+<div class="flex flex-col items-start gap-6">
+<span class="text-xl font-bold text-[#0b1c30] dark:text-[#f8f9ff] font-plus-jakarta">The Editorial Architect</span>
+<p class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60">
+                Empowering the next generation of storytellers through high-impact brand collaborations.
+            </p>
+<div class="flex items-center gap-4">
+<a class="text-[#381fd8] dark:text-[#5243ef] hover:opacity-100 transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-[#381fd8] dark:text-[#5243ef] hover:opacity-100 transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="text-[#381fd8] dark:text-[#5243ef] hover:opacity-100 transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+</div>
+</div>
+<!-- Quick Links -->
+<div>
+<h4 class="font-plus-jakarta font-bold text-on-surface mb-6 uppercase text-xs tracking-widest">Platform</h4>
+<ul class="space-y-4">
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Discover Creators</a></li>
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Brand Campaigns</a></li>
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Analytics Suite</a></li>
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Pricing Plans</a></li>
+</ul>
+</div>
+<!-- Resources -->
+<div>
+<h4 class="font-plus-jakarta font-bold text-on-surface mb-6 uppercase text-xs tracking-widest">Resources</h4>
+<ul class="space-y-4">
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Creator Guidelines</a></li>
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Brand Handbook</a></li>
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Press Kit</a></li>
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Success Stories</a></li>
+</ul>
+</div>
+<!-- Legal -->
+<div>
+<h4 class="font-plus-jakarta font-bold text-on-surface mb-6 uppercase text-xs tracking-widest">Legal</h4>
+<ul class="space-y-4">
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Terms of Service</a></li>
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Cookie Policy</a></li>
+<li><a class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60 hover:text-[#381fd8] hover:opacity-100 transition-colors" href="#">Contact Us</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-manrope text-sm text-[#0b1c30] dark:text-[#f8f9ff] opacity-60">© 2024 The Editorial Architect. All rights reserved.</p>
+<div class="flex gap-6">
+<span class="text-xs text-on-surface-variant font-medium">Made with precision for the creative economy.</span>
+</div>
+</div>
+</footer>
+</body></html>
