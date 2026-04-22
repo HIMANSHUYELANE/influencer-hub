@@ -532,7 +532,7 @@ const Home = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ amount: 0.2 }}
-                className="lg:col-span-6 bg-[#06172b] rounded-[2rem] p-8 lg:p-12 border border-outline-variant/10 lg:mt-12 flex flex-col"
+                className="lg:col-span-6 bg-[#06172b] rounded-4xl p-8 lg:p-12 border border-outline-variant/10 lg:mt-12 flex flex-col"
               >
                 <motion.div variants={stepVariants} className="flex items-center gap-4 mb-10">
                   <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
@@ -547,9 +547,9 @@ const Home = () => {
                     </p>
                   </div>
                 </motion.div>
-                <div className="space-y-8 flex-grow">
+                <div className="space-y-8 grow">
                   <motion.div variants={stepVariants} className="flex gap-6 group">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-xs font-bold text-primary border border-outline-variant/20">
+                    <div className="shrink-0 w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-xs font-bold text-primary border border-outline-variant/20">
                       1
                     </div>
                     <div>
@@ -563,7 +563,7 @@ const Home = () => {
                     </div>
                   </motion.div>
                   <motion.div variants={stepVariants} className="flex gap-6 group">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-xs font-bold text-primary border border-outline-variant/20">
+                    <div className="shrink-0 w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-xs font-bold text-primary border border-outline-variant/20">
                       2
                     </div>
                     <div>
@@ -577,7 +577,7 @@ const Home = () => {
                     </div>
                   </motion.div>
                   <motion.div variants={stepVariants} className="flex gap-6 group">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-xs font-bold text-primary border border-outline-variant/20">
+                    <div className="shrink-0 w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-xs font-bold text-primary border border-outline-variant/20">
                       3
                     </div>
                     <div>
@@ -598,7 +598,7 @@ const Home = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ amount: 0.2 }}
-                className="lg:col-span-6 bg-surface-container rounded-[2rem] p-8 lg:p-12 border border-outline-variant/10 lg:mt-12"
+                className="lg:col-span-6 bg-surface-container rounded-4xl p-8 lg:p-12 border border-outline-variant/10 lg:mt-12"
               >
                 <motion.div variants={stepVariants} className="flex items-center gap-4 mb-10">
                   <div className="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center text-secondary">
@@ -615,7 +615,7 @@ const Home = () => {
                 </motion.div>
                 <div className="space-y-8">
                   <motion.div variants={stepVariants} className="flex gap-6 group">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-dim flex items-center justify-center text-xs font-bold text-secondary border border-outline-variant/20">
+                    <div className="shrink-0 w-8 h-8 rounded-lg bg-surface-dim flex items-center justify-center text-xs font-bold text-secondary border border-outline-variant/20">
                       1
                     </div>
                     <div>
@@ -629,7 +629,7 @@ const Home = () => {
                     </div>
                   </motion.div>
                   <motion.div variants={stepVariants} className="flex gap-6 group">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-dim flex items-center justify-center text-xs font-bold text-secondary border border-outline-variant/20">
+                    <div className="shrink-0 w-8 h-8 rounded-lg bg-surface-dim flex items-center justify-center text-xs font-bold text-secondary border border-outline-variant/20">
                       2
                     </div>
                     <div>
@@ -643,7 +643,7 @@ const Home = () => {
                     </div>
                   </motion.div>
                   <motion.div variants={stepVariants} className="flex gap-6 group">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-surface-dim flex items-center justify-center text-xs font-bold text-secondary border border-outline-variant/20">
+                    <div className="shrink-0 w-8 h-8 rounded-lg bg-surface-dim flex items-center justify-center text-xs font-bold text-secondary border border-outline-variant/20">
                       3
                     </div>
                     <div>
@@ -665,7 +665,7 @@ const Home = () => {
         {/* Final CTA Section */}
         <section className="py-24 px-8 bg-background">
           <div className="max-w-5xl mx-auto">
-            <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary to-primary-container p-12 lg:p-20 text-center shadow-2xl">
+            <div className="relative overflow-hidden rounded-[2.5rem] bg-linear-to-br from-primary to-primary-container p-12 lg:p-20 text-center shadow-2xl">
               <div className="relative z-10">
                 <h2 className="text-4xl lg:text-6xl font-extrabold font-headline text-on-primary mb-8 leading-tight">
                   Ready to Scale Your Brand?

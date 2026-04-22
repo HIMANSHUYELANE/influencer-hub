@@ -1,47 +1,60 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ExternalLink, DollarSign, Target } from 'lucide-react';
+import { ExternalLink, DollarSign, Target, ArrowUpRight } from 'lucide-react';
 
 const CampaignCard = ({ campaign }) => {
   return (
-    <div className="card group">
-      <div className="flex justify-between items-start mb-4">
+    <div className="dashboard-card group hover:scale-[1.02] transition-all duration-300">
+      <div className="flex justify-between items-start mb-6">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center font-bold text-indigo-600 border border-indigo-100">
+          <div className="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center font-black text-secondary border border-outline-variant/10 shadow-inner group-hover:border-secondary/30 transition-colors">
             {campaign.brandId?.businessName?.[0] || 'C'}
           </div>
           <div>
-            <h3 className="font-bold text-lg group-hover:text-primary-600 transition-colors line-clamp-1">{campaign.title}</h3>
-            <p className="text-sm text-slate-500">{campaign.brandId?.businessName}</p>
+            <h3 className="font-black text-xl text-on-surface group-hover:text-secondary transition-colors line-clamp-1 tracking-tight">
+              {campaign.title}
+            </h3>
+            <p className="text-sm font-bold text-on-surface-variant/70">{campaign.brandId?.businessName}</p>
           </div>
         </div>
-        <span className="text-xs font-bold uppercase tracking-wider text-slate-400 bg-slate-50 px-2 py-1 rounded-lg">
-          {campaign.status}
+        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border shadow-sm ${
+          campaign.niche === 'Tech' ? 'niche-tech' :
+          campaign.niche === 'Fashion' ? 'niche-fashion' :
+          campaign.niche === 'Gaming' ? 'niche-gaming' :
+          campaign.niche === 'Food' ? 'niche-food' :
+          campaign.niche === 'Lifestyle' ? 'niche-lifestyle' :
+          campaign.niche === 'Fitness' ? 'niche-fitness' :
+          'bg-surface-container-high text-on-surface-variant border-outline-variant/10'
+        }`}>
+          {campaign.niche || campaign.status}
         </span>
       </div>
       
-      <p className="text-slate-600 text-sm mb-6 line-clamp-3 min-h-18">
+      <p className="text-on-surface-variant text-sm mb-6 line-clamp-3 min-h-[4.5rem] leading-relaxed">
         {campaign.description}
       </p>
 
-      <div className="flex flex-wrap gap-2 mb-6">
-        {campaign.requirements?.slice(0, 3).map((req, idx) => (
-          <span key={idx} className="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
+      <div className="flex flex-wrap gap-2 mb-8">
+        {campaign.requirements?.slice(0, 2).map((req, idx) => (
+          <span key={idx} className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/60 bg-surface-container px-3 py-1.5 rounded-lg border border-outline-variant/5">
             {req}
           </span>
         ))}
       </div>
 
-      <div className="flex items-center justify-between pt-6 border-t border-slate-50">
-        <div className="flex items-center gap-1 text-primary-600 font-bold">
-          <DollarSign size={16} />
-          <span>{campaign.budget}</span>
+      <div className="flex items-center justify-between pt-6 border-t border-outline-variant/10">
+        <div className="flex flex-col">
+          <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest mb-0.5">Budget</span>
+          <div className="flex items-center gap-1 text-secondary font-black text-lg">
+            <span className="text-sm">₹</span>
+            <span>{campaign.budget?.toLocaleString()}</span>
+          </div>
         </div>
         <Link 
           to={`/campaigns/${campaign._id}`} 
-          className="flex items-center gap-2 text-sm font-bold text-slate-900 hover:text-primary-600 transition-colors"
+          className="flex items-center gap-2 text-xs font-black text-on-surface-variant hover:text-white uppercase tracking-widest transition-colors group/link"
         >
-          View Details <ExternalLink size={14} />
+          Details <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
         </Link>
       </div>
     </div>

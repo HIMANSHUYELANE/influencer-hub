@@ -136,7 +136,7 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 font-sans;
+    @apply bg-background text-on-surface font-sans;
   }
 }
 
@@ -210,24 +210,33 @@
 
 /* Dashboard Professional Sidebar Styles */
 .dashboard-container {
-  @apply flex min-h-[calc(100vh-80px)] bg-slate-50/50;
+  @apply flex min-h-[calc(100vh-80px)] bg-background;
 }
 
 .sidebar {
-  @apply w-72 bg-white border-r border-slate-200 p-6 flex flex-col gap-2 sticky top-20 h-[calc(100vh-80px)] overflow-y-auto z-40 transition-all duration-300;
+  @apply w-72 bg-background border-r border-outline-variant/10 p-6 flex flex-col gap-2 sticky top-20 h-[calc(100vh-80px)] overflow-y-auto z-40 transition-all duration-300;
 }
 
 .sidebar-item {
-  @apply flex items-center gap-3 px-4 py-3.5 rounded-2xl text-slate-600 font-semibold transition-all duration-200 hover:bg-primary-50 hover:text-primary-600 cursor-pointer;
+  @apply flex items-center gap-3 px-4 py-3.5 rounded-2xl text-on-surface-variant font-semibold transition-all duration-200 hover:bg-surface-container-high hover:text-on-surface cursor-pointer;
 }
 
 .sidebar-item-active {
-  @apply bg-primary-600 text-white shadow-lg shadow-primary-500/30 hover:bg-primary-700 hover:text-white;
+  @apply bg-surface-container-highest text-secondary shadow-xl shadow-black/20;
 }
 
 .dashboard-content {
-  @apply flex-1 p-8 md:p-12 overflow-x-hidden;
+  @apply flex-1 p-8 md:p-12 lg:p-16 overflow-x-hidden;
 }
+
+/* Niche Specific Dynamic Colors */
+.niche-tech { @apply bg-secondary/10 text-secondary border-secondary/20; }
+.niche-lifestyle { @apply bg-pink-500/10 text-pink-400 border-pink-500/20; }
+.niche-fashion { @apply bg-primary/10 text-primary border-primary/20; }
+.niche-food { @apply bg-emerald-500/10 text-emerald-400 border-emerald-500/20; }
+.niche-gaming { @apply bg-red-500/10 text-red-500 border-red-500/20; }
+.niche-fitness { @apply bg-orange-500/10 text-orange-400 border-orange-500/20; }
+
 
 .metric-card {
   @apply bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-1;
@@ -247,4 +256,37 @@
 
 .stat-label {
   @apply text-[10px] font-black uppercase tracking-widest text-slate-400 mt-1;
+}
+
+/* Redesign Premium Utilities */
+.dashboard-card {
+  @apply bg-surface-container-low border border-outline-variant/10 rounded-[2rem] p-8 shadow-2xl shadow-black/20 transition-all duration-300;
+}
+
+.dashboard-metric-card {
+  @apply bg-surface-container border border-outline-variant/5 rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden transition-all hover:bg-surface-container-high;
+}
+
+.glow-purple {
+  @apply shadow-[0_0_20px_-5px_rgba(124,58,237,0.3)];
+}
+
+.circle-progress-bg {
+  fill: none;
+  stroke: var(--theme-surface-container-highest);
+}
+
+.circle-progress-bar {
+  fill: none;
+  stroke: var(--theme-primary);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-out;
+}
+
+.trend-up {
+  @apply flex items-center gap-1 text-[10px] font-bold text-accent-teal uppercase tracking-tight;
+}
+
+.tag-pill {
+  @apply px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant text-xs font-bold border border-outline-variant/10 hover:border-primary/30 transition-colors;
 }

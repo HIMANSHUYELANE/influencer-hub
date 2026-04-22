@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import axios from '../utils/axios';
 import { useAuth } from '../context/AuthContext';
+import { 
+  Building2, Clock, ArrowUpRight, ExternalLink, 
+  CheckCircle, AlertCircle 
+} from 'lucide-react';
 
 function DealManager({ deal, onUpdate }) {
   const { user } = useAuth();
@@ -49,79 +53,81 @@ function DealManager({ deal, onUpdate }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <h3 className="text-xl font-bold text-gray-900">
-            Campaign: {deal.applicationId?.campaignId?.title || 'Unknown Campaign'}
-          </h3>
-          <p className="text-sm text-gray-500 mt-1">
-            Budget: ₹{displayBudget.toLocaleString()}
-          </p>
+    <div className="dashboard-card group">
+      <div className="flex justify-between items-start mb-6">
+        <div className="flex items-center gap-5">
+          <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary border border-secondary/20">
+            <Building2 size={28} />
+          </div>
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-1 block">Campaign Deal</span>
+            <h3 className="text-2xl font-black text-on-surface tracking-tight group-hover:text-secondary transition-colors">
+              {deal.applicationId?.campaignId?.title || 'Unknown Campaign'}
+            </h3>
+            <div className="flex items-center gap-3 mt-2">
+              <span className="text-sm font-bold text-primary">₹{displayBudget.toLocaleString()}</span>
+              <span className="w-1 h-1 rounded-full bg-on-surface-variant/30" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Payment: {formatStatus(deal.paymentDetails?.status || 'pending')}</span>
+            </div>
+          </div>
         </div>
-        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeColor(normalizedStatus)}`}>
+        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${getStatusBadgeColor(normalizedStatus).replace('bg-', 'bg-').replace('text-', 'text-')}`}>
           {formatStatus(normalizedStatus)}
         </span>
       </div>
 
-      <div className="mb-4">
-        <p className="text-sm">
-          <span className="font-semibold">Payment Status:</span> {formatStatus(deal.paymentDetails?.status || 'pending')}
-        </p>
-      </div>
-
       {error && (
-        <div className="mb-4 bg-red-50 text-red-600 p-3 rounded-md text-sm border border-red-100">
-          {error}
+        <div className="mb-6 bg-error/10 text-error p-4 rounded-2xl text-sm font-bold border border-error/20 flex items-center gap-3">
+          <AlertCircle size={18} /> {error}
         </div>
       )}
 
       {/* BRAND ACTIONS */}
       {user.role === 'brand' && (
-        <div className="space-y-4">
+        <div className="pt-6 border-t border-outline-variant/10">
           {normalizedStatus === 'pending_payment' && (
-            <div className="bg-slate-50 p-4 rounded-md border border-slate-200">
-              <p className="text-sm text-gray-600 mb-3">To start the collaboration, securely hold the funds in Escrow. Funds are only released when you approve the content.</p>
+            <div className="bg-surface-container rounded-2xl p-6 border border-outline-variant/10">
+              <p className="text-sm text-on-surface-variant mb-6 leading-relaxed">Securely hold the funds in Escrow. Funds are only released upon your approval of the final deliverables.</p>
               <button 
                 disabled={loading}
                 onClick={() => handleAction('pay')}
-                className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-md transition-colors"
+                className="w-full py-4 rounded-2xl bg-white text-black font-black hover:bg-secondary hover:text-black transition-all flex items-center justify-center gap-2"
               >
-                {loading ? 'Processing...' : 'Pay with Escrow (Mock)'}
+                {loading ? 'Processing...' : <>Pay with Escrow <ArrowUpRight size={18} /></>}
               </button>
             </div>
           )}
 
           {(normalizedStatus === 'in_progress' || normalizedStatus === 'revision_requested') && (
-            <div className="text-sm text-blue-700 bg-blue-50 p-4 rounded-md">
-              <strong className="block mb-1">Waiting for Creator</strong>
-              Funds are securely held in escrow. Waiting for the creator to submit their deliverables.
+            <div className="bg-secondary/5 border border-secondary/10 p-6 rounded-2xl">
+              <h4 className="font-black text-secondary uppercase text-xs tracking-widest mb-2 flex items-center gap-2">
+                <Clock size={16} /> Waiting for Creator
+              </h4>
+              <p className="text-sm text-on-surface-variant leading-relaxed">Funds are securely held in escrow. The creator is currently working on your deliverables.</p>
             </div>
           )}
 
           {normalizedStatus === 'in_review' && (
-            <div className="bg-indigo-50 p-4 rounded-md border border-indigo-100">
-              <h4 className="font-semibold text-indigo-900 mb-2">Review Deliverables</h4>
-              <a 
-                href={deal.contentUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-indigo-600 hover:text-indigo-800 underline break-all text-sm block mb-4"
-              >
-                {deal.contentUrl || 'No URL Provided'}
-              </a>
-              <div className="flex gap-3">
+            <div className="bg-primary/5 border border-primary/10 p-6 rounded-2xl">
+              <h4 className="font-black text-primary uppercase text-xs tracking-widest mb-4">Review Deliverables</h4>
+              <div className="bg-surface-container-high p-4 rounded-xl border border-outline-variant/10 mb-6 break-all font-bold text-sm text-primary flex items-center gap-3">
+                <ExternalLink size={16} />
+                <a href={deal.contentUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  {deal.contentUrl || 'No URL Provided'}
+                </a>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
                 <button 
                   disabled={loading}
                   onClick={() => handleAction('review', { action: 'approve' })}
-                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition-colors text-sm"
+                  className="flex-1 py-4 bg-primary text-on-primary rounded-2xl font-black shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform text-sm"
                 >
                   Approve & Release Funds
                 </button>
                 <button 
                   disabled={loading}
                   onClick={() => handleAction('review', { action: 'reject' })}
-                  className="bg-white border border-red-200 text-red-600 hover:bg-red-50 px-4 py-2 rounded-md transition-colors text-sm"
+                  className="flex-1 py-4 bg-surface-container-highest text-on-surface rounded-2xl font-black border border-outline-variant/20 hover:bg-error hover:text-white hover:border-error transition-all text-sm"
                 >
                   Request Revision
                 </button>
@@ -130,11 +136,16 @@ function DealManager({ deal, onUpdate }) {
           )}
 
           {normalizedStatus === 'completed' && (
-            <div className="text-sm border border-green-200 text-green-700 bg-green-50 p-4 rounded-md">
-              <strong className="block mb-1">🎉 Deal Completed</strong>
-              Content approved and funds successfully transferred to the creator.
+            <div className="bg-emerald-500/5 border border-emerald-500/10 p-6 rounded-2xl text-center">
+              <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 mx-auto mb-4">
+                <CheckCircle size={24} />
+              </div>
+              <h4 className="font-black text-emerald-400 text-lg mb-1">Deal Completed</h4>
+              <p className="text-sm text-on-surface-variant mb-6">Content approved and payment released.</p>
               {deal.contentUrl && (
-                <a href={deal.contentUrl} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:underline text-xs mt-2 block">View Final Deliverables</a>
+                <a href={deal.contentUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs font-black text-on-surface hover:text-secondary transition-colors uppercase tracking-widest">
+                  View Assets <ExternalLink size={14} />
+                </a>
               )}
             </div>
           )}
@@ -143,33 +154,31 @@ function DealManager({ deal, onUpdate }) {
 
       {/* CREATOR ACTIONS */}
       {user.role === 'creator' && (
-        <div className="space-y-4">
+        <div className="pt-6 border-t border-outline-variant/10">
           {normalizedStatus === 'pending_payment' && (
-            <div className="text-sm text-gray-500 bg-gray-50 p-4 rounded-md">
-              Waiting for the brand to fund the escrow. Do not start work until payment is secured.
+            <div className="bg-surface-container rounded-2xl p-6 border border-outline-variant/10 text-center">
+              <Clock size={32} className="mx-auto text-on-surface-variant/30 mb-4" />
+              <p className="text-sm text-on-surface-variant leading-relaxed">Waiting for the brand to fund the escrow. <strong>Avoid starting work</strong> until payment is secured.</p>
             </div>
           )}
 
           {(normalizedStatus === 'in_progress' || normalizedStatus === 'revision_requested') && (
-            <div className="bg-blue-50 p-4 rounded-md border border-blue-100">
-              <h4 className="font-semibold text-blue-900 mb-1">
-                {normalizedStatus === 'revision_requested' ? 'Revision Requested by Brand' : 'Submit Deliverables'}
+            <div className="bg-secondary/5 border border-secondary/10 p-6 rounded-2xl">
+              <h4 className="font-black text-secondary uppercase text-xs tracking-widest mb-4 flex items-center gap-2">
+                {normalizedStatus === 'revision_requested' ? 'Revision Requested' : 'Submit Deliverables'}
               </h4>
-              <p className="text-sm text-blue-700 mb-3">
-                Provide a Google Drive, Dropbox, or unlisted YouTube link.
-              </p>
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <input 
                   type="url" 
                   value={contentUrl}
                   onChange={(e) => setContentUrl(e.target.value)}
                   placeholder="https://drive.google.com/..." 
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="flex-1 px-5 py-4 bg-surface-container-high border border-outline-variant/10 rounded-xl text-on-surface outline-none focus:ring-2 focus:ring-secondary/50 font-bold text-sm"
                 />
                 <button 
                   disabled={loading || !contentUrl}
                   onClick={() => handleAction('submit-content', { contentUrl })}
-                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white px-4 py-2 rounded-md transition-colors text-sm"
+                  className="px-8 py-4 bg-secondary text-black rounded-xl font-black shadow-lg shadow-secondary/10 hover:scale-105 active:scale-95 transition-all text-sm"
                 >
                   Submit
                 </button>
@@ -178,19 +187,29 @@ function DealManager({ deal, onUpdate }) {
           )}
 
           {normalizedStatus === 'in_review' && (
-            <div className="text-sm text-amber-700 bg-amber-50 p-4 rounded-md flex items-center justify-between">
-              <div>
-                <strong className="block mb-1">Waiting for Brand Approval</strong>
-                {deal.contentUrl && (
-                  <a href={deal.contentUrl} target="_blank" rel="noreferrer" className="underline hover:text-amber-900">{deal.contentUrl}</a>
-                )}
+            <div className="bg-amber-500/5 border border-amber-500/10 p-6 rounded-2xl flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500">
+                  <Clock size={20} />
+                </div>
+                <div>
+                  <h4 className="font-black text-on-surface text-sm uppercase tracking-widest">In Review</h4>
+                  <p className="text-xs text-on-surface-variant">Waiting for Brand Approval</p>
+                </div>
               </div>
+              {deal.contentUrl && (
+                <a href={deal.contentUrl} target="_blank" rel="noreferrer" className="text-xs font-bold text-secondary hover:underline">View Submission</a>
+              )}
             </div>
           )}
           
           {normalizedStatus === 'completed' && (
-            <div className="text-sm font-semibold text-green-700 bg-green-50 p-4 rounded-md text-center">
-              🎉 Collaboration Complete. Funds have been released to your account.
+            <div className="bg-emerald-500/10 border border-emerald-500/20 p-8 rounded-3xl text-center shadow-xl shadow-emerald-500/5">
+              <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 mx-auto mb-4 border border-emerald-500/30">
+                <CheckCircle size={32} />
+              </div>
+              <h4 className="text-2xl font-black text-on-surface mb-2 tracking-tight">Success!</h4>
+              <p className="text-on-surface-variant font-medium">Collaboration complete. Your funds have been released.</p>
             </div>
           )}
         </div>
