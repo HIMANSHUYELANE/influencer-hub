@@ -10,16 +10,54 @@ const brandProfileSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  website: {
+  ownerName: {
     type: String,
-    required: true
+    default: ''
+  },
+  location: {
+    type: String,
+    default: ''
+  },
+  businessType: {
+    type: String,
+    enum: ['Service', 'Local', 'Online'],
+    default: 'Online'
+  },
+  industry: {
+    type: String,
+    default: ''
+  },
+  operatingFrom: {
+    type: String,
+    default: ''
   },
   description: {
     type: String,
     required: true
   },
   logo: {
-    type: String // URL or path
+    type: String,
+    default: ''
+  },
+  preferences: {
+    targetGender: {
+      type: String,
+      enum: ['Male', 'Female', 'Both'],
+      default: 'Both'
+    },
+    targetAgeGroup: {
+      type: String,
+      default: 'Any'
+    },
+    targetLocality: {
+      type: String,
+      default: 'Anywhere'
+    },
+    brandPriority: {
+      type: String,
+      enum: ['Followers', 'Reach', 'Video Content Only'],
+      default: 'Reach'
+    }
   }
 }, { timestamps: true });
 

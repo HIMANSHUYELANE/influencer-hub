@@ -54,26 +54,64 @@ function DealManager({ deal, onUpdate }) {
 
   return (
     <div className="dashboard-card group">
-      <div className="flex justify-between items-start mb-6">
+      <div className="flex justify-between items-start mb-10">
         <div className="flex items-center gap-5">
-          <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary border border-secondary/20">
-            <Building2 size={28} />
+          <div className="w-16 h-16 rounded-2xl bg-surface-container-highest flex items-center justify-center text-secondary border border-outline-variant/10 shadow-xl group-hover:scale-105 transition-transform duration-500">
+            <Building2 size={32} />
           </div>
           <div>
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-1 block">Campaign Deal</span>
-            <h3 className="text-2xl font-black text-on-surface tracking-tight group-hover:text-secondary transition-colors">
+            <span className="console-label mb-1!">Active Deal / 0x{deal._id.slice(-4).toUpperCase()}</span>
+            <h3 className="text-3xl font-black text-on-surface tracking-tighter group-hover:text-violet-400 transition-colors">
               {deal.applicationId?.campaignId?.title || 'Unknown Campaign'}
             </h3>
-            <div className="flex items-center gap-3 mt-2">
-              <span className="text-sm font-bold text-primary">₹{displayBudget.toLocaleString()}</span>
-              <span className="w-1 h-1 rounded-full bg-on-surface-variant/30" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Payment: {formatStatus(deal.paymentDetails?.status || 'pending')}</span>
+            <div className="flex items-center gap-3 mt-3">
+              <span className="text-lg font-black text-secondary">₹{displayBudget.toLocaleString()}</span>
+              <span className="w-1 h-1 rounded-full bg-outline-variant" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/60">Payment: {formatStatus(deal.paymentDetails?.status || 'pending')}</span>
             </div>
           </div>
         </div>
-        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${getStatusBadgeColor(normalizedStatus).replace('bg-', 'bg-').replace('text-', 'text-')}`}>
-          {formatStatus(normalizedStatus)}
-        </span>
+        <div className="flex flex-col items-end gap-2">
+          <span className={`px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] border shadow-2xl ${getStatusBadgeColor(normalizedStatus)}`}>
+            {formatStatus(normalizedStatus)}
+          </span>
+          {normalizedStatus === 'completed' && <span className="text-[8px] font-bold text-accent-teal uppercase tracking-widest animate-pulse">Archived</span>}
+        </div>
+      </div>
+
+      {/* Milestone Track */}
+      <div className="px-4 mb-14">
+        <div className="milestone-track">
+          {[
+            { id: 'pending_payment', label: 'Funded' },
+            { id: 'in_progress', label: 'Working' },
+            { id: 'in_review', label: 'Review' },
+            { id: 'completed', label: 'Finalized' }
+          ].map((milestone, i, arr) => {
+            const steps = ['pending_payment', 'in_progress', 'in_review', 'completed'];
+            const currentIndex = steps.indexOf(normalizedStatus);
+            const milestoneIndex = steps.indexOf(milestone.id);
+            const isActive = milestoneIndex <= currentIndex;
+            const isCurrent = milestoneIndex === currentIndex;
+
+            return (
+              <div key={milestone.id} className="relative">
+                 <div className={`milestone-node ${isActive ? 'milestone-node-active' : ''} ${isCurrent ? 'ring-8 ring-secondary/20' : ''}`} />
+                 <span className={`milestone-label ${isActive ? 'text-on-surface font-black' : 'text-on-surface-variant/40'}`}>
+                   {milestone.label}
+                 </span>
+              </div>
+            );
+          })}
+          
+          {/* Progress fill */}
+          <div 
+            className="absolute left-0 top-0 h-full bg-secondary transition-all duration-1000 ease-in-out rounded-full"
+            style={{ 
+              width: `${(Math.max(0, ['pending_payment', 'in_progress', 'in_review', 'completed'].indexOf(normalizedStatus)) / 3) * 100}%` 
+            }}
+          />
+        </div>
       </div>
 
       {error && (

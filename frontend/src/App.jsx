@@ -12,6 +12,7 @@ import CampaignListing from './pages/CampaignListing';
 import CampaignDetail from './pages/CampaignDetail';
 import CreatorListing from './pages/CreatorListing';
 import CreatorProfile from './pages/CreatorProfile';
+import BrandProfile from './pages/BrandProfile';
 import Notifications from './pages/Notifications';
 
 const ProtectedRoute = ({ children, role }) => {
@@ -66,6 +67,7 @@ function App() {
                 <Route path="/campaigns/:id" element={<CampaignDetail />} />
                 <Route path="/creators" element={<CreatorListing />} />
                 <Route path="/creators/:id" element={<CreatorProfile />} />
+                <Route path="/brands/:id" element={<BrandProfile />} />
 
                 <Route 
                   path="/notifications" 

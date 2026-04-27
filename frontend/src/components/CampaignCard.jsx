@@ -1,22 +1,47 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ExternalLink, DollarSign, Target, ArrowUpRight } from 'lucide-react';
+import { ExternalLink, DollarSign, Target, ArrowUpRight, MapPin } from 'lucide-react';
 
 const CampaignCard = ({ campaign }) => {
   return (
-    <div className="dashboard-card group hover:scale-[1.02] transition-all duration-300">
+    <div className="dashboard-card group hover:scale-[1.02] transition-all duration-300 border border-outline-variant/10">
       <div className="flex justify-between items-start mb-6">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center font-black text-secondary border border-outline-variant/10 shadow-inner group-hover:border-secondary/30 transition-colors">
-            {campaign.brandId?.businessName?.[0] || 'C'}
+        {campaign.brandId ? (
+          <Link to={`/brands/${campaign.brandId?._id || campaign.brandId}`} className="flex items-center gap-4 group/brand">
+            <div className="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center font-black text-secondary border border-outline-variant/10 shadow-inner group-hover/brand:border-secondary transition-colors overflow-hidden">
+              {campaign.brandId?.logo ? (
+                <img src={campaign.brandId.logo} alt="Logo" className="w-full h-full object-cover" />
+              ) : (
+                campaign.brandId?.businessName?.[0] || 'B'
+              )}
+            </div>
+            <div>
+              <h3 className="font-black font-display text-xl text-on-surface group-hover:text-secondary transition-colors line-clamp-1 tracking-tight">
+                {campaign.title}
+              </h3>
+              <div className="flex items-center gap-2">
+                <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest group-hover/brand:text-secondary transition-colors">{campaign.brandId?.businessName}</p>
+                {campaign.brandId?.location && (
+                  <span className="flex items-center gap-1 text-[8px] font-black text-on-surface-variant/40 uppercase tracking-widest">
+                    <MapPin size={10} /> {campaign.brandId.location}
+                  </span>
+                )}
+              </div>
+            </div>
+          </Link>
+        ) : (
+          <div className="flex items-center gap-4 opacity-50">
+            <div className="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center font-black text-secondary border border-outline-variant/10">
+              ?
+            </div>
+            <div>
+              <h3 className="font-black font-display text-xl text-on-surface tracking-tight">
+                {campaign.title}
+              </h3>
+              <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Unknown Brand</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-black text-xl text-on-surface group-hover:text-secondary transition-colors line-clamp-1 tracking-tight">
-              {campaign.title}
-            </h3>
-            <p className="text-sm font-bold text-on-surface-variant/70">{campaign.brandId?.businessName}</p>
-          </div>
-        </div>
+        )}
         <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border shadow-sm ${
           campaign.niche === 'Tech' ? 'niche-tech' :
           campaign.niche === 'Fashion' ? 'niche-fashion' :
@@ -35,7 +60,10 @@ const CampaignCard = ({ campaign }) => {
       </p>
 
       <div className="flex flex-wrap gap-2 mb-8">
-        {campaign.requirements?.slice(0, 2).map((req, idx) => (
+        <span className="text-[10px] font-black uppercase tracking-widest text-secondary bg-secondary/5 px-3 py-1.5 rounded-lg border border-secondary/10">
+          {campaign.brandId?.industry || 'Multi-Channel'}
+        </span>
+        {campaign.requirements?.slice(0, 1).map((req, idx) => (
           <span key={idx} className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/60 bg-surface-container px-3 py-1.5 rounded-lg border border-outline-variant/5">
             {req}
           </span>
@@ -54,7 +82,7 @@ const CampaignCard = ({ campaign }) => {
           to={`/campaigns/${campaign._id}`} 
           className="flex items-center gap-2 text-xs font-black text-on-surface-variant hover:text-white uppercase tracking-widest transition-colors group/link"
         >
-          Details <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+          Analyze Brief <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
         </Link>
       </div>
     </div>

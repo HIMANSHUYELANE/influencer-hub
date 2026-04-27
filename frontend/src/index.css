@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Manrope:wght@200..800&display=swap');
 
 @theme {
   --color-primary-50: #f0f9ff;
@@ -13,6 +14,7 @@
   --color-primary-900: #0c4a6e;
 
   --font-sans: "Inter", "system-ui", "sans-serif";
+  --font-display: "Plus Jakarta Sans", sans-serif;
 
   --color-on-tertiary-fixed: #40000d;
   --color-tertiary-container: #c81a42;
@@ -61,11 +63,12 @@
   --color-on-secondary: var(--theme-on-secondary);
   --color-secondary-container: var(--theme-secondary-container);
   --color-on-secondary-container: var(--theme-on-secondary-container);
+  --color-tertiary: var(--theme-tertiary);
   --color-inverse-surface: var(--theme-inverse-surface);
   --color-inverse-on-surface: var(--theme-inverse-on-surface);
 
   /* Font Families */
-  --font-headline: "Plus Jakarta Sans", sans-serif;
+  --font-headline: "Outfit", sans-serif;
   --font-manrope: "Manrope", sans-serif;
 
   --color-accent-yellow: #FFD21E;
@@ -82,7 +85,8 @@
 
 @layer base {
   :root {
-    --theme-background: #f8fafc;
+    /* New Light Mode Palette */
+    --theme-background: #ffffff;
     --theme-surface: #ffffff;
     --theme-surface-dim: #f1f5f9;
     --theme-surface-bright: #ffffff;
@@ -92,23 +96,53 @@
     --theme-surface-container-high: #e2e8f0;
     --theme-surface-container-highest: #cbd5e1;
     --theme-on-surface: #0f172a;
-    --theme-on-surface-variant: #475569;
+    --theme-on-surface-variant: #64748B; /* Neutral from image */
     --theme-on-background: #0f172a;
     --theme-outline: #cbd5e1;
-    --theme-outline-variant: #94a3b8;
-    --theme-primary: #7c3aed; 
+    --theme-outline-variant: #e2e8f0;
+    --theme-primary: #5243EF; /* Primary from image */
     --theme-on-primary: #ffffff;
-    --theme-primary-container: #ede0ff;
-    --theme-on-primary-container: #2e1065;
-    --theme-secondary: #0ea5e9; 
+    --theme-primary-container: #e0e7ff;
+    --theme-on-primary-container: #312e81;
+    --theme-secondary: #06B6D4; /* Synced with Dark Mode */
     --theme-on-secondary: #ffffff;
-    --theme-secondary-container: #e0f2fe;
-    --theme-on-secondary-container: #082f49;
+    --theme-secondary-container: #cffafe;
+    --theme-on-secondary-container: #164e63;
+    --theme-tertiary: #00D1FF; /* Tertiary from image */
     --theme-inverse-surface: #0f172a;
     --theme-inverse-on-surface: #f8fafc;
   }
 
   .dark {
+    /* New Dark Mode Palette */
+    --theme-background: #080808;
+    --theme-surface: #0f172a; /* Slate-900 */
+    --theme-surface-dim: #080808;
+    --theme-surface-bright: #1a1a1a;
+    --theme-surface-container-lowest: #000000;
+    --theme-surface-container-low: #0c0c0c;
+    --theme-surface-container: #121212;
+    --theme-surface-container-high: #1e1e1e;
+    --theme-surface-container-highest: #2a2a2a;
+    --theme-on-surface: #f8fafc;
+    --theme-on-surface-variant: #94A3B8; /* Neutral from image */
+    --theme-on-background: #f8fafc;
+    --theme-outline: #334155;
+    --theme-outline-variant: #475569;
+    --theme-primary: #7C3AED; /* Primary from image */
+    --theme-on-primary: #ffffff;
+    --theme-primary-container: #4c1d95;
+    --theme-on-primary-container: #ede0ff;
+    --theme-secondary: #06B6D4; /* Secondary from image */
+    --theme-on-secondary: #003640;
+    --theme-secondary-container: #0891b2;
+    --theme-on-secondary-container: #00424e;
+    --theme-tertiary: #F43F5E; /* Tertiary from image */
+    --theme-inverse-surface: #f8fafc;
+    --theme-inverse-on-surface: #0f172a;
+  }
+
+  .home-legacy {
     --theme-background: #051424;
     --theme-surface: #051424;
     --theme-surface-dim: #051424;
@@ -133,19 +167,21 @@
     --theme-on-secondary-container: #00424e;
     --theme-inverse-surface: #d4e4fa;
     --theme-inverse-on-surface: #233143;
+    font-family: "Inter", "system-ui", "sans-serif";
   }
 
   body {
     @apply bg-background text-on-surface font-sans;
+    letter-spacing: -0.01em;
   }
 }
 
 .glass {
-  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+  @apply bg-surface/40 backdrop-blur-xl border border-outline-variant/10 shadow-2xl;
 }
 
 .card {
-  @apply bg-white rounded-3xl p-6 shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  @apply bg-surface rounded-[2.5rem] p-8 shadow-2xl border border-outline-variant/5 transition-all duration-500 hover:shadow-primary/5 hover:-translate-y-1;
 }
 
 .btn-primary {
@@ -239,7 +275,7 @@
 
 
 .metric-card {
-  @apply bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-1;
+  @apply bg-surface p-6 rounded-3xl border border-outline-variant/10 shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-1;
 }
 
 .metric-icon {
@@ -251,20 +287,20 @@
 }
 
 .stat-value {
-  @apply text-2xl font-black text-slate-900 leading-none;
+  @apply text-2xl font-black text-on-surface leading-none;
 }
 
 .stat-label {
-  @apply text-[10px] font-black uppercase tracking-widest text-slate-400 mt-1;
+  @apply text-[10px] font-black uppercase tracking-widest text-on-surface-variant/60 mt-1;
 }
 
 /* Redesign Premium Utilities */
 .dashboard-card {
-  @apply bg-surface-container-low border border-outline-variant/10 rounded-[2rem] p-8 shadow-2xl shadow-black/20 transition-all duration-300;
+  @apply bg-surface border border-outline-variant/10 rounded-[2rem] p-8 shadow-2xl shadow-black/20 transition-all duration-300;
 }
 
 .dashboard-metric-card {
-  @apply bg-surface-container border border-outline-variant/5 rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden transition-all hover:bg-surface-container-high;
+  @apply bg-surface-container-high border border-outline-variant/5 rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden transition-all hover:scale-105;
 }
 
 .glow-purple {
@@ -288,5 +324,177 @@
 }
 
 .tag-pill {
+  @apply px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant text-xs font-bold border border-outline-variant/10 hover:border-primary/30 transition-colors;
+}
+
+/* Task 4: Dashboard Revamp Premium Utilities */
+.premium-input {
+  @apply px-6 py-5 bg-surface-container-high border border-outline-variant/10 rounded-2xl outline-none focus:ring-2 focus:ring-secondary/50 font-black text-on-surface text-lg transition-all placeholder:text-on-surface-variant/30 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)] focus:shadow-[0_8px_30px_-10px_rgba(76,215,246,0.2)];
+}
+
+.console-section {
+  @apply p-10 bg-surface-container/30 border border-outline-variant/5 rounded-[2.5rem] flex flex-col gap-8 relative overflow-hidden;
+}
+
+.console-label {
+  @apply text-[12px] font-black  uppercase tracking-[0.1em] mb-2 block;
+}
+
+.milestone-track {
+  @apply relative flex items-center justify-between w-full h-1 bg-surface-container-highest rounded-full my-8;
+}
+
+.milestone-node {
+  @apply w-4 h-4 rounded-full border-4 border-surface bg-on-surface-variant transition-all duration-500 relative;
+}
+
+.milestone-node-active {
+  @apply bg-secondary scale-125 shadow-[0_0_15px_rgba(76,215,246,0.5)];
+}
+
+.milestone-label {
+  @apply absolute -bottom-8 left-1/2 -translate-x-1/2 text-[8px] font-black uppercase tracking-widest text-on-surface-variant whitespace-nowrap;
+}
+
+.dashboard-metric-card-elite {
+  @apply bg-surface-container-low border border-outline-variant/5 rounded-3xl p-8 flex flex-col gap-6 relative overflow-hidden transition-all duration-300 hover:bg-surface-container hover:shadow-2xl hover:shadow-black/40 hover:-translate-y-1;
+}
+
+.metric-glow-primary {
+  @apply shadow-[0_0_40px_-10px_rgba(210,187,255,0.1)];
+}
+
+.metric-glow-secondary {
+  @apply shadow-[0_0_40px_-10px_rgba(76,215,246,0.1)];
+}
+
+.console-header-mesh {
+  @apply absolute inset-0 opacity-10 bg-linear-to-tr from-primary to-secondary blur-[100px] -z-10 group-hover:opacity-20 transition-opacity duration-1000;
+}
+
+/* ---------------------------------------------------------
+   HOME PAGE SCOPED THEME 
+   These styles are isolated to prevent dashboard conflicts
+--------------------------------------------------------- */
+.home-theme {
+  --theme-background: #f8fafc;
+  --theme-surface: #ffffff;
+  --theme-surface-dim: #f1f5f9;
+  --theme-surface-bright: #ffffff;
+  --theme-surface-container-lowest: #ffffff;
+  --theme-surface-container-low: #f8fafc;
+  --theme-surface-container: #f1f5f9;
+  --theme-surface-container-high: #e2e8f0;
+  --theme-surface-container-highest: #cbd5e1;
+  --theme-on-surface: #0f172a;
+  --theme-on-surface-variant: #475569;
+  --theme-on-background: #0f172a;
+  --theme-outline: #cbd5e1;
+  --theme-outline-variant: #94a3b8;
+  --theme-primary: #7c3aed; 
+  --theme-on-primary: #ffffff;
+  --theme-primary-container: #ede0ff;
+  --theme-on-primary-container: #2e1065;
+  --theme-secondary: #0ea5e9; 
+  --theme-on-secondary: #ffffff;
+  --theme-secondary-container: #e0f2fe;
+  --theme-on-secondary-container: #082f49;
+  --theme-inverse-surface: #0f172a;
+  --theme-inverse-on-surface: #f8fafc;
+  --font-headline: "Plus Jakarta Sans", sans-serif;
+}
+
+.dark .home-theme {
+  --theme-background: #051424;
+  --theme-surface: #051424;
+  --theme-surface-dim: #051424;
+  --theme-surface-bright: #2c3a4c;
+  --theme-surface-container-lowest: #010f1f;
+  --theme-surface-container-low: #0d1c2d;
+  --theme-surface-container: #122131;
+  --theme-surface-container-high: #1c2b3c;
+  --theme-surface-container-highest: #273647;
+  --theme-on-surface: #d4e4fa;
+  --theme-on-surface-variant: #ccc3d8;
+  --theme-on-background: #d4e4fa;
+  --theme-outline: #958da1;
+  --theme-outline-variant: #4a4455;
+  --theme-primary: #d2bbff;
+  --theme-on-primary: #3f008e;
+  --theme-primary-container: #7c3aed;
+  --theme-on-primary-container: #ede0ff;
+  --theme-secondary: #4cd7f6;
+  --theme-on-secondary: #003640;
+  --theme-secondary-container: #03b5d3;
+  --theme-on-secondary-container: #00424e;
+  --theme-inverse-surface: #d4e4fa;
+  --theme-inverse-on-surface: #233143;
+}
+
+.home-theme .glass {
+  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+}
+
+.home-theme .card {
+  @apply bg-white rounded-3xl p-6 shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+}
+
+.home-theme .btn-primary {
+  @apply bg-primary-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-500/20 active:scale-95;
+}
+
+.home-theme .btn-secondary {
+  @apply bg-white text-slate-900 border border-slate-200 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:bg-slate-50 active:scale-95;
+}
+
+.home-theme .metric-card {
+  @apply bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-1;
+}
+
+.home-theme .metric-icon {
+  @apply w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-lg;
+}
+
+.home-theme .status-badge {
+  @apply px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border;
+}
+
+.home-theme .stat-value {
+  @apply text-2xl font-black text-slate-900 leading-none;
+}
+
+.home-theme .stat-label {
+  @apply text-[10px] font-black uppercase tracking-widest text-slate-400 mt-1;
+}
+
+.home-theme .dashboard-card {
+  @apply bg-surface-container-low border border-outline-variant/10 rounded-[2rem] p-8 shadow-2xl shadow-black/20 transition-all duration-300;
+}
+
+.home-theme .dashboard-metric-card {
+  @apply bg-surface-container border border-outline-variant/5 rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden transition-all hover:bg-surface-container-high;
+}
+
+.home-theme .glow-purple {
+  @apply shadow-[0_0_20px_-5px_rgba(124,58,237,0.3)];
+}
+
+.home-theme .circle-progress-bg {
+  fill: none;
+  stroke: var(--theme-surface-container-highest);
+}
+
+.home-theme .circle-progress-bar {
+  fill: none;
+  stroke: var(--theme-primary);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-out;
+}
+
+.home-theme .trend-up {
+  @apply flex items-center gap-1 text-[10px] font-bold text-accent-teal uppercase tracking-tight;
+}
+
+.home-theme .tag-pill {
   @apply px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant text-xs font-bold border border-outline-variant/10 hover:border-primary/30 transition-colors;
 }

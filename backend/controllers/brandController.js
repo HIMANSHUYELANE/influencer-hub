@@ -2,27 +2,35 @@ const BrandProfile = require('../models/BrandProfile');
 const { imagekit } = require('../middleware/uploadMiddleware');
 
 const updateProfile = async (req, res) => {
-  const { businessName, website, description, logo } = req.body;
+  const { 
+    businessName, ownerName, location, businessType, industry, 
+    operatingFrom, description, logo, preferences 
+  } = req.body;
   try {
-    let profile = await BrandProfile.findOne({ userId: req.user.id });
-    if (profile) {
-      profile.businessName = businessName || profile.businessName;
-      profile.website = website || profile.website;
-      profile.description = description || profile.description;
-      profile.logo = logo || profile.logo;
-      await profile.save();
-    } else {
-      profile = new BrandProfile({
-        userId: req.user.id,
-        businessName,
-        website,
-        description,
-        logo
-      });
-      await profile.save();
+    const updateData = {
+      businessName,
+      ownerName,
+      location,
+      businessType,
+      industry,
+      operatingFrom,
+      description,
+      logo
+    };
+
+    if (preferences) {
+      updateData.preferences = preferences;
     }
+
+    const profile = await BrandProfile.findOneAndUpdate(
+      { userId: req.user.id },
+      { $set: updateData },
+      { new: true, upsert: true, runValidators: true }
+    );
+
     res.json(profile);
   } catch (error) {
+    console.error('Brand Profile Update Error:', error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -44,7 +52,8 @@ const getBrandProfileMe = async (req, res) => {
       // Lazy create on first login to avoid breaking dashboard and campaign links
       brand = new BrandProfile({
         userId: req.user.id,
-        businessName: `Brand-${req.user.id.substring(req.user.id.length - 4)}`
+        businessName: `Brand-${req.user.id.substring(req.user.id.length - 4)}`,
+        description: 'New Brand Account'
       });
       await brand.save();
       brand = await BrandProfile.findOne({ userId: req.user.id }).populate('userId', 'email');

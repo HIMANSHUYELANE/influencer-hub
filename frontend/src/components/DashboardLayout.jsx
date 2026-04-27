@@ -15,7 +15,7 @@ const DashboardLayout = ({ sidebarItems, activeTab, setActiveTab, children }) =>
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`flex items-center gap-4 px-5 py-4 rounded-2xl font-black text-sm uppercase tracking-[0.1em] transition-all duration-300 group relative ${
+              className={`flex items-center gap-4 px-5 py-4 rounded-2xl font-black text-sm uppercase tracking-widest transition-all duration-300 group relative ${
                 activeTab === item.id 
                   ? 'bg-surface-container-highest text-secondary shadow-2xl shadow-black/20' 
                   : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'

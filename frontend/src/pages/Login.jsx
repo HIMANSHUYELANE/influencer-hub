@@ -28,61 +28,61 @@ const Login = () => {
   return (
     <div className="min-h-[calc(100vh-80px)] flex items-center justify-center p-8">
       <div className="w-full max-w-md">
-        <div className="card shadow-2xl">
+        <div className="dashboard-card shadow-2xl border border-outline-variant/10 p-10">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-primary-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
-              <LogIn className="text-primary-600" size={32} />
+            <div className="w-16 h-16 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-4 border border-primary/20">
+              <LogIn className="text-primary" size={32} />
             </div>
-            <h2 className="text-3xl font-bold">Welcome Back</h2>
-            <p className="text-slate-500">Log in to manage your campaigns</p>
+            <h2 className="text-3xl font-black text-on-surface tracking-tight">Welcome Back</h2>
+            <p className="text-on-surface-variant font-medium mt-2">Log in to manage your campaigns</p>
           </div>
 
           {error && (
-            <div className="bg-red-50 text-red-600 p-4 rounded-2xl flex items-center gap-3 mb-6 animate-pulse">
+            <div className="bg-error/10 text-error border border-error/20 p-4 rounded-2xl flex items-center gap-3 mb-6 animate-pulse">
               <AlertCircle size={20} />
-              <p className="text-sm font-medium">{error}</p>
+              <p className="text-sm font-bold">{error}</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-slate-700 ml-1">Email Address</label>
+              <label className="text-xs font-black uppercase tracking-widest text-on-surface-variant ml-1">Email Address</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant" size={20} />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="premium-input w-full pl-14!"
                   placeholder="name@company.com"
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-slate-700 ml-1">Password</label>
+              <label className="text-xs font-black uppercase tracking-widest text-on-surface-variant ml-1">Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant" size={20} />
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all"
+                  className="premium-input w-full pl-14!"
                   placeholder="••••••••"
                 />
               </div>
             </div>
 
-            <button type="submit" className="btn-primary w-full py-4 mt-2">
+            <button type="submit" className="py-4 rounded-2xl bg-linear-to-r from-primary to-secondary text-black font-black text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all mt-4">
               Sign In
             </button>
           </form>
 
-          <p className="text-center mt-8 text-slate-500 font-medium">
+          <p className="text-center mt-8 text-on-surface-variant font-medium">
             Don't have an account?{' '}
-            <Link to="/register" className="text-primary-600 hover:underline">Create one</Link>
+            <Link to="/register" className="text-secondary hover:underline font-bold">Create one</Link>
           </p>
         </div>
       </div>

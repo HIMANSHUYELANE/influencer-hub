@@ -2,31 +2,36 @@ const CreatorProfile = require('../models/CreatorProfile');
 const { imagekit } = require('../middleware/uploadMiddleware');
 
 const updateProfile = async (req, res) => {
-  const { name, bio, niche, socialLinks, followerCount, responseTime } = req.body;
+  const { 
+    name, age, bio, location, niche, expertise, 
+    portfolioLink, pricing, followerCount, responseTime 
+  } = req.body;
   try {
-    let profile = await CreatorProfile.findOne({ userId: req.user.id });
-    if (profile) {
-      profile.name = name || profile.name;
-      profile.bio = bio || profile.bio;
-      profile.niche = niche || profile.niche;
-      profile.socialLinks = socialLinks || profile.socialLinks;
-      profile.followerCount = followerCount !== undefined ? followerCount : profile.followerCount;
-      profile.responseTime = responseTime || profile.responseTime;
-      await profile.save();
-    } else {
-      profile = new CreatorProfile({
-        userId: req.user.id,
-        name,
-        bio,
-        niche,
-        socialLinks,
-        followerCount,
-        responseTime
-      });
-      await profile.save();
+    const updateData = {
+      name,
+      age,
+      bio,
+      location,
+      niche,
+      expertise,
+      portfolioLink,
+      followerCount,
+      responseTime
+    };
+
+    if (pricing) {
+      updateData.pricing = pricing;
     }
+
+    const profile = await CreatorProfile.findOneAndUpdate(
+      { userId: req.user.id },
+      { $set: updateData },
+      { new: true, upsert: true, runValidators: true }
+    );
+
     res.json(profile);
   } catch (error) {
+    console.error('Creator Profile Update Error:', error);
     res.status(500).json({ message: error.message });
   }
 };

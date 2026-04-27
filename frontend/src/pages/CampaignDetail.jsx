@@ -13,6 +13,13 @@ import {
   Building,
   XCircle,
   User,
+  ExternalLink,
+  Target,
+  Zap,
+  ArrowRight,
+  TrendingUp,
+  ShieldCheck,
+  Briefcase
 } from "lucide-react";
 
 const CampaignDetail = () => {
@@ -75,233 +82,222 @@ const CampaignDetail = () => {
 
   if (loading)
     return (
-      <div className="p-12 text-center text-slate-500 font-medium tracking-tight">
-        Loading Details...
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
       </div>
     );
+
   if (!campaign)
     return (
-      <div className="p-12 text-center text-slate-500 font-medium">
-        Campaign not found.
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center text-on-surface-variant">
+        <Zap size={64} className="mb-6 opacity-20" />
+        <p className="text-xl font-black font-display tracking-tight">Mission Not Found</p>
+        <Link to="/campaigns" className="mt-8 text-primary font-black uppercase text-xs tracking-widest hover:underline">Return to Discovery Console</Link>
       </div>
     );
 
   return (
-    <div className="max-w-5xl mx-auto px-8 py-12">
-      <Link
-        to="/campaigns"
-        className="flex items-center gap-2 text-slate-500 hover:text-primary-600 font-bold mb-8 transition-colors"
-      >
-        <ChevronLeft size={20} /> Back to Search
-      </Link>
+    <div className="min-h-screen bg-background text-on-surface py-16 px-6 md:px-8">
+      <div className="max-w-7xl mx-auto">
+        <Link
+          to="/campaigns"
+          className="flex items-center gap-2 text-on-surface-variant/40 hover:text-secondary font-black text-[10px] uppercase tracking-[0.3em] mb-12 transition-all group"
+        >
+          <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Global Discovery
+        </Link>
 
-      <div className="flex flex-col gap-12">
-        {/* Header Block */}
-        <section className="card p-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-white border-none shadow-2xl">
-          <div className="flex items-center gap-6">
-            <div className="w-20 h-20 bg-primary-100 rounded-[30px] flex items-center justify-center font-extrabold text-primary-600 text-3xl">
-              {campaign.brandId?.businessName?.[0] || "C"}
-            </div>
-            <div>
-              <h1 className="text-4xl font-extrabold mb-2 tracking-tight">
-                {campaign.title}
-              </h1>
-              <div className="flex items-center gap-4 text-slate-500 font-medium">
-                <span className="flex items-center gap-1">
-                  <Building size={16} />
-                  {campaign.brandId?.businessName}
-                </span>
-                <span className="flex items-center gap-1">
-                  <DollarSign size={16} className="text-green-500" />
-                  {campaign.budget}
-                </span>
+        {/* Campaign Hero Architecture */}
+        <section className="relative p-12 rounded-[3.5rem] bg-surface-container-low/30 border border-outline-variant/10 overflow-hidden mb-12 animate-reveal-up">
+           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+           
+           <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-12">
+              <div className="relative group">
+                 <Link to={`/brands/${campaign.brandId?._id}`} className="block">
+                    <div className="w-40 h-40 bg-surface-container-high rounded-[3rem] flex items-center justify-center overflow-hidden border-4 border-outline-variant/10 shadow-2xl transition-transform group-hover:scale-105 p-6">
+                      {campaign.brandId?.logo ? (
+                        <img src={campaign.brandId.logo} alt="Logo" className="w-full h-full object-contain" />
+                      ) : (
+                        <Building size={48} className="text-on-surface-variant/20" />
+                      )}
+                    </div>
+                 </Link>
+                 <div className="absolute -bottom-2 -right-2 bg-on-surface p-2 rounded-full shadow-2xl border-4 border-background">
+                   <ShieldCheck size={24} className="text-secondary" />
+                 </div>
               </div>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <span className="px-4 py-2 bg-green-50 text-green-600 rounded-2xl font-bold text-sm tracking-widest uppercase">
-              {campaign.status}
-            </span>
-          </div>
+
+              <div className="grow text-center md:text-left pt-2">
+                 <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
+                    <h1 className="text-5xl md:text-7xl font-black font-display tracking-tighter leading-none">
+                      {campaign.title}
+                    </h1>
+                    <span className="px-4 py-1.5 rounded-full bg-secondary/10 text-secondary border border-secondary/20 text-[10px] font-black uppercase tracking-[0.2em] self-center">
+                      {campaign.status}
+                    </span>
+                 </div>
+                 
+                 <div className="flex flex-wrap justify-center md:justify-start gap-6 mb-10">
+                   <Link to={`/brands/${campaign.brandId?._id}`} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-on-surface hover:text-secondary transition-colors">
+                     {campaign.brandId?.businessName} <ExternalLink size={12} />
+                   </Link>
+                   <div className="flex items-center gap-2 px-4 py-1.5 bg-surface-container-highest rounded-full text-on-surface">
+                      <DollarSign size={14} className="text-secondary" />
+                      <span className="text-xs font-black tracking-widest uppercase">Budget: ₹{campaign.budget?.toLocaleString()}</span>
+                   </div>
+                   <div className="flex items-center gap-2 px-4 py-1.5 bg-surface-container-highest rounded-full text-on-surface">
+                      <Target size={14} className="text-primary" />
+                      <span className="text-xs font-black tracking-widest uppercase">{campaign.niche}</span>
+                   </div>
+                 </div>
+              </div>
+           </div>
         </section>
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Main Info */}
-          <div className="lg:w-2/3 flex flex-col gap-12">
-            <section>
-              <h2 className="text-2xl font-extrabold mb-6 flex items-center gap-3">
-                <div className="w-1.5 h-8 bg-primary-500 rounded-full"></div>
-                Campaign Description
-              </h2>
-              <p className="text-slate-600 text-lg leading-relaxed whitespace-pre-wrap">
-                {campaign.description}
-              </p>
-            </section>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+           {/* Main Intelligence Body */}
+           <div className="lg:col-span-8 flex flex-col gap-12">
+              <section className="dashboard-card">
+                 <h2 className="text-2xl font-black font-display mb-8 flex items-center gap-3">
+                    <div className="w-1.5 h-8 bg-primary rounded-full"></div>
+                    Mission Brief
+                 </h2>
+                 <p className="text-on-surface-variant text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                   {campaign.description}
+                 </p>
+              </section>
 
-            <section>
-              <h2 className="text-2xl font-extrabold mb-6 flex items-center gap-3">
-                <div className="w-1.5 h-8 bg-indigo-500 rounded-full"></div>
-                Requirements
-              </h2>
-              <div className="flex flex-col gap-4">
-                {campaign.requirements?.map((req, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl group transition-all hover:bg-white hover:shadow-xl hover:shadow-primary-100"
-                  >
-                    <div className="w-8 h-8 bg-primary-100 text-primary-600 rounded-xl flex items-center justify-center font-bold">
-                      {idx + 1}
-                    </div>
-                    <span className="text-slate-700 font-bold">{req}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-
-          {/* Right Panel: Interaction */}
-          <div className="lg:w-1/3">
-            {!user && (
-              <div className="card border-none shadow-2xl overflow-hidden bg-white">
-                <div className="bg-slate-800 p-8 text-white text-center">
-                  <h3 className="text-xl font-bold">Interested in this?</h3>
-                  <p className="text-slate-400 text-sm mt-2">
-                    Sign in to start collaborating with brands like this one.
-                  </p>
-                </div>
-                <div className="p-8 flex flex-col gap-4">
-                  <Link
-                    to="/login"
-                    className="btn-primary w-full py-4 text-center"
-                  >
-                    Login to Apply
-                  </Link>
-                  <p className="text-center text-sm text-slate-500 font-medium">
-                    New here?{" "}
-                    <Link
-                      to="/register"
-                      className="text-primary-600 hover:underline"
-                    >
-                      Create an account
-                    </Link>
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {user?.role === "creator" && (
-              <div className="card sticky top-32 border-none shadow-2xl overflow-hidden">
-                <div className="bg-primary-600 p-6 text-white text-center">
-                  <h3 className="text-xl font-bold">Apply Now</h3>
-                  <p className="text-primary-100 text-sm mt-1">
-                    Ready to collaborate?
-                  </p>
-                </div>
-                <div className="p-6">
-                  <form onSubmit={handleApply} className="flex flex-col gap-4">
-                    <textarea
-                      placeholder="Type your pitch here... (Engagement rates, experience, why you're a fit)"
-                      value={applyMessage}
-                      onChange={(e) => setApplyMessage(e.target.value)}
-                      className="w-full h-40 p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-primary-500 font-medium"
-                      required
-                    />
-                    <button
-                      type="submit"
-                      className="btn-primary w-full py-4 flex items-center justify-center gap-2 group"
-                    >
-                      <Send
-                        size={18}
-                        className="transition-transform group-hover:translate-x-1"
-                      />
-                      Submit Application
-                    </button>
-                    {status.text && (
+              <section>
+                 <h2 className="text-2xl font-black font-display mb-8 flex items-center gap-3">
+                    <div className="w-1.5 h-8 bg-secondary rounded-full"></div>
+                    Requirements Matrix
+                 </h2>
+                 <div className="grid grid-cols-1 gap-4">
+                    {campaign.requirements?.map((req, idx) => (
                       <div
-                        className={`mt-2 p-4 rounded-2xl flex items-start gap-4 text-sm font-bold ${status.type === "success" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"}`}
+                        key={idx}
+                        className="flex items-center gap-6 p-6 bg-surface-container-low border border-outline-variant/5 rounded-[2rem] group transition-all hover:bg-surface-container-high hover:shadow-xl"
                       >
-                        {status.type === "success" ? (
-                          <CheckCircle className="shrink-0" />
-                        ) : (
-                          <AlertCircle className="shrink-0" />
-                        )}
-                        <span>{status.text}</span>
-                      </div>
-                    )}
-                  </form>
-                </div>
-              </div>
-            )}
-
-            {user?.role === "brand" && (
-              <div className="flex flex-col gap-8">
-                <h3 className="text-2xl font-extrabold flex items-center gap-3">
-                  Applications{" "}
-                  <span className="bg-primary-100 text-primary-600 px-3 py-0.5 rounded-full text-sm">
-                    {applications.length}
-                  </span>
-                </h3>
-                <div className="flex flex-col gap-4">
-                  {applications.length > 0 ? (
-                    applications.map((app) => (
-                      <div key={app._id} className="card shadow-md p-6">
-                        <div className="flex justify-between items-start mb-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center font-bold">
-                              👤
-                            </div>
-                            <h4 className="font-bold">
-                              {app.creatorId?.name || "Creator"}
-                            </h4>
-                          </div>
-                          <span className="text-[10px] uppercase font-extrabold text-slate-400 p-1 bg-slate-50 rounded tracking-widest">
-                            {app.status}
-                          </span>
+                        <div className="w-10 h-10 bg-on-surface text-background rounded-xl flex items-center justify-center font-black text-xs">
+                          0{idx + 1}
                         </div>
-                        <p className="text-slate-500 text-sm mb-6 leading-relaxed italic border-l-2 border-primary-200 pl-4">
-                          "{app.message}"
-                        </p>
-
-                        <Link
-                          to={`/creators/${app.creatorId?._id}`}
-                          className="w-full mb-3 flex items-center justify-center gap-2 bg-slate-50 text-slate-700 py-2.5 rounded-xl text-sm font-bold border border-slate-100 hover:bg-primary-50 hover:text-primary-600 hover:border-primary-100 transition-all"
-                        >
-                          <User size={16} /> View Profile
-                        </Link>
-
-                        {app.status === "pending" && (
-                          <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-50">
-                            <button
-                              onClick={() =>
-                                updateAppStatus(app._id, "accepted")
-                              }
-                              className="flex items-center justify-center gap-2 bg-green-500 text-white py-2 rounded-xl text-sm font-bold shadow-lg shadow-green-100 hover:bg-green-600 transition-colors"
-                            >
-                              <CheckCircle size={16} /> Accept
-                            </button>
-                            <button
-                              onClick={() =>
-                                updateAppStatus(app._id, "rejected")
-                              }
-                              className="flex items-center justify-center gap-2 bg-slate-100 text-slate-500 py-2 rounded-xl text-sm font-bold hover:bg-red-50 hover:text-red-500 transition-colors"
-                            >
-                              <XCircle size={16} /> Reject
-                            </button>
-                          </div>
-                        )}
+                        <span className="text-on-surface font-bold text-lg">{req}</span>
                       </div>
-                    ))
-                  ) : (
-                    <div className="card text-center p-12 bg-slate-50 border-dashed justify-center border-2 border-slate-200">
-                      <p className="text-slate-400 font-medium">
-                        No applications yet.
-                      </p>
-                    </div>
-                  )}
+                    ))}
+                 </div>
+              </section>
+           </div>
+
+           {/* Interaction Panels */}
+           <div className="lg:col-span-4 flex flex-col gap-8">
+              {!user ? (
+                <div className="dashboard-card bg-linear-to-tr from-on-surface to-surface-container-highest text-background border-none shadow-2xl">
+                   <h3 className="text-2xl font-black font-display mb-4 tracking-tighter">Initiate Collaboration</h3>
+                   <p className="text-background/60 text-sm font-medium leading-relaxed mb-8">
+                     Authenticate to explore full campaign intelligence and start a professional dialogue with the brand.
+                   </p>
+                   <Link to="/login" className="w-full py-5 rounded-2xl bg-secondary text-white font-black text-xs uppercase tracking-widest hover:shadow-2xl transition-all text-center flex items-center justify-center gap-3">
+                      Access Marketplace <ArrowRight size={18} />
+                   </Link>
                 </div>
-              </div>
-            )}
-          </div>
+              ) : user.role === 'creator' ? (
+                <div className="dashboard-card sticky top-32 bg-linear-to-tr from-primary/10 to-transparent border-primary/20 animate-reveal-up">
+                   <h3 className="text-2xl font-black font-display mb-6 tracking-tight flex items-center gap-2">
+                     Apply for Mission <Zap size={20} className="text-primary" />
+                   </h3>
+                   <form onSubmit={handleApply} className="flex flex-col gap-6">
+                      <textarea
+                        placeholder="Detail your strategic fit, engagement metrics, and proposed execution... "
+                        value={applyMessage}
+                        onChange={(e) => setApplyMessage(e.target.value)}
+                        className="w-full h-48 p-6 bg-surface-container-low border border-outline-variant/10 rounded-[2rem] outline-none focus:ring-2 focus:ring-primary/30 font-medium text-on-surface placeholder:text-on-surface-variant/30 transition-all"
+                        required
+                      />
+                      <button
+                        type="submit"
+                        className="w-full py-5 rounded-2xl bg-on-surface text-background font-black text-xs uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-3 shadow-xl group active:scale-95"
+                      >
+                        <Send size={18} className="transition-transform group-hover:translate-x-1" />
+                        Dispatch Application
+                      </button>
+                      
+                      {status.text && (
+                        <div className={`p-4 rounded-2xl flex items-center gap-3 font-bold text-sm animate-reveal-up ${status.type === 'success' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-error/10 text-error'}`}>
+                          {status.type === 'success' ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
+                          {status.text}
+                        </div>
+                      )}
+                   </form>
+                </div>
+              ) : user.role === 'brand' && campaign.brandId?._id === user.profileId ? (
+                <div className="flex flex-col gap-8">
+                   <div className="flex items-center justify-between">
+                      <h3 className="text-2xl font-black font-display flex items-center gap-3">
+                         Talent Pipeline 
+                         <span className="bg-primary/20 text-primary px-3 py-0.5 rounded-full text-xs">
+                           {applications.length}
+                         </span>
+                      </h3>
+                   </div>
+                   
+                   <div className="flex flex-col gap-6">
+                      {applications.length > 0 ? (
+                        applications.map((app) => (
+                          <div key={app._id} className="dashboard-card group hover:border-primary/30 transition-all p-6">
+                            <div className="flex justify-between items-start mb-6">
+                              <Link to={`/creators/${app.creatorId?._id}`} className="flex items-center gap-4 group/talent">
+                                <div className="w-12 h-12 bg-surface-container-highest rounded-xl flex items-center justify-center font-black text-primary border border-outline-variant/10 shadow-inner group-hover/talent:scale-105 transition-transform overflow-hidden">
+                                  {app.creatorId?.profilePicture ? (
+                                    <img src={app.creatorId.profilePicture} alt="Avatar" className="w-full h-full object-cover" />
+                                  ) : (
+                                    <User size={20} />
+                                  )}
+                                </div>
+                                <div>
+                                  <h4 className="font-black text-on-surface group-hover/talent:text-primary transition-colors">
+                                    {app.creatorId?.name || "Premium Talent"}
+                                  </h4>
+                                  <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/40">
+                                    {app.status}
+                                  </span>
+                                </div>
+                              </Link>
+                              <Link to={`/creators/${app.creatorId?._id}`} className="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                                 <ArrowUpRight size={18} />
+                              </Link>
+                            </div>
+                            
+                            <p className="text-on-surface-variant text-sm font-medium leading-relaxed italic mb-8 pl-4 border-l-2 border-primary/20">
+                              "{app.message}"
+                            </p>
+
+                            {app.status === "pending" && (
+                              <div className="grid grid-cols-2 gap-4">
+                                <button
+                                  onClick={() => updateAppStatus(app._id, "accepted")}
+                                  className="flex items-center justify-center gap-2 bg-emerald-500 text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-colors shadow-lg shadow-emerald-500/10"
+                                >
+                                  Accept
+                                </button>
+                                <button
+                                  onClick={() => updateAppStatus(app._id, "rejected")}
+                                  className="flex items-center justify-center gap-2 bg-surface-container-highest text-on-surface-variant py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-error hover:text-white transition-all shadow-sm"
+                                >
+                                  Reject
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="dashboard-card border-dashed flex flex-col items-center justify-center py-16 gap-4 text-center opacity-50">
+                           <Briefcase size={40} className="text-on-surface-variant/20" />
+                           <p className="text-on-surface-variant font-bold text-sm uppercase tracking-widest">Pipeline Empty</p>
+                        </div>
+                      )}
+                   </div>
+                </div>
+              ) : null}
+           </div>
         </div>
       </div>
     </div>

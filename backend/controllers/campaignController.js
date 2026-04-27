@@ -29,6 +29,7 @@ const getAllCampaigns = async (req, res) => {
     const filter = {};
     if (req.query.niche) filter.niche = req.query.niche;
     if (req.query.status) filter.status = req.query.status;
+    if (req.query.brandId) filter.brandId = req.query.brandId;
     const campaigns = await Campaign.find(filter).sort({ createdAt: -1 }).populate('brandId', 'businessName logo');
     res.json(campaigns);
   } catch (error) {
