@@ -5,7 +5,7 @@ const DashboardLayout = ({ sidebarItems, activeTab, setActiveTab, children }) =>
   return (
     <div className="flex min-h-[calc(100vh-80px)] bg-background">
       {/* Sidebar */}
-      <aside className="w-80 bg-background border-r border-outline-variant/5 p-8 flex flex-col gap-2 sticky top-20 h-[calc(100vh-80px)] overflow-y-auto z-40 transition-all duration-500">
+      <aside className="w-80 bg-background border-r border-outline-variant/5 p-8 flex flex-col gap-2 sticky top-20 h-[calc(100vh-80px)] overflow-y-auto z-30 transition-all duration-500">
         <div className="mb-10 px-4">
           <span className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.4em]">Corporate Hub</span>
           <h2 className="text-sm font-black text-on-surface uppercase tracking-[0.2em] mt-1">Navigation</h2>
@@ -39,7 +39,7 @@ const DashboardLayout = ({ sidebarItems, activeTab, setActiveTab, children }) =>
         </nav>
 
         {/* Pro Tip/Callout space */}
-        <div className="mt-auto p-6 rounded-3xl bg-linear-to-br from-primary/10 to-secondary/10 border border-primary/5">
+        <div className="mt-auto p-6 rounded-3xl bg-surface-container border border-outline-variant/10">
           <p className="text-[10px] font-black text-secondary uppercase tracking-widest mb-2">Pro Tip</p>
           <p className="text-[11px] font-medium text-on-surface-variant leading-relaxed">
             Collaborate with creators who match your brand voice for 2x engagement.

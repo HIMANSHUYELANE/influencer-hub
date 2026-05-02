@@ -52,6 +52,7 @@ const CreatorDashboard = () => {
   const [availableCampaigns, setAvailableCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [filterType, setFilterType] = useState('action_required'); // Default to action required
 
   const fetchData = async () => {
     try {
@@ -250,12 +251,11 @@ const CreatorDashboard = () => {
               </div>
             </div>
 
-            <div className="dashboard-metric-card">
+            <div className="dashboard-metric-card bg-surface-container">
               <div className="flex justify-between items-start">
                 <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
                   <Users size={24} />
                 </div>
-                <div className="absolute top-0 right-0 w-24 h-24 bg-secondary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
               </div>
               <div>
                 <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">
@@ -271,12 +271,11 @@ const CreatorDashboard = () => {
               </div>
             </div>
 
-            <div className="dashboard-metric-card">
+            <div className="dashboard-metric-card bg-surface-container">
               <div className="flex justify-between items-start">
                 <div className="w-12 h-12 rounded-2xl bg-accent-teal/10 flex items-center justify-center text-accent-teal">
                   <MessageSquare size={24} />
                 </div>
-                <div className="absolute top-0 right-0 w-24 h-24 bg-accent-teal/5 rounded-full -translate-y-1/2 translate-x-1/2" />
               </div>
               <div>
                 <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">
@@ -298,7 +297,7 @@ const CreatorDashboard = () => {
             {/* LEFT COLUMN */}
             <div className="lg:col-span-8 flex flex-col gap-8">
               {/* CURATED BIO */}
-              <div className="dashboard-card relative overflow-hidden">
+              <div className="dashboard-card bg-surface-container relative overflow-hidden">
                 <div className="flex justify-between items-start mb-8">
                   <h3 className="text-xl font-black font-display text-on-surface mb-2 tracking-tight">
                     Professional DNA
@@ -317,21 +316,21 @@ const CreatorDashboard = () => {
                 <div className="flex flex-wrap gap-3">
                   {profile.expertise?.length > 0 ? (
                     profile.expertise.map((tag) => (
-                      <span key={tag} className="tag-pill">
+                      <span key={tag} className="px-3 py-1 bg-surface-container-highest rounded-full text-xs font-bold text-on-surface">
                         {tag}
                       </span>
                     ))
                   ) : (
-                    <span className="tag-pill opacity-50 italic">No expertise specified</span>
+                    <span className="px-3 py-1 bg-surface-container-highest rounded-full text-xs font-bold opacity-50 italic">No expertise specified</span>
                   )}
-                  <span className="tag-pill bg-secondary/10 text-secondary border-secondary/20">
+                  <span className="px-3 py-1 bg-secondary/10 text-secondary border-secondary/20 rounded-full text-xs font-bold">
                     {profile.niche} Expert
                   </span>
                 </div>
               </div>
               
               {/* SERVICE OFFERINGS SUMMARY */}
-              <div className="dashboard-card">
+              <div className="dashboard-card bg-surface-container">
                 <h3 className="text-xl font-black font-display text-on-surface mb-2 tracking-tight">
                   Service Packages
                 </h3>
@@ -349,7 +348,7 @@ const CreatorDashboard = () => {
               </div>
 
               {/* RECENT COLLABORATIONS (ACTIVE DEALS) */}
-              <div className="dashboard-card">
+              <div className="dashboard-card bg-surface-container">
                 <h3 className="text-2xl font-black text-on-surface tracking-tight mb-8">
                   Recent Collaborations
                 </h3>
@@ -358,7 +357,7 @@ const CreatorDashboard = () => {
                     deals.slice(0, 3).map((deal) => (
                       <div
                         key={deal._id}
-                        className="flex items-center justify-between p-4 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-all border border-outline-variant/10 group"
+                        className="flex items-center justify-between p-4 rounded-2xl bg-surface-container-high hover:bg-surface-container-highest transition-all border border-outline-variant/10 group"
                       >
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center font-black text-secondary">
@@ -406,7 +405,7 @@ const CreatorDashboard = () => {
             {/* RIGHT COLUMN */}
             <div className="lg:col-span-4 flex flex-col gap-8">
               {/* PROFILE STRENGTH */}
-              <div className="dashboard-card flex flex-col items-center text-center">
+              <div className="dashboard-card bg-surface-container flex flex-col items-center text-center">
                 <h3 className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em] mb-10 w-full text-left">
                   Profile Strength
                 </h3>
@@ -416,22 +415,23 @@ const CreatorDashboard = () => {
                     <circle
                       cx="80"
                       cy="80"
-                      radius="70"
                       r="70"
-                      className="circle-progress-bg"
+                      className="stroke-surface-container-highest"
+                      fill="transparent"
                       strokeWidth="12"
                     />
                     <circle
                       cx="80"
                       cy="80"
-                      radius="70"
                       r="70"
-                      className="circle-progress-bar"
+                      className="stroke-primary"
+                      fill="transparent"
                       strokeWidth="12"
                       strokeDasharray={440}
                       strokeDashoffset={
                         440 - (440 * (profile.bio ? 75 : 25)) / 100
                       }
+                      strokeLinecap="round"
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -471,17 +471,11 @@ const CreatorDashboard = () => {
             applications.map((app) => (
               <div
                 key={app._id}
-                className="dashboard-card flex flex-col md:flex-row md:items-center justify-between gap-6 hover:translate-x-1 border border-outline-variant/10"
+                className="dashboard-card bg-surface-container flex flex-col md:flex-row md:items-center justify-between gap-6 hover:translate-x-1 border border-outline-variant/10"
               >
                 <div className="flex items-center gap-6">
                   <div
-                    className={`w-16 h-16 rounded-2xl flex items-center justify-center font-black text-2xl border ${
-                      app.status === "accepted"
-                        ? "niche-food"
-                        : app.status === "pending"
-                          ? "niche-fitness"
-                          : "bg-surface-container-highest text-on-surface-variant"
-                    }`}
+                    className={`w-16 h-16 rounded-2xl flex items-center justify-center font-black text-2xl border bg-surface-container-highest text-on-surface`}
                   >
                     {app.campaignId?.title?.[0] || "C"}
                   </div>
@@ -491,13 +485,7 @@ const CreatorDashboard = () => {
                     </h4>
                     <div className="flex items-center gap-3 mt-2">
                       <span
-                        className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${
-                          app.status === "accepted"
-                            ? "niche-food"
-                            : app.status === "pending"
-                              ? "niche-fitness"
-                              : "bg-surface-container text-on-surface-variant border-outline-variant/10"
-                        }`}
+                        className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-outline-variant/10`}
                       >
                         {app.status}
                       </span>
@@ -519,7 +507,7 @@ const CreatorDashboard = () => {
                     ) && (
                       <button
                         onClick={() => confirmApplication(app._id, app.status)}
-                        className="bg-linear-to-r from-primary to-secondary text-black px-8 py-3.5 rounded-2xl font-black shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 text-sm"
+                        className="bg-primary text-black px-8 py-3.5 rounded-2xl font-black shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 text-sm"
                       >
                         {app.status === "confirmed_by_creator"
                           ? "Retry Starting Deal"
@@ -537,8 +525,8 @@ const CreatorDashboard = () => {
               </div>
             ))
           ) : (
-            <div className="dashboard-card border-dashed border-2 border-outline-variant/20 bg-transparent text-center py-24 flex flex-col items-center gap-6">
-              <div className="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant/20">
+            <div className="dashboard-card bg-surface-container border-dashed border-2 border-outline-variant/20 text-center py-24 flex flex-col items-center gap-6">
+              <div className="w-20 h-20 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant/20">
                 <Clock size={40} />
               </div>
               <div>
@@ -557,31 +545,79 @@ const CreatorDashboard = () => {
         </div>
       )}
       {activeTab === "deals" && (
-        <div className="flex flex-col gap-6">
-          {deals.length > 0 ? (
-            deals.map((deal) => (
-              <DealManager key={deal._id} deal={deal} onUpdate={fetchData} />
-            ))
-          ) : (
-            <div className="dashboard-card border-dashed border-2 border-outline-variant/20 bg-transparent text-center py-24 flex flex-col items-center gap-6 animate-reveal-up">
-              <div className="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant/20">
-                <CircleDollarSign size={40} />
-              </div>
-              <div>
-                <p className="text-on-surface-variant font-black text-xl mb-2">
-                  No active deals yet.
-                </p>
-                <p className="text-on-surface-variant/40 text-xs font-bold uppercase tracking-widest">
-                  Collaborations will appear here once confirmed
-                </p>
-              </div>
-            </div>
-          )}
+        <div className="flex flex-col gap-8">
+          {/* Deal Filters */}
+          <div className="flex flex-wrap items-center gap-2 p-1.5 bg-surface-container rounded-2xl w-fit border border-outline-variant/10">
+            {['action_required', 'all', 'campaign', 'package', 'in_progress', 'done'].map((type) => (
+              <button
+                key={type}
+                onClick={() => setFilterType(type)}
+                className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                  filterType === type 
+                  ? 'bg-primary text-black' 
+                  : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+              >
+                {type === 'action_required' ? '⚠️ Action Required' : 
+                 type === 'all' ? 'All' : 
+                 type === 'campaign' ? 'Campaigns' : 
+                 type === 'package' ? 'Packages' :
+                 type === 'in_progress' ? 'In Progress' : 'Done'}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-6">
+            {(() => {
+              // 1. Sort a copy of the deals (Most recent on top)
+              const sortedDeals = [...deals].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+              
+              // 2. Apply current filter
+              const filteredDeals = sortedDeals.filter(d => {
+                const isCreatorAction = d.status === 'in_progress' || d.status === 'revision_requested';
+                if (filterType === 'action_required') return isCreatorAction;
+                if (filterType === 'package') return d.originType === 'package';
+                if (filterType === 'campaign') return d.originType !== 'package';
+                if (filterType === 'in_progress') return ['in_progress', 'in_review', 'revision_requested'].includes(d.status);
+                if (filterType === 'done') return d.status === 'completed';
+                return true; // 'all'
+              });
+
+              if (filteredDeals.length === 0) {
+                return (
+                  <div className="dashboard-card bg-surface-container border-dashed border-2 border-outline-variant/20 text-center py-24 flex flex-col items-center gap-6 animate-reveal-up">
+                    <div className="w-20 h-20 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant/20">
+                      <CircleDollarSign size={40} />
+                    </div>
+                    <div>
+                      <p className="text-on-surface-variant font-black text-xl mb-2">
+                        No {filterType.replace('_', ' ')} deals found.
+                      </p>
+                      <p className="text-on-surface-variant/40 text-xs font-bold uppercase tracking-widest">
+                        Try switching filters or wait for new collaborations
+                      </p>
+                    </div>
+                  </div>
+                );
+              }
+
+              return filteredDeals.map((deal) => (
+                <div key={deal._id} className="relative">
+                  {(deal.status === 'in_progress' || deal.status === 'revision_requested') && (
+                    <div className="absolute -top-3 left-6 z-10 px-3 py-1 bg-primary text-on-primary text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl border-2 border-surface">
+                      Action Required
+                    </div>
+                  )}
+                  <DealManager deal={deal} onUpdate={fetchData} />
+                </div>
+              ));
+            })()}
+          </div>
         </div>
       )}
       {activeTab === "browse" && (
         <div className="flex flex-col gap-10">
-          <div className="dashboard-card p-6! flex justify-between items-center bg-surface-container/50 backdrop-blur-xl">
+          <div className="dashboard-card p-6! flex justify-between items-center bg-surface-container">
             <div className="flex items-center gap-5 grow px-4">
               <Search className="text-on-surface-variant" size={24} />
               <input
@@ -597,7 +633,7 @@ const CreatorDashboard = () => {
               Full Marketplace <ArrowUpRight size={16} />
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
             {availableCampaigns.map((campaign) => (
               <CampaignCard key={campaign._id} campaign={campaign} />
             ))}
@@ -606,16 +642,15 @@ const CreatorDashboard = () => {
       )}
       {activeTab === "edit" && (
         <div className="max-w-4xl">
-          <div className="dashboard-card">
-            <h3 className="text-3xl font-black mb-6 tracking-tighter text-violet-400">
+          <div className="dashboard-card bg-surface-container">
+            <h3 className="text-3xl font-black mb-6 tracking-tighter text-on-surface">
               Creative Portfolio Settings
             </h3>
 
             {/* Avatar Upload Section */}
             <div className="flex items-center gap-8 pb-5 border-b border-outline-variant/10">
               <div className="relative group">
-                <div className="w-32 h-32 rounded-full overflow-hidden bg-surface-container-highest border-4 border-surface shadow-2xl flex items-center justify-center relative">
-                  <div className="absolute inset-0 bg-linear-to-r from-primary to-secondary opacity-20" />
+                <div className="w-32 h-32 rounded-full overflow-hidden bg-surface-container-highest border-4 border-surface shadow-lg flex items-center justify-center relative">
                   {profile.profilePicture ? (
                     <img
                       src={profile.profilePicture}
@@ -629,7 +664,7 @@ const CreatorDashboard = () => {
                     />
                   )}
                 </div>
-                <label className="absolute inset-0 flex items-center justify-center bg-black/60 text-white rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-all duration-300 font-black text-xs z-20 backdrop-blur-sm">
+                <label className="absolute inset-0 flex items-center justify-center bg-black/60 text-white rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-all duration-300 font-black text-xs z-20">
                   CHANGE IMAGE
                   <input
                     type="file"
@@ -682,10 +717,10 @@ const CreatorDashboard = () => {
 
             <form
               onSubmit={handleProfileUpdate}
-              className="flex flex-col gap-7"
+              className="flex flex-col gap-7 pt-6"
             >
               {/* Section 1: Professional Identity */}
-              <div className="grid    grid-cols-1 md:grid-cols-2 gap-3 p-5 rounded-4xl bg-surface-container-high/50  border border-surface-container-highest ">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-5 rounded-4xl bg-surface-container-high/50 border border-outline-variant/10 ">
                 <div className="md:col-span-2">
                   <h4 className="text-sm font-black text-on-surface uppercase tracking-[0.2em] mb-4 flex items-center gap-3">
                     <div className="w-1.5 h-6 bg-secondary rounded-full" /> 01.
@@ -694,25 +729,25 @@ const CreatorDashboard = () => {
                 </div>
 
                 <div className="flex flex-col gap-3">
-                  <label className="console-label">Display Name</label>
+                  <label className="text-xs font-black uppercase text-on-surface-variant">Display Name</label>
                   <input
                     type="text"
                     value={profile.name}
                     onChange={(e) =>
                       setProfile({ ...profile, name: e.target.value })
                     }
-                    className="premium-input"
+                    className="w-full px-4 py-3 rounded-2xl bg-surface-container-highest border border-outline-variant/10 text-on-surface"
                     placeholder="e.g. Content King"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
-                  <label className="console-label">Primary Niche</label>
+                  <label className="text-xs font-black uppercase text-on-surface-variant">Primary Niche</label>
                   <select
                     value={profile.niche}
                     onChange={(e) =>
                       setProfile({ ...profile, niche: e.target.value })
                     }
-                    className="premium-input appearance-none cursor-pointer"
+                    className="w-full px-4 py-3 rounded-2xl bg-surface-container-highest border border-outline-variant/10 text-on-surface"
                   >
                     <option value="Tech">Tech</option>
                     <option value="Lifestyle">Lifestyle</option>
@@ -722,33 +757,33 @@ const CreatorDashboard = () => {
                   </select>
                 </div>
                 <div className="flex flex-col gap-3">
-                  <label className="console-label">Age</label>
+                  <label className="text-xs font-black uppercase text-on-surface-variant">Age</label>
                   <input
                     type="number"
                     value={profile.age}
                     onChange={(e) =>
                       setProfile({ ...profile, age: e.target.value })
                     }
-                    className="premium-input"
+                    className="w-full px-4 py-3 rounded-2xl bg-surface-container-highest border border-outline-variant/10 text-on-surface"
                     placeholder="e.g. 25"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
-                  <label className="console-label">Base Location</label>
+                  <label className="text-xs font-black uppercase text-on-surface-variant">Base Location</label>
                   <input
                     type="text"
                     value={profile.location}
                     onChange={(e) =>
                       setProfile((prev) => ({ ...prev, location: e.target.value }))
                     }
-                    className="premium-input"
+                    className="w-full px-4 py-3 rounded-2xl bg-surface-container-highest border border-outline-variant/10 text-on-surface"
                     placeholder="e.g. Mumbai, India"
                   />
                 </div>
               </div>
 
               {/* Section 2: Expertise & Portfolio */}
-              <div className="grid   grid-cols-1 md:grid-cols-2 gap-3 p-5 rounded-4xl bg-surface-container-high/50  border border-surface-container-highest ">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-5 rounded-4xl bg-surface-container-high/50 border border-outline-variant/10 ">
                 <div className="md:col-span-2">
                   <h4 className="text-sm font-black text-on-surface uppercase tracking-[0.2em] mb-4 flex items-center gap-3">
                     <div className="w-1.5 h-6 bg-primary rounded-full" /> 02.
@@ -757,7 +792,7 @@ const CreatorDashboard = () => {
                 </div>
 
                 <div className="md:col-span-2 flex flex-col gap-3">
-                  <label className="console-label">Skillset / Expertise</label>
+                  <label className="text-xs font-black uppercase text-on-surface-variant">Skillset / Expertise</label>
                   <div className="flex flex-wrap gap-4">
                     {["Editing", "Shooting", "Scripting", "All"].map(
                       (skill) => (
@@ -774,7 +809,7 @@ const CreatorDashboard = () => {
                           className={`px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all border ${
                             profile.expertise?.includes(skill)
                               ? "bg-primary text-black border-primary"
-                              : "bg-surface-container-high text-on-surface-variant border-outline-variant/10"
+                              : "bg-surface-container-highest text-on-surface-variant border-outline-variant/10"
                           }`}
                         >
                           {skill}
@@ -785,7 +820,7 @@ const CreatorDashboard = () => {
                 </div>
 
                 <div className="md:col-span-2 flex flex-col gap-3">
-                  <label className="console-label">
+                  <label className="text-xs font-black uppercase text-on-surface-variant">
                     Work Portfolio (Google Drive / Link)
                   </label>
                   <input
@@ -794,26 +829,26 @@ const CreatorDashboard = () => {
                     onChange={(e) =>
                       setProfile((prev) => ({ ...prev, portfolioLink: e.target.value }))
                     }
-                    className="premium-input"
+                    className="w-full px-4 py-3 rounded-2xl bg-surface-container-highest border border-outline-variant/10 text-on-surface"
                     placeholder="https://drive.google.com/..."
                   />
                 </div>
 
                 <div className="md:col-span-2 flex flex-col gap-3">
-                  <label className="console-label">Creator Biography</label>
+                  <label className="text-xs font-black uppercase text-on-surface-variant">Creator Biography</label>
                   <textarea
                     value={profile.bio}
                     onChange={(e) =>
                       setProfile((prev) => ({ ...prev, bio: e.target.value }))
                     }
-                    className="premium-input min-h-32 pt-6 font-medium!"
+                    className="w-full px-4 py-3 rounded-2xl bg-surface-container-highest border border-outline-variant/10 text-on-surface min-h-32"
                     placeholder="Describe your creative style..."
                   />
                 </div>
               </div>
 
               {/* Section 3: Pricing Console */}
-              <div className="grid  grid-cols-1 md:grid-cols-3 gap-3 p-5 rounded-4xl bg-surface-container-high/50  border border-surface-container-highest ">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-5 rounded-4xl bg-surface-container-high/50 border border-outline-variant/10 ">
                 <div className="md:col-span-3">
                   <h4 className="text-sm font-black text-on-surface uppercase tracking-[0.2em] mb-4 flex items-center gap-3">
                     <div className="w-1.5 h-6 bg-amber-500 rounded-full" /> 03.
@@ -824,7 +859,7 @@ const CreatorDashboard = () => {
                 {["basic", "standard", "premium"].map((tier) => (
                   <div
                     key={tier}
-                    className="flex flex-col gap-6 p-6 rounded-3xl bg-surface-container-high/50 border border-outline-variant/10"
+                    className="flex flex-col gap-6 p-6 rounded-3xl bg-surface-container-highest border border-outline-variant/10"
                   >
                     <h5 className="font-black text-xs uppercase tracking-widest text-on-surface-variant">
                       {tier} Tier
@@ -848,7 +883,7 @@ const CreatorDashboard = () => {
                             },
                           }))
                         }
-                        className="premium-input py-3! text-sm!"
+                        className="w-full px-4 py-3 rounded-xl bg-surface-container border border-outline-variant/10 text-sm"
                         placeholder="₹ 0"
                       />
                     </div>
@@ -870,7 +905,7 @@ const CreatorDashboard = () => {
                             },
                           }))
                         }
-                        className="premium-input py-4! text-xs! font-medium! min-h-24"
+                        className="w-full px-4 py-3 rounded-xl bg-surface-container border border-outline-variant/10 text-xs min-h-24"
                         placeholder="What's included?"
                       />
                     </div>
@@ -879,7 +914,7 @@ const CreatorDashboard = () => {
               </div>
 
               {/* Section 4: Reach & Response */}
-              <div className="grid  grid-cols-1 md:grid-cols-2 gap-3 p-5 rounded-4xl bg-surface-container-high/50  border border-surface-container-highest ">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-5 rounded-4xl bg-surface-container-high/50 border border-outline-variant/10 ">
                 <div className="md:col-span-2">
                   <h4 className="text-sm font-black text-on-surface uppercase tracking-[0.2em] mb-4 flex items-center gap-3">
                     <div className="w-1.5 h-6 bg-accent-teal rounded-full" />{" "}
@@ -888,7 +923,7 @@ const CreatorDashboard = () => {
                 </div>
 
                 <div className="flex flex-col gap-3">
-                  <label className="console-label">Total Audience</label>
+                  <label className="text-xs font-black uppercase text-on-surface-variant">Total Audience</label>
                   <input
                     type="number"
                     value={profile.followerCount}
@@ -898,18 +933,18 @@ const CreatorDashboard = () => {
                         followerCount: parseInt(e.target.value) || 0,
                       }))
                     }
-                    className="premium-input"
+                    className="w-full px-4 py-3 rounded-2xl bg-surface-container-highest border border-outline-variant/10 text-on-surface"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
-                  <label className="console-label">Avg Response Time</label>
+                  <label className="text-xs font-black uppercase text-on-surface-variant">Avg Response Time</label>
                   <input
                     type="text"
                     value={profile.responseTime}
                     onChange={(e) =>
                       setProfile({ ...profile, responseTime: e.target.value })
                     }
-                    className="premium-input"
+                    className="w-full px-4 py-3 rounded-2xl bg-surface-container-highest border border-outline-variant/10 text-on-surface"
                     placeholder="e.g. < 2h"
                   />
                 </div>
@@ -917,7 +952,7 @@ const CreatorDashboard = () => {
 
               <button
                 type="submit"
-                className="py-4 rounded-4xl bg-linear-to-r from-primary to-secondary text-black font-black text-2xl shadow-2xl shadow-primary/40 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-4 group"
+                className="py-4 rounded-4xl bg-primary text-black font-black text-2xl shadow-xl hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-4 group"
               >
                 <Save
                   size={28}

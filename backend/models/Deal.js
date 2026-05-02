@@ -1,11 +1,32 @@
 const mongoose = require('mongoose');
 
 const dealSchema = new mongoose.Schema({
+  originType: {
+    type: String,
+    enum: ['campaign', 'package'],
+    default: 'campaign'
+  },
   applicationId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Application',
-    unique: true,
-    required: true
+    sparse: true,
+    unique: true
+  },
+  // Required for package deals to identify participants without an application
+  brandId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BrandProfile'
+  },
+  creatorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'CreatorProfile'
+  },
+  packageTier: {
+    type: String,
+    enum: ['basic', 'standard', 'premium']
+  },
+  packageSnapshot: {
+    type: Object // Cloned snapshot of deliverables, days, and price at checkout
   },
   status: {
     type: String,

@@ -72,8 +72,7 @@ const BrandProfile = () => {
         </Link>
 
         {/* Brand Hero Console */}
-        <section className="relative p-12 rounded-[3.5rem] bg-surface-container-low/30 border border-outline-variant/10 overflow-hidden mb-12 animate-reveal-up">
-           <div className="absolute top-0 right-0 w-125 h-125 bg-secondary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+        <section className="relative p-12 rounded-[3.5rem] bg-surface-container border border-outline-variant/10 overflow-hidden mb-12 animate-reveal-up">
            
            <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-12">
               <div className="relative group">
@@ -155,15 +154,8 @@ const BrandProfile = () => {
                  </p>
               </section>
 
-              <section className="relative p-8 md:p-12 rounded-[3.5rem] overflow-hidden border border-outline-variant/10 shadow-2xl animate-reveal-up">
-                 <div className="absolute inset-0 z-0">
-                    <img 
-                      src="/laptops.jpg" 
-                      className="w-full h-full object-cover opacity-10 dark:opacity-20 transition-opacity duration-1000" 
-                      alt="" 
-                    />
-                    <div className="absolute inset-0 bg-linear-to-b from-surface/95 via-surface/80 to-surface dark:from-background/95 dark:via-background/80 dark:to-background" />
-                 </div>
+              <section className="relative p-8 md:p-12 rounded-[3.5rem] overflow-hidden border border-outline-variant/10 shadow-2xl animate-reveal-up bg-surface-container">
+                 <div className="absolute inset-0 z-0 bg-background/80" />
 
                  <div className="relative z-10">
                     <div className="flex items-center justify-between mb-10">
@@ -171,7 +163,7 @@ const BrandProfile = () => {
                           <div className="w-1.5 h-8 bg-primary rounded-full"></div>
                           Discovery Console
                        </h2>
-                       <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest bg-surface-container-high/50 px-3 py-1 rounded-full backdrop-blur-sm">Active Missions from this brand</span>
+                       <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest bg-surface-container-high/50 px-3 py-1 rounded-full">Active Missions from this brand</span>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -180,7 +172,7 @@ const BrandProfile = () => {
                            <CampaignCard key={campaign._id} campaign={campaign} />
                          ))
                        ) : (
-                         <div className="col-span-2 p-12 rounded-4xl border-2 border-dashed border-outline-variant/10 text-center flex flex-col items-center gap-4 bg-surface/30 backdrop-blur-sm">
+                         <div className="col-span-2 p-12 rounded-4xl border-2 border-dashed border-outline-variant/10 text-center flex flex-col items-center gap-4 bg-surface/30">
                            <Zap size={48} className="text-on-surface-variant/20" />
                            <p className="text-on-surface-variant font-black text-sm uppercase tracking-widest">No active public missions at the moment.</p>
                          </div>
@@ -192,7 +184,7 @@ const BrandProfile = () => {
 
            {/* Brand Intelligence Panel */}
            <div className="lg:col-span-4 flex flex-col gap-8">
-              <div className="dashboard-card bg-linear-to-br from-surface-container-high/50 to-transparent border-secondary/10">
+              <div className="dashboard-card bg-surface-container border border-secondary/20">
                  <h3 className="text-xl font-black font-display mb-8 tracking-tight text-on-surface flex items-center gap-2">
                    Target Intelligence <Zap size={18} className="text-secondary" />
                  </h3>
@@ -240,7 +232,7 @@ const BrandProfile = () => {
                  </div>
               </div>
 
-              <div className="dashboard-card group bg-linear-to-tr from-primary/10 to-transparent border-primary/20">
+              <div className="dashboard-card group bg-surface-container border border-primary/20">
                  <h3 className="text-xl font-black font-display mb-4 tracking-tight text-on-surface">Join the Story</h3>
                  <p className="text-on-surface-variant text-sm font-medium leading-relaxed mb-8">
                    Apply to one of the missions in the Discovery Console to start a conversation with this brand.

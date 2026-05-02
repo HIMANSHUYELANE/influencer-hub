@@ -25,23 +25,21 @@ const BrandDashboard = () => {
   const [newCampaign, setNewCampaign] = useState({ title: '', description: '', budget: '', requirements: '', niche: 'Tech' });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [filterType, setFilterType] = useState('action_required'); // Default to action required
 
   const fetchData = async () => {
     try {
-      const [profileRes, campaignsRes, creatorsRes, dealsRes] = await Promise.all([
+      const results = await Promise.allSettled([
         axios.get('/brands/me'),
         axios.get('/campaigns/mine'),
         axios.get('/creators'),
         axios.get('/deals/user')
       ]);
-      setProfile(profileRes.data || { 
-        businessName: '', website: '', description: '',
-        ownerName: '', location: '', businessType: 'Online', industry: '', operatingFrom: '',
-        preferences: { targetGender: 'Both', targetAgeGroup: 'Any', targetLocality: 'Anywhere', brandPriority: 'Reach' }
-      });
-      setCampaigns(campaignsRes.data);
-      setAllCreators(creatorsRes.data);
-      setDeals(dealsRes.data);
+
+      if (results[0].status === 'fulfilled') setProfile(results[0].value.data || profile);
+      if (results[1].status === 'fulfilled') setCampaigns(results[1].value.data);
+      if (results[2].status === 'fulfilled') setAllCreators(results[2].value.data);
+      if (results[3].status === 'fulfilled') setDeals(results[3].value.data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -109,7 +107,7 @@ const BrandDashboard = () => {
       <div className="mb-12 flex items-center gap-8 animate-reveal-up">
         <div className="relative group">
           <div className="w-24 h-24 rounded-3xl bg-surface-container-highest flex items-center justify-center border-4 border-surface shadow-2xl relative overflow-hidden transition-transform duration-500 group-hover:scale-105">
-            <div className="absolute inset-0 bg-linear-to-tr from-primary to-secondary opacity-10" />
+            <div className="absolute inset-0 bg-primary opacity-10" />
             {profile.logo ? (
               <img src={profile.logo} alt="Brand Logo" className="w-[85%] h-[85%] rounded-2xl object-cover relative z-10" />
             ) : (
@@ -232,7 +230,7 @@ const BrandDashboard = () => {
               </div>
             </div>
 
-            <div className="dashboard-card relative overflow-hidden flex flex-col justify-between group">
+            <div className="dashboard-card relative overflow-hidden flex flex-col justify-between group bg-surface-container">
               <div className="absolute -top-20 -right-20 w-80 h-80 bg-secondary/10 rounded-full blur-[100px] transition-transform duration-1000 group-hover:scale-150"></div>
               <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-primary/10 rounded-full blur-[80px]"></div>
 
@@ -283,7 +281,7 @@ const BrandDashboard = () => {
                       <span className="text-3xl">👤</span>
                     )}
                   </div>
-                  <div className="absolute -inset-2 bg-linear-to-tr from-primary to-secondary rounded-full opacity-30 blur-md group-hover:opacity-60 transition-opacity"></div>
+                  <div className="absolute -inset-2 bg-secondary rounded-full opacity-30 blur-md group-hover:opacity-60 transition-opacity"></div>
                 </div>
                 <h4 className="font-black text-2xl text-on-surface tracking-tight group-hover:text-secondary transition-colors">{creator.name}</h4>
                 <div className={`mt-3 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border shadow-sm ${creator.niche === 'Tech' ? 'niche-tech' :
@@ -339,22 +337,86 @@ const BrandDashboard = () => {
       )}
 
       {activeTab === 'deals' && (
-        <div className="flex flex-col gap-6">
-          {deals.length > 0 ? deals.map(deal => (
-            <DealManager key={deal._id} deal={deal} onUpdate={fetchData} />
-          )) : (
-            <div className="dashboard-card border-dashed border-2 border-outline-variant/20 bg-transparent text-center py-24 flex flex-col items-center gap-6 animate-reveal-up">
-              <div className="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant/20">
-                <CircleDollarSign size={40} />
-              </div>
-              <div>
-                <p className="text-on-surface-variant font-black text-xl mb-2">No active deals yet.</p>
-                <button onClick={() => setActiveTab('browse')} className="text-secondary font-black hover:underline uppercase text-xs tracking-[0.2em] flex items-center gap-2 mx-auto">
-                  Find Creators <ArrowUpRight size={14} />
-                </button>
-              </div>
-            </div>
-          )}
+        <div className="flex flex-col gap-8">
+          {/* Deal Filters */}
+          <div className="flex flex-wrap items-center gap-2 p-1.5 bg-surface-container rounded-2xl w-fit border border-outline-variant/10">
+            {['action_required', 'all', 'campaign', 'package', 'in_progress', 'done'].map((type) => (
+              <button
+                key={type}
+                onClick={() => setFilterType(type)}
+                className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                  filterType === type 
+                  ? 'bg-secondary text-black shadow-lg shadow-secondary/10' 
+                  : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+              >
+                {type === 'action_required' ? '⚠️ Action Required' : 
+                 type === 'all' ? 'All' : 
+                 type === 'campaign' ? 'Campaigns' : 
+                 type === 'package' ? 'Packages' :
+                 type === 'in_progress' ? 'In Progress' : 'Done'}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-6">
+            {(() => {
+              // 1. Sort a copy of the deals (Most recent on top)
+              const sortedDeals = [...deals].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+              
+              // 2. Apply current filter
+              const filteredDeals = sortedDeals.filter(d => {
+                const isBrandAction = d.status === 'pending_payment' || d.status === 'in_review';
+                if (filterType === 'action_required') return isBrandAction;
+                if (filterType === 'package') return d.originType === 'package';
+                if (filterType === 'campaign') return d.originType !== 'package';
+                if (filterType === 'in_progress') return ['in_progress', 'in_review', 'revision_requested'].includes(d.status);
+                if (filterType === 'done') return d.status === 'completed';
+                return true; // 'all'
+              });
+
+              if (filteredDeals.length === 0) {
+                return (
+                  <div className="dashboard-card border-dashed border-2 border-outline-variant/20 bg-transparent text-center py-24 flex flex-col items-center gap-6 animate-reveal-up">
+                    <div className="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant/20">
+                      <CircleDollarSign size={40} />
+                    </div>
+                    <div>
+                      <p className="text-on-surface-variant font-black text-xl mb-2">
+                        {filterType === 'action_required' ? 'No urgent actions pending.' : `No ${filterType.replace('_', ' ')} deals found.`}
+                      </p>
+                      {deals.length > 0 ? (
+                        <div className="flex flex-col gap-3 items-center">
+                          <p className="text-on-surface-variant/40 text-xs font-bold uppercase tracking-widest">You have {deals.length} total deals in your records</p>
+                          <button 
+                            onClick={() => setFilterType('all')} 
+                            className="px-8 py-3 rounded-xl bg-secondary text-black font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform"
+                          >
+                            View All History
+                          </button>
+                        </div>
+                      ) : (
+                        <button onClick={() => setActiveTab('browse')} className="text-secondary font-black hover:underline uppercase text-xs tracking-[0.2em] flex items-center gap-2 mx-auto">
+                          Find Creators <ArrowUpRight size={14} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              }
+
+              return filteredDeals.map(deal => (
+                <div key={deal._id} className="relative">
+                  {(deal.status === 'pending_payment' || deal.status === 'in_review') && (
+                    <div className="absolute -top-3 left-6 z-10 px-3 py-1 bg-secondary text-black text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl animate-pulse border-2 border-surface">
+                      Action Required
+                    </div>
+                  )}
+                  <DealManager deal={deal} onUpdate={fetchData} />
+                </div>
+              ));
+            })()}
+          </div>
         </div>
       )}
 
@@ -424,7 +486,7 @@ const BrandDashboard = () => {
                   placeholder="Describe your brand and what you expect from this collaboration..."
                 />
               </div>
-              <button type="submit" className="md:col-span-2 py-6 rounded-2xl bg-linear-to-r from-primary to-secondary text-black font-black text-2xl shadow-2xl shadow-primary/20 hover:scale-[1.01] active:scale-95 transition-all">
+              <button type="submit" className="md:col-span-2 py-6 rounded-2xl bg-primary text-on-primary font-black text-2xl shadow-2xl shadow-primary/20 hover:scale-[1.01] active:scale-95 transition-all">
                 Broadcast Campaign Now
               </button>
             </form>
@@ -441,7 +503,7 @@ const BrandDashboard = () => {
             <div className="flex items-center gap-10 mb-12 pb-12 border-b border-outline-variant/10">
               <div className="relative group">
                 <div className="w-32 h-32 rounded-3xl overflow-hidden bg-surface-container-highest border-4 border-surface shadow-2xl flex items-center justify-center relative">
-                  <div className="absolute inset-0 bg-linear-to-tr from-primary to-secondary opacity-10" />
+                  <div className="absolute inset-0 bg-primary opacity-10" />
                   {profile.logo ? (
                     <img src={profile.logo} alt="Brand Logo" className="w-[80%] h-[80%] object-cover relative z-10" />
                   ) : (
@@ -626,7 +688,7 @@ const BrandDashboard = () => {
                 </div>
               </div>
 
-              <button type="submit" className="py-4 rounded-4xl bg-linear-to-r from-primary to-secondary text-black font-black text-2xl shadow-2xl shadow-primary/40 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-4 group">
+              <button type="submit" className="py-4 rounded-4xl bg-primary text-on-primary font-black text-2xl shadow-2xl shadow-primary/40 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-4 group">
                 <Save size={28} className="group-hover:rotate-12 transition-transform" /> Synchronize Profile
               </button>
             </form>

@@ -107,8 +107,7 @@ const CampaignDetail = () => {
         </Link>
 
         {/* Campaign Hero Architecture */}
-        <section className="relative p-12 rounded-[3.5rem] bg-surface-container-low/30 border border-outline-variant/10 overflow-hidden mb-12 animate-reveal-up">
-           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+        <section className="relative p-12 rounded-[3.5rem] bg-surface-container border border-outline-variant/10 overflow-hidden mb-12 animate-reveal-up">
            
            <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-12">
               <div className="relative group">
@@ -190,7 +189,7 @@ const CampaignDetail = () => {
            {/* Interaction Panels */}
            <div className="lg:col-span-4 flex flex-col gap-8">
               {!user ? (
-                <div className="dashboard-card bg-linear-to-tr from-on-surface to-surface-container-highest text-background border-none shadow-2xl">
+                <div className="dashboard-card bg-on-surface text-background border-none shadow-2xl">
                    <h3 className="text-2xl font-black font-display mb-4 tracking-tighter">Initiate Collaboration</h3>
                    <p className="text-background/60 text-sm font-medium leading-relaxed mb-8">
                      Authenticate to explore full campaign intelligence and start a professional dialogue with the brand.
@@ -200,7 +199,7 @@ const CampaignDetail = () => {
                    </Link>
                 </div>
               ) : user.role === 'creator' ? (
-                <div className="dashboard-card sticky top-32 bg-linear-to-tr from-primary/10 to-transparent border-primary/20 animate-reveal-up">
+                <div className="dashboard-card sticky top-32 bg-surface-container border border-primary/20 animate-reveal-up">
                    <h3 className="text-2xl font-black font-display mb-6 tracking-tight flex items-center gap-2">
                      Apply for Mission <Zap size={20} className="text-primary" />
                    </h3>

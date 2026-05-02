@@ -13,12 +13,37 @@ if (!process.env.MONGODB_URI) {
   throw new Error('FATAL: MONGODB_URI is not set in environment variables. Server cannot start.');
 }
 
+const http = require('http');
+const { Server } = require('socket.io');
+
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*", 
+    methods: ["GET", "POST"]
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Store socket.io instance to be accessible in routes/controllers
+app.set('socketio', io);
+
+// Socket.io connection logic
+io.on('connection', (socket) => {
+  socket.on('join_deal_chat', (dealId) => {
+    socket.join(dealId);
+  });
+
+  socket.on('disconnect', () => {
+    // console.log('User disconnected');
+  });
+});
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
@@ -28,6 +53,7 @@ const campaignRoutes = require('./routes/campaignRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
 const dealRoutes = require('./routes/dealRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const chatRoutes = require('./routes/chatRoutes'); // We'll create this next
 
 app.use('/api/auth', authRoutes);
 app.use('/api/creators', creatorRoutes);
@@ -36,9 +62,10 @@ app.use('/api/campaigns', campaignRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/deals', dealRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/chat', chatRoutes);
 
 app.get('/', (req, res) => {
-  res.send('XYZ Marketplace API is running...');
+  res.send('Influencer Hub API is running...');
 });
 
 // Database Connection
@@ -46,7 +73,7 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB Atlas');
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   })

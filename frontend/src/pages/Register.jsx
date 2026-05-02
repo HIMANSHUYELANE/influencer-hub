@@ -27,11 +27,11 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center p-8">
+    <div className="min-h-screen flex items-center justify-center p-8 bg-grid-glow">
       <div className="w-full max-w-md">
         <div className="dashboard-card shadow-2xl border border-outline-variant/10 p-10">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-4 border border-primary/20">
+            <div className="w-16 h-16 bg-surface-container-highest rounded-3xl flex items-center justify-center mx-auto mb-4 border border-outline-variant/10">
               <UserPlus className="text-primary" size={32} />
             </div>
             <h2 className="text-3xl font-black text-on-surface tracking-tight">Join XYZ</h2>
@@ -53,7 +53,7 @@ const Register = () => {
                 onClick={() => setRole('creator')}
                 className={`p-4 rounded-2xl flex flex-col items-center gap-2 border-2 transition-all ${
                   role === 'creator' 
-                  ? 'border-primary bg-primary/10 text-primary' 
+                  ? 'border-primary bg-primary text-on-primary' 
                   : 'border-outline-variant/10 bg-surface-container-high text-on-surface-variant hover:border-primary/50'
                 }`}
               >
@@ -65,7 +65,7 @@ const Register = () => {
                 onClick={() => setRole('brand')}
                 className={`p-4 rounded-2xl flex flex-col items-center gap-2 border-2 transition-all ${
                   role === 'brand' 
-                  ? 'border-secondary bg-secondary/10 text-secondary' 
+                  ? 'border-secondary bg-secondary text-on-secondary' 
                   : 'border-outline-variant/10 bg-surface-container-high text-on-surface-variant hover:border-secondary/50'
                 }`}
               >
@@ -104,7 +104,7 @@ const Register = () => {
               </div>
             </div>
 
-            <button type="submit" className="py-4 rounded-2xl bg-linear-to-r from-primary to-secondary text-black font-black text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all mt-4">
+            <button type="submit" className="py-4 rounded-2xl bg-primary text-on-primary font-black text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all mt-4">
               Get Started
             </button>
           </form>

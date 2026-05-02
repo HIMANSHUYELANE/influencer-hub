@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from '../utils/axios';
+import { useAuth } from '../context/AuthContext';
 import { 
   ChevronLeft, 
   User, 
@@ -22,6 +23,10 @@ const CreatorProfile = () => {
   const { id } = useParams();
   const [creator, setCreator] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [message, setMessage] = useState({ type: '', text: '' });
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCreator = async () => {
@@ -36,6 +41,38 @@ const CreatorProfile = () => {
     };
     fetchCreator();
   }, [id]);
+
+  const handlePackageCheckout = async (tier) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    if (user.role !== 'brand') {
+      setMessage({ type: 'error', text: 'Only brands can purchase packages.' });
+      return;
+    }
+
+    setCheckoutLoading(true);
+    setMessage({ type: '', text: '' });
+    try {
+      // Step 1: Create the Deal in Escrow Pipeline
+      const res = await axios.post('/deals/package-checkout', {
+        creatorId: creator._id,
+        packageTier: tier
+      });
+      const dealId = res.data._id;
+
+      // Step 2: In Mock mode, we simulate the payment right away
+      await axios.post(`/deals/${dealId}/pay`);
+      
+      // Redirect to the active deals dashboard
+      navigate('/brand-dashboard');
+    } catch (err) {
+      setMessage({ type: 'error', text: err.response?.data?.message || 'Checkout failed.' });
+    } finally {
+      setCheckoutLoading(false);
+    }
+  };
 
   if (loading) return (
     <div className="min-h-screen bg-background flex items-center justify-center">
@@ -62,14 +99,13 @@ const CreatorProfile = () => {
         </Link>
 
         {/* Creator Hero Console */}
-        <section className="relative p-12 rounded-[3.5rem] bg-surface-container-low/30 border border-outline-variant/10 overflow-hidden mb-12 animate-reveal-up">
-           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+        <section className="relative p-12 rounded-[3.5rem] bg-surface-container border border-outline-variant/10 overflow-hidden mb-12 animate-reveal-up">
            
            <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-12">
               <div className="relative group">
                  <div className="w-48 h-48 bg-surface-container-high rounded-[3rem] flex items-center justify-center overflow-hidden border-4 border-outline-variant/10 shadow-2xl transition-transform group-hover:scale-105">
                    {creator.profilePicture ? (
-                     <img src={creator.profilePicture} alt={creator.name} className="w-full h-full object-cover" />
+                     <img src={creator.profilePicture} alt={creator.name} className="w-full self-auto h-full object-cover" />
                    ) : (
                      <User size={64} className="text-on-surface-variant/20" />
                    )}
@@ -105,7 +141,7 @@ const CreatorProfile = () => {
                    )}
                  </div>
 
-                 <div className="flex flex-wrap justify-center md:justify-start gap-12 pt-10 border-t border-outline-variant/5">
+                 <div className="flex flex-wrap justify-center md:justify-start gap-12 border-t border-outline-variant/5">
                    <div className="flex flex-col">
                       <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] mb-1">Followers</span>
                       <span className="text-4xl font-black text-on-surface tracking-tighter">
@@ -149,32 +185,49 @@ const CreatorProfile = () => {
                     </h2>
                     <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Pricing & Deliverables</span>
                  </div>
+
+                 {message.text && (
+                   <div className={`mb-6 p-4 rounded-2xl flex items-center gap-3 font-bold text-sm ${message.type === 'error' ? 'bg-error/10 text-error border border-error/20' : 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'}`}>
+                     {message.text}
+                   </div>
+                 )}
                  
                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                   {['basic', 'standard', 'premium'].map((tier) => (
+                   {['basic', 'standard', 'premium'].map((tier) => {
+                     // Fallback mock logic for UI
+                     const mockPrice = tier === 'premium' ? 10000 : (tier === 'standard' ? 5000 : 2500);
+                     const actualPrice = creator.pricing?.[tier]?.price;
+                     const displayPrice = actualPrice > 0 ? actualPrice : mockPrice;
+                     const isAvailable = true; // Enabled for testing via fallback
+                     
+                     return (
                      <div key={tier} className="dashboard-card group flex flex-col gap-8 relative overflow-hidden hover:border-primary/30 transition-all">
                         <div className="flex flex-col gap-1">
                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary">{tier} Configuration</span>
                            <p className="text-3xl font-black text-on-surface mt-2 tracking-tighter">
-                             ₹{creator.pricing?.[tier]?.price?.toLocaleString() || 0}
+                             ₹{displayPrice.toLocaleString()}
                            </p>
                         </div>
                         <p className="text-sm font-medium text-on-surface-variant leading-relaxed min-h-20">
-                           {creator.pricing?.[tier]?.description || 'Bespoke campaign strategy and high-impact content delivery.'}
+                           {creator.pricing?.[tier]?.description || `Mock ${tier} campaign strategy and high-impact content delivery.`}
                         </p>
                         <div className="pt-8 border-t border-outline-variant/10">
-                           <button className="w-full py-4 rounded-2xl bg-surface-container-highest text-on-surface font-black text-[10px] uppercase tracking-widest hover:bg-on-surface hover:text-background transition-all shadow-lg">
-                              Initiate {tier} Deal
+                           <button 
+                             disabled={!isAvailable || checkoutLoading}
+                             onClick={() => handlePackageCheckout(tier)}
+                             className="w-full py-4 rounded-2xl bg-surface-container-highest text-on-surface font-black text-[10px] uppercase tracking-widest hover:bg-on-surface hover:text-background transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                           >
+                              {checkoutLoading ? 'Processing...' : `Initiate ${tier} Deal`}
                            </button>
                         </div>
                      </div>
-                   ))}
+                   )})}
                  </div>
               </section>
 
               {/* Expertise Matrix */}
               {creator.expertise?.length > 0 && (
-                <section className="dashboard-card bg-linear-to-br from-surface-container-high/50 to-transparent border-outline-variant/10">
+                <section className="dashboard-card bg-surface-container border border-outline-variant/10">
                    <h2 className="text-2xl font-black font-display mb-8 flex items-center gap-3">
                       <div className="w-1.5 h-8 bg-emerald-500 rounded-full"></div>
                       Expertise Matrix
@@ -192,7 +245,7 @@ const CreatorProfile = () => {
 
            {/* Creator Intelligence Sidebar */}
            <div className="lg:col-span-4 flex flex-col gap-8">
-              <div className="dashboard-card bg-linear-to-tr from-primary/10 to-transparent border-primary/10 sticky top-32">
+              <div className="dashboard-card bg-surface-container border border-primary/20 sticky top-32">
                  <h3 className="text-xl font-black font-display mb-8 tracking-tight text-on-surface flex items-center gap-2">
                    Direct Collaboration <TrendingUp size={18} className="text-primary" />
                  </h3>

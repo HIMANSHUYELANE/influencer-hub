@@ -60,11 +60,8 @@ const CampaignCard = ({ campaign }) => {
       </p>
 
       <div className="flex flex-wrap gap-2 mb-8">
-        <span className="text-[10px] font-black uppercase tracking-widest text-secondary bg-secondary/5 px-3 py-1.5 rounded-lg border border-secondary/10">
-          {campaign.brandId?.industry || 'Multi-Channel'}
-        </span>
-        {campaign.requirements?.slice(0, 1).map((req, idx) => (
-          <span key={idx} className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/60 bg-surface-container px-3 py-1.5 rounded-lg border border-outline-variant/5">
+        {campaign.requirements?.map((req, idx) => (
+          <span key={idx} className="text-[10px] font-black uppercase tracking-widest text-secondary bg-secondary/10 px-3 py-1.5 rounded-lg border border-secondary/20 shadow-sm shadow-secondary/5">
             {req}
           </span>
         ))}

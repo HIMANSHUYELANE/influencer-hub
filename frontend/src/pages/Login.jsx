@@ -26,11 +26,11 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center p-8">
+    <div className="min-h-screen flex items-center justify-center p-8 bg-grid-glow">
       <div className="w-full max-w-md">
         <div className="dashboard-card shadow-2xl border border-outline-variant/10 p-10">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-4 border border-primary/20">
+            <div className="w-16 h-16 bg-surface-container-highest rounded-3xl flex items-center justify-center mx-auto mb-4 border border-outline-variant/10">
               <LogIn className="text-primary" size={32} />
             </div>
             <h2 className="text-3xl font-black text-on-surface tracking-tight">Welcome Back</h2>
@@ -75,7 +75,7 @@ const Login = () => {
               </div>
             </div>
 
-            <button type="submit" className="py-4 rounded-2xl bg-linear-to-r from-primary to-secondary text-black font-black text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all mt-4">
+            <button type="submit" className="py-4 rounded-2xl bg-primary text-on-primary font-black text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all mt-4">
               Sign In
             </button>
           </form>

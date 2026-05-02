@@ -34,11 +34,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-60 bg-background/70 backdrop-blur-2xl border-b border-outline-variant/10 h-20 px-6 md:px-12 flex items-center justify-between transition-all duration-500">
+    <nav className="sticky top-0 z-[100] bg-background/70 backdrop-blur-2xl border-b border-outline-variant/10 h-20 px-6 md:px-12 flex items-center justify-between transition-all duration-500">
       <div className="flex items-center gap-12">
         <Link to="/" className="group flex items-center gap-2 transform transition hover:scale-105 active:scale-95">
-          <div className="w-10 h-10 rounded-xl bg-linear-to-tr from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
-            <span className="text-white font-black text-xl">B</span>
+          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
+            <span className="text-on-primary font-black text-xl">B</span>
           </div>
           <span className="text-2xl font-black font-headline text-on-surface tracking-tighter">
             Brand<span className="text-secondary">Dealify</span>
@@ -93,7 +93,7 @@ const Navbar = () => {
               className="group flex items-center gap-3 pl-2 pr-4 py-1.5 rounded-2xl bg-surface-container-high hover:bg-surface-container-highest transition-all duration-300 border border-outline-variant/10 hover:border-secondary/30"
             >
               <div className="relative group-hover:scale-105 transition-transform duration-500">
-                <div className="absolute -inset-1 bg-linear-to-r from-primary to-secondary rounded-xl blur-sm opacity-0 group-hover:opacity-40 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-secondary rounded-xl blur-sm opacity-0 group-hover:opacity-40 transition duration-500"></div>
                 <img 
                   src={user.profilePicture || user.logo || (user.role === 'creator' ? '/creator_avatar_1775540021005.png' : '/brand_avatar_1775539904640.png')} 
                   alt="Profile" 
@@ -116,7 +116,7 @@ const Navbar = () => {
         ) : (
           <div className="flex items-center gap-3">
             <Link to="/login" className="px-6 py-2.5 text-xs font-black uppercase tracking-widest text-on-surface hover:text-secondary transition-all active:scale-95">Log In</Link>
-            <Link to="/register" className="bg-linear-to-r from-primary to-primary-container px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-primary/10 hover:shadow-primary/30 hover:-translate-y-0.5 transition-all active:scale-95">Get Started</Link>
+            <Link to="/register" className="bg-primary px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest text-on-primary shadow-xl shadow-primary/10 hover:shadow-primary/30 hover:-translate-y-0.5 transition-all active:scale-95">Get Started</Link>
           </div>
         )}
       </div>

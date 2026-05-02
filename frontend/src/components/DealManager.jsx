@@ -5,6 +5,7 @@ import {
   Building2, Clock, ArrowUpRight, ExternalLink, 
   CheckCircle, AlertCircle 
 } from 'lucide-react';
+import ChatWidget from './ChatWidget';
 
 function DealManager({ deal, onUpdate }) {
   const { user } = useAuth();
@@ -60,9 +61,13 @@ function DealManager({ deal, onUpdate }) {
             <Building2 size={32} />
           </div>
           <div>
-            <span className="console-label mb-1!">Active Deal / 0x{deal._id.slice(-4).toUpperCase()}</span>
+            <span className="console-label mb-1!">
+              {deal.originType === 'package' ? 'Package Order' : 'Campaign Deal'} / 0x{deal._id.slice(-4).toUpperCase()}
+            </span>
             <h3 className="text-3xl font-black text-on-surface tracking-tighter group-hover:text-violet-400 transition-colors">
-              {deal.applicationId?.campaignId?.title || 'Unknown Campaign'}
+              {deal.originType === 'package' 
+                ? `${(deal.packageTier ? deal.packageTier.charAt(0).toUpperCase() + deal.packageTier.slice(1) : 'Custom')} Tier Package` 
+                : (deal.applicationId?.campaignId?.title || 'Unknown Campaign')}
             </h3>
             <div className="flex items-center gap-3 mt-3">
               <span className="text-lg font-black text-secondary">₹{displayBudget.toLocaleString()}</span>
@@ -71,10 +76,13 @@ function DealManager({ deal, onUpdate }) {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-end gap-2">
-          <span className={`px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] border shadow-2xl ${getStatusBadgeColor(normalizedStatus)}`}>
-            {formatStatus(normalizedStatus)}
-          </span>
+        <div className="flex flex-col items-end gap-3">
+          <div className="flex items-center gap-3">
+             <ChatWidget dealId={deal._id} isCompleted={normalizedStatus === 'completed'} />
+             <span className={`px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] border shadow-2xl ${getStatusBadgeColor(normalizedStatus)}`}>
+               {formatStatus(normalizedStatus)}
+             </span>
+          </div>
           {normalizedStatus === 'completed' && <span className="text-[8px] font-bold text-accent-teal uppercase tracking-widest animate-pulse">Archived</span>}
         </div>
       </div>
@@ -114,6 +122,15 @@ function DealManager({ deal, onUpdate }) {
         </div>
       </div>
 
+      {deal.originType === 'package' && deal.packageSnapshot && (
+        <div className="mb-6 p-6 rounded-2xl bg-surface-container border border-outline-variant/10">
+          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant mb-3">Agreed Deliverables</h4>
+          <p className="text-sm font-medium text-on-surface whitespace-pre-wrap">
+            {deal.packageSnapshot.description || 'Deliverables exactly as listed in the package at time of purchase.'}
+          </p>
+        </div>
+      )}
+
       {error && (
         <div className="mb-6 bg-error/10 text-error p-4 rounded-2xl text-sm font-bold border border-error/20 flex items-center gap-3">
           <AlertCircle size={18} /> {error}
@@ -137,7 +154,7 @@ function DealManager({ deal, onUpdate }) {
           )}
 
           {(normalizedStatus === 'in_progress' || normalizedStatus === 'revision_requested') && (
-            <div className="bg-secondary/5 border border-secondary/10 p-6 rounded-2xl">
+            <div className="bg-surface-container p-6 rounded-2xl border border-secondary/20">
               <h4 className="font-black text-secondary uppercase text-xs tracking-widest mb-2 flex items-center gap-2">
                 <Clock size={16} /> Waiting for Creator
               </h4>
@@ -146,26 +163,26 @@ function DealManager({ deal, onUpdate }) {
           )}
 
           {normalizedStatus === 'in_review' && (
-            <div className="bg-primary/5 border border-primary/10 p-6 rounded-2xl">
+            <div className="bg-surface-container-high border border-primary/20 p-6 rounded-2xl">
               <h4 className="font-black text-primary uppercase text-xs tracking-widest mb-4">Review Deliverables</h4>
-              <div className="bg-surface-container-high p-4 rounded-xl border border-outline-variant/10 mb-6 break-all font-bold text-sm text-primary flex items-center gap-3">
+              <div className="bg-surface-container-highest p-4 rounded-xl border border-outline-variant/10 mb-6 break-all font-bold text-sm text-primary flex items-center gap-3">
                 <ExternalLink size={16} />
                 <a href={deal.contentUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
                   {deal.contentUrl || 'No URL Provided'}
                 </a>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 items-center">
                 <button 
                   disabled={loading}
                   onClick={() => handleAction('review', { action: 'approve' })}
-                  className="flex-1 py-4 bg-primary text-on-primary rounded-2xl font-black shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform text-sm"
+                  className="flex-1 py-4 bg-primary text-on-primary rounded-2xl font-black shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform text-sm w-full"
                 >
                   Approve & Release Funds
                 </button>
                 <button 
                   disabled={loading}
                   onClick={() => handleAction('review', { action: 'reject' })}
-                  className="flex-1 py-4 bg-surface-container-highest text-on-surface rounded-2xl font-black border border-outline-variant/20 hover:bg-error hover:text-white hover:border-error transition-all text-sm"
+                  className="flex-1 py-4 bg-surface-container-highest text-on-surface rounded-2xl font-black border border-outline-variant/20 hover:bg-error hover:text-white hover:border-error transition-all text-sm w-full"
                 >
                   Request Revision
                 </button>
@@ -174,8 +191,8 @@ function DealManager({ deal, onUpdate }) {
           )}
 
           {normalizedStatus === 'completed' && (
-            <div className="bg-emerald-500/5 border border-emerald-500/10 p-6 rounded-2xl text-center">
-              <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 mx-auto mb-4">
+            <div className="bg-surface-container border border-emerald-500/20 p-6 rounded-2xl text-center relative">
+              <div className="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-emerald-400 mx-auto mb-4 border border-emerald-500/20">
                 <CheckCircle size={24} />
               </div>
               <h4 className="font-black text-emerald-400 text-lg mb-1">Deal Completed</h4>
@@ -201,11 +218,11 @@ function DealManager({ deal, onUpdate }) {
           )}
 
           {(normalizedStatus === 'in_progress' || normalizedStatus === 'revision_requested') && (
-            <div className="bg-secondary/5 border border-secondary/10 p-6 rounded-2xl">
+            <div className="bg-surface-container border border-secondary/20 p-6 rounded-2xl">
               <h4 className="font-black text-secondary uppercase text-xs tracking-widest mb-4 flex items-center gap-2">
                 {normalizedStatus === 'revision_requested' ? 'Revision Requested' : 'Submit Deliverables'}
               </h4>
-              <div className="flex gap-3">
+              <div className="flex gap-3 items-center">
                 <input 
                   type="url" 
                   value={contentUrl}
@@ -225,9 +242,9 @@ function DealManager({ deal, onUpdate }) {
           )}
 
           {normalizedStatus === 'in_review' && (
-            <div className="bg-amber-500/5 border border-amber-500/10 p-6 rounded-2xl flex items-center justify-between">
+            <div className="bg-surface-container border border-outline-variant/10 p-6 rounded-2xl flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500">
+                <div className="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-secondary border border-outline-variant/10">
                   <Clock size={20} />
                 </div>
                 <div>
@@ -235,15 +252,17 @@ function DealManager({ deal, onUpdate }) {
                   <p className="text-xs text-on-surface-variant">Waiting for Brand Approval</p>
                 </div>
               </div>
-              {deal.contentUrl && (
-                <a href={deal.contentUrl} target="_blank" rel="noreferrer" className="text-xs font-bold text-secondary hover:underline">View Submission</a>
-              )}
+              <div className="flex items-center gap-4">
+                {deal.contentUrl && (
+                  <a href={deal.contentUrl} target="_blank" rel="noreferrer" className="text-xs font-bold text-secondary hover:underline">View Submission</a>
+                )}
+              </div>
             </div>
           )}
           
           {normalizedStatus === 'completed' && (
-            <div className="bg-emerald-500/10 border border-emerald-500/20 p-8 rounded-3xl text-center shadow-xl shadow-emerald-500/5">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 mx-auto mb-4 border border-emerald-500/30">
+            <div className="bg-surface-container border border-emerald-500/20 p-8 rounded-3xl text-center shadow-xl shadow-emerald-500/5 relative">
+              <div className="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center text-emerald-400 mx-auto mb-4 border border-emerald-500/30">
                 <CheckCircle size={32} />
               </div>
               <h4 className="text-2xl font-black text-on-surface mb-2 tracking-tight">Success!</h4>

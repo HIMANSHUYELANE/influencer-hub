@@ -43,10 +43,10 @@ const CreatorListing = () => {
           <div className="absolute inset-0 z-0">
             <img 
               src="/laptops.jpg" 
-              className="w-full h-full object-cover opacity-10 dark:opacity-25 transition-opacity duration-1000" 
+              className="w-full h-full object-cover opacity-10 dark:opacity-100 transition-opacity duration-1000" 
               alt="" 
             />
-            <div className="absolute inset-0 bg-linear-to-r from-surface/95 via-surface/80 to-surface/40 dark:from-background/95 dark:via-background/80 dark:to-background/40" />
+            <div className="absolute inset-0 bg-background/60" />
           </div>
 
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-10">
@@ -63,12 +63,12 @@ const CreatorListing = () => {
                </p>
             </div>
             
-            <div className="flex items-center gap-6 p-8 rounded-[2.5rem] bg-surface-container-low/40 border border-outline-variant/10 backdrop-blur-xl shadow-2xl">
+            <div className="flex items-center gap-6 p-8 rounded-[2.5rem] bg-surface-container-high border border-outline-variant/10 shadow-2xl">
                <div className="text-right">
                   <p className="text-[10px] font-black text-on-surface-variant/60 uppercase tracking-widest mb-1">Curated Professionals</p>
                   <p className="text-4xl font-black text-on-surface tracking-tighter">{creators.length}</p>
                </div>
-               <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20">
+               <div className="w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center text-primary border border-outline-variant/10">
                   <ShieldCheck size={28} />
                </div>
             </div>
@@ -77,7 +77,7 @@ const CreatorListing = () => {
 
         {/* Enhanced Search Console */}
         <div className="sticky top-24 z-30 mb-16 px-4 md:px-0">
-          <div className="p-4 rounded-[2.5rem] bg-surface-container/80 border border-outline-variant/10 backdrop-blur-3xl shadow-2xl shadow-black/10 flex flex-col lg:flex-row items-stretch lg:items-center gap-4 transition-all duration-500">
+          <div className="p-4 rounded-[2.5rem] bg-surface-container border border-outline-variant/10 shadow-2xl shadow-black/10 flex flex-col lg:flex-row items-stretch lg:items-center gap-4 transition-all duration-500">
             <div className="relative grow group">
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors" size={20} />
               <input
